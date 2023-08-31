@@ -1,3 +1,29 @@
-.target_field {
+.card-danger {
+    background-color: crimson;
+    color: aliceblue;
+    padding-left: 10px;
+}
 
+.card-warning {
+    background-color: yellow;
+    color: black;
+    padding-left: 10px;
+}
+
+.card-success {
+    background-color: forestgreen;
+    color: black;
+    padding-left: 10px;
+}
+
+.card-info {
+    background-color: deepskyblue;
+    color: black;
+    padding-left: 10px;
+}
+
+.card-primary {
+    background-color: darkslateblue;
+    color: aliceblue;
+    padding-left: 10px;
 }

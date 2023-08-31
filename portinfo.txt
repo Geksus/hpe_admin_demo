@@ -1,0 +1,19 @@
+ifType: 6
+ifIndex: 24
+ifName: "GigabitEthernet1/0/24"
+ifAbbreviatedName: "GE1/0/24"
+description: "Uplink"
+adminStatus: "AdmUp"
+operStatus: "Up"
+configSpeed: 0
+actualSpeed: 1000
+supportedIfSpeed: [ 10, 100, 1000 ]
+actualDuplex: "Full"
+statistics: { "interval": 300, "inPackets": 108, "outPackets": 1104, "inOctets": 20182, "outOctets": 99328, "inBits": 161456, "outBits": 794624 }
+vlan: { "linkType": "Trunk", "pvid": 99, "untaggedVlanList": [ 99 ], "taggedVlanList": [ 42, 208 ], "permitVlanList": [ 42, 99, 208 ] }
+macTable: [ { "vlan": "99", "mac": "f4034303ca41" } ]
+acl: { "inbound": [], "outbound": [] }
+suppression: { "broadcast": { "unit": "Pps", "configValue": 100 }, "multicast": { "unit": "Pps", "configValue": 100 }, "unknownUnicast": { "unit": "Pps", "configValue": 2000 } }
+arpFilter: { "sources": [] }
+bpduDropAny: true
+laggGroupId: 0
