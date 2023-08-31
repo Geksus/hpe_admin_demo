@@ -4,6 +4,7 @@
     <title>Data Display</title>
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="static/styles.css">
 </head>
 <body class="layout-top-nav">
 <!-- Navbar -->
@@ -27,13 +28,15 @@
                 <div class="nav-link">Username</div>
             </li>
             <li>
-                <input class="form-control form-control-navbar" type="text" placeholder="Username" aria-label="Username">
+                <input class="form-control form-control-navbar" type="text" placeholder="Username"
+                       aria-label="Username">
             </li>
             <li class="nav-item d-none d-sm-inline-block">
                 <div class="nav-link">Password</div>
             </li>
             <li>
-                <input class="form-control form-control-navbar" type="password" placeholder="Password" aria-label="Password">
+                <input class="form-control form-control-navbar" type="password" placeholder="Password"
+                       aria-label="Password">
             </li>
             <li>
                 <button class="btn btn-outline-primary" style="margin-left: 20px">Connect</button>
@@ -45,7 +48,28 @@
 
 <h1>Port info:</h1>
 
-
+<div class="row">
+    <div class="col-sm-2">
+        <div class="card card-danger">Interface name</div>
+        <div class="card-footer" id="ifName"></div>
+    </div>
+    <div class="col-sm-2">
+        <div class="card card-warning">Interface type</div>
+        <div class="card-footer" id="ifType"></div>
+    </div>
+    <div class="col-sm-2">
+        <div class="card card-success">Interface short name</div>
+        <div class="card-footer" id="ifAbbreviatedName"></div>
+    </div>
+    <div class="col-sm-2">
+        <div class="card card-info">Description</div>
+        <div class="card-footer" id="description"></div>
+    </div>
+    <div class="col-sm-2">
+        <div class="card card-primary">Status</div>
+        <div class="card-footer" id="adminStatus"></div>
+    </div>
+</div>
 <script src="js/getPortInfoFull.js"></script>
 </body>
 </html>

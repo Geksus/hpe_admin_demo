@@ -33,6 +33,18 @@ async function getPortInfoFull() {
         newDiv.textContent = `${key}: ${JSON.stringify(parsedData[key], null, 2)}`;
         document.body.appendChild(newDiv);
     }
+
+    let ifName = document.getElementById('ifName')
+    ifName.textContent = `${parsedData.ifName}`;
+    let ifType = document.getElementById('ifType')
+    ifType.textContent = `${parsedData.ifType}`;
+    let ifAbbreviatedName = document.getElementById('ifAbbreviatedName')
+    ifAbbreviatedName.textContent = `${parsedData.ifAbbreviatedName}`;
+    let description = document.getElementById('description')
+    description.textContent = `${parsedData.description}`;
+    let adminStatus = document.getElementById('adminStatus')
+    adminStatus.textContent = `${parsedData.adminStatus}`;
+
 }
 
 window.onload = getPortInfoFull;
