@@ -20,36 +20,36 @@
                 <div class="nav-link">IP:</div>
             </li>
             <li>
-                <input class="form-control form-control-navbar" type="text" placeholder="IP" aria-label="IP">
+                <input id="connectIp" class="form-control form-control-navbar" type="text" placeholder="IP" aria-label="IP">
             </li>
             <li class="nav-item d-none d-sm-inline-block">
                 <div class="nav-link">Username</div>
             </li>
             <li>
-                <input class="form-control form-control-navbar" type="text" placeholder="Username"
+                <input id="connectUsername" class="form-control form-control-navbar" type="text" placeholder="Username"
                        aria-label="Username">
             </li>
             <li class="nav-item d-none d-sm-inline-block">
                 <div class="nav-link">Password</div>
             </li>
             <li>
-                <input class="form-control form-control-navbar" type="password" placeholder="Password"
+                <input id="connectPassword" class="form-control form-control-navbar" type="password" placeholder="Password"
                        aria-label="Password">
             </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <div class="nav-link">Port</div>
+            </li>
             <li>
-                <button class="btn btn-outline-primary" style="margin-left: 20px">Connect</button>
+                <input type="text" id="connectPort" class="form-control form-control-navbar" placeholder="Port"
+                aria-label="Port">
+            </li>
+            <li>
+                <button id="connectButton" class="btn btn-outline-primary" style="margin-left: 20px">Connect</button>
             </li>
         </ul>
     </div>
 </nav>
 <!-- /.navbar -->
-
-<div class="row">
-<div class="col-sm-1">
-    <div class="card card-outline bg-primary">Select port</div>
-    <select class="card card-outline card-danger" id="portSelect"></select>
-</div>
-</div>
 
 <!-- Main content -->
 <div class="row">
@@ -57,7 +57,7 @@
         <div class="general-info">General info</div>
         <div class="row">
             <div class="card card-outline bg-primary">Interface name</div>
-            <div class="card card-outline card-danger uneditable uneditable" id="ifName"></div>
+            <div class="card card-outline card-danger uneditable " id="ifName"></div>
         </div>
         <div class="row">
             <div class="card card-outline bg-primary">Interface short name</div>
@@ -139,7 +139,9 @@
         <div class="general-info">VLAN</div>
         <div class="row">
             <div class="card card-outline bg-primary">Link type</div>
-            <input class="card card-outline card-danger" id="linkType"></input>
+            <select class="card card-outline card-danger" id="linkType">
+                <option id="currentType"></option>
+            </select>
         </div>
         <div class="row">
             <div class="card card-outline bg-primary">PVID</div>
@@ -158,11 +160,77 @@
             <input class="card card-outline card-danger" id="permitVlanList"></input>
         </div>
     </div>
+</div>
+<div class="row">
+    <div class="col-sm main-content">
+        <div class="general-info">Suppression</div>
+        <div class="row mac-row">
+            <div class="card mac-info">Broadcast</div>
+        </div>
+        <div class="row">
+            <div class="card card-outline bg-primary">Unit</div>
+            <select class="card card-outline card-danger" id="broadcastUnit">
+                <option id="broadcastCurrentUnit"></option>
+            </select>
+            <div class="card card-outline bg-primary">Value</div>
+            <div class="card card-outline card-danger" id="braodcastValue"></div>
+        </div>
+        <div class="row mac-row">
+            <div class="card mac-info">Multicast</div>
+        </div>
+        <div class="row">
+            <div class="card card-outline bg-primary">Unit</div>
+            <select class="card card-outline card-danger" id="multicastUnit">
+                <option id="multicastCurrentUnit"></option>
+            </select>
+            <div class="card card-outline bg-primary">Value</div>
+            <div class="card card-outline card-danger" id="multicastValue"></div>
+        </div>
+        <div class="row mac-row">
+            <div class="card mac-info">Unknown unicast</div>
+        </div>
+        <div class="row">
+            <div class="card card-outline bg-primary">Unit</div>
+            <select class="card card-outline card-danger" id="unicastUnit">
+                <option id="unicastCurrentUnit"></option>
+            </select>
+            <div class="card card-outline bg-primary">Value</div>
+            <div class="card card-outline card-danger" id="unicastValue"></div>
+        </div>
+    </div>
+    <div class="col-sm main-content">
+        <div class="general-info">ARP filter sources</div>
+        <div class="row">
+            <div style="height: min-content" class="card card-outline bg-primary">Sources</div>
+            <textarea class="card card-outline card-danger" id="arpFilterSources"></textarea>
+        </div>
+    </div>
+    <div class="col-sm main-content">
+        <div class="general-info">ACL</div>
+        <div class="row mac-row">
+            <div class="card mac-info">Inbound</div>
+        </div>
+        <div class="row">
+            <div class="card card-outline bg-primary">Name</div>
+            <div class="card card-outline card-danger uneditable" id="inboundAclName"></div>
+            <div class="card card-outline bg-primary">Type</div>
+            <div class="card card-outline card-danger uneditable" id="inboundAclType"></div>
+        </div>
+        <div class="row mac-row">
+            <div class="card mac-info">Outbound</div>
+        </div>
+        <div class="row">
+            <div class="card card-outline bg-primary">Name</div>
+            <div class="card card-outline card-danger uneditable" id="outboundAclName"></div>
+            <div class="card card-outline bg-primary">Type</div>
+            <div class="card card-outline card-danger uneditable" id="outboundAclType"></div>
+        </div>
+    </div>
     <div class="col-sm mac-content">
         <div class="general-info">MAC table</div>
-        <div class="row mac-row">
-            <div class="card mac-info">VLAN</div>
-            <div class="card mac-info">MAC</div>
+        <div class="row mac-row" id="mac-row">
+            <div class="card mac-info" id="vlanName">VLAN</div>
+            <div class="card mac-info" id="macMac">MAC</div>
         </div>
     </div>
 </div>
