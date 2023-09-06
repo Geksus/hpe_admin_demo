@@ -10,10 +10,8 @@
 <!-- Navbar -->
 <nav class="main-header navbar navbar-expand navbar-light navbar-white">
     <div class="container">
-        <a href="index3.html" class="navbar-brand">
-            <img src="static/logo.svg" alt="AdminLTE Logo"
-                 style="opacity: .8">
-        </a>
+        <img src="static/logo.svg" alt="Mirohost Logo"
+             style="opacity: .8">
         <!-- Left navbar links -->
         <ul class="navbar-nav">
             <li class="nav-item">
@@ -46,30 +44,130 @@
 </nav>
 <!-- /.navbar -->
 
-<h1>Port info:</h1>
-
 <div class="row">
-    <div class="col-sm-2">
-        <div class="card card-danger">Interface name</div>
-        <div class="card-footer" id="ifName"></div>
+<div class="col-sm-1">
+    <div class="card card-outline bg-primary">Select port</div>
+    <select class="card card-outline card-danger" id="portSelect"></select>
+</div>
+</div>
+
+<!-- Main content -->
+<div class="row">
+    <div class="col-sm main-content">
+        <div class="general-info">General info</div>
+        <div class="row">
+            <div class="card card-outline bg-primary">Interface name</div>
+            <div class="card card-outline card-danger uneditable uneditable" id="ifName"></div>
+        </div>
+        <div class="row">
+            <div class="card card-outline bg-primary">Interface short name</div>
+            <div class="card card-outline card-danger uneditable" id="ifAbbreviatedName"></div>
+        </div>
+        <div class="row">
+            <div class="card card-outline bg-primary">Description</div>
+            <div class="card card-outline card-danger uneditable" id="description"></div>
+        </div>
+        <div class="row">
+            <div class="card card-outline bg-primary" id="adminStatusSelect">Status</div>
+            <select class="card card-outline card-danger">
+                <option id="adminStatus"></option>
+                <option id="notAdminStatus"></option>
+            </select>
+        </div>
+        <div class="row">
+            <div class="card card-outline bg-primary">Oper Status</div>
+            <div class="card card-outline card-danger uneditable" id="operStatus"></div>
+        </div>
+        <div class="row">
+            <div class="card card-outline bg-primary">Duplex</div>
+            <div class="card card-outline card-danger uneditable" id="actualDuplex"></div>
+        </div>
+        <div class="row">
+            <div class="card card-outline bg-primary">BPDU drop any</div>
+            <div class="card card-outline card-danger uneditable" id="bpduDropAny"></div>
+        </div>
     </div>
-    <div class="col-sm-2">
-        <div class="card card-warning">Interface type</div>
-        <div class="card-footer" id="ifType"></div>
+    <div class="col-sm main-content">
+        <div class="general-info">Speed info</div>
+        <div class="row speed-row">
+            <div class="card card-outline bg-primary">Actual speed</div>
+            <div class="card card-outline card-danger uneditable" id="actualSpeed"></div>
+        </div>
+        <div class="row">
+            <div class="card card-outline bg-primary">Supported speed</div>
+            <div class="card card-outline card-danger uneditable" id="supportedIfSpeed"></div>
+        </div>
+        <div class="row">
+            <div class="card card-outline bg-primary">Config speed</div>
+            <select class="card card-outline card-danger" id="configSpeed"></select>
+        </div>
     </div>
-    <div class="col-sm-2">
-        <div class="card card-success">Interface short name</div>
-        <div class="card-footer" id="ifAbbreviatedName"></div>
+    <div class="col-sm main-content">
+        <div class="general-info">Statistics</div>
+        <div class="row mac-row">
+            <div class="card mac-info">IN</div>
+        </div>
+        <div class="row">
+            <div class="card card-outline bg-primary stat">Interval</div>
+            <div class="card card-outline card-danger uneditable stat" id="inInterval"></div>
+            <div class="card card-outline bg-primary stat">Packets</div>
+            <div class="card card-outline card-danger uneditable stat" id="inPackets"></div>
+            <div class="card card-outline bg-primary stat">Bytes</div>
+            <div class="card card-outline card-danger uneditable stat" id="inOctets"></div>
+        </div>
+        <div class="row">
+            <div class="card card-outline bg-primary">Usage</div>
+            <div class="card card-outline card-danger uneditable" id="inUsage"></div>
+        </div>
+        <div class="row mac-row">
+            <div class="card mac-info">OUT</div>
+        </div>
+        <div class="row">
+            <div class="card card-outline bg-primary stat">Interval</div>
+            <div class="card card-outline card-danger uneditable stat" id="outInterval"></div>
+            <div class="card card-outline bg-primary stat">Packets</div>
+            <div class="card card-outline card-danger uneditable stat" id="outPackets"></div>
+            <div class="card card-outline bg-primary stat">Bytes</div>
+            <div class="card card-outline card-danger uneditable stat" id="outOctets"></div>
+        </div>
+        <div class="row">
+            <div class="card card-outline bg-primary">Usage</div>
+            <div class="card card-outline card-danger uneditable" id="outUsage"></div>
+        </div>
     </div>
-    <div class="col-sm-2">
-        <div class="card card-info">Description</div>
-        <div class="card-footer" id="description"></div>
+    <div class="col-sm main-content">
+        <div class="general-info">VLAN</div>
+        <div class="row">
+            <div class="card card-outline bg-primary">Link type</div>
+            <input class="card card-outline card-danger" id="linkType"></input>
+        </div>
+        <div class="row">
+            <div class="card card-outline bg-primary">PVID</div>
+            <input class="card card-outline card-danger" id="pvid"></input>
+        </div>
+        <div class="row">
+            <div class="card card-outline bg-primary">Untagged VLANs</div>
+            <input class="card card-outline card-danger" id="untaggedVlanList"></input>
+        </div>
+        <div class="row">
+            <div class="card card-outline bg-primary">Tagged VLANs</div>
+            <input class="card card-outline card-danger" id="taggedVlanList"></input>
+        </div>
+        <div class="row">
+            <div class="card card-outline bg-primary">Permitted VLANs</div>
+            <input class="card card-outline card-danger" id="permitVlanList"></input>
+        </div>
     </div>
-    <div class="col-sm-2">
-        <div class="card card-primary">Status</div>
-        <div class="card-footer" id="adminStatus"></div>
+    <div class="col-sm mac-content">
+        <div class="general-info">MAC table</div>
+        <div class="row mac-row">
+            <div class="card mac-info">VLAN</div>
+            <div class="card mac-info">MAC</div>
+        </div>
     </div>
 </div>
+<!-- /.Main content -->
+
 <script src="js/getPortInfoFull.js"></script>
 </body>
 </html>

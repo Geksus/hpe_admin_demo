@@ -1,29 +1,59 @@
-.card-danger {
-    background-color: crimson;
-    color: aliceblue;
+.card {
     padding-left: 10px;
+    padding-right: 10px;
+    width: 45%;
+    margin: 10px;
 }
 
-.card-warning {
-    background-color: yellow;
-    color: black;
-    padding-left: 10px;
+.uneditable {
+    background-color: lightgray;
 }
 
-.card-success {
-    background-color: forestgreen;
-    color: black;
-    padding-left: 10px;
+.stat {
+    width: auto;
+    margin-right: 3px;
 }
 
-.card-info {
-    background-color: deepskyblue;
-    color: black;
-    padding-left: 10px;
+.general-info {
+    background-color: wheat;
+    margin-top: 5px;
+    text-align: center;
+    font-size: larger;
+    border-radius: 5px;
 }
 
-.card-primary {
-    background-color: darkslateblue;
-    color: aliceblue;
-    padding-left: 10px;
+.mac-info {
+    background-color: wheat;
+    margin-top: 10px;
+    text-align: center;
+    font-size: larger;
+    border-radius: 5px;
+    padding-left: 0;
+}
+
+.info-header {
+    background-color: black;
+    color: wheat;
+}
+
+.main-content {
+    margin: 5px;
+    background-color: lightgray;
+    border-radius: 5px;
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;
+}
+
+.mac-content {
+    margin: 5px;
+    background-color: lightgray;
+    border-radius: 5px;
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;
+}
+
+body {
+    margin: 50px;
 }
