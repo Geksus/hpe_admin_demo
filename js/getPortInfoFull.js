@@ -1,4 +1,5 @@
 let connectButton = document.getElementById('connectButton');
+let saveButton = document.getElementById('saveButton')
 let connectIp = document.getElementById('connectIp');
 let connectUsername = document.getElementById('connectUsername');
 let connectPassword = document.getElementById('connectPassword');
@@ -12,8 +13,15 @@ connectButton.addEventListener('click', function () {
         })
 });
 
+saveButton.addEventListener('click', function () {
+    setPortConfig(connectIp.value, connectUsername.value, connectPassword.value, connectPort.value)
+        .then(() => {
+            // this code will be executed once the request has completed successfully
+            console.log('Request completed successfully!');
+        })
+});
+
 async function getPortInfoFull(ip, username, password, port) {
-    let data = null
     const response = await fetch('http://5.149.127.105', {
         method: 'POST',
         headers: {
@@ -40,8 +48,7 @@ async function getPortInfoFull(ip, username, password, port) {
         throw new Error(message);
     }
 
-    data = await response.json();
-    console.log(data)
+    const data = await response.json();
 
     const parsedData = data.result;
     for (let key in parsedData) {
@@ -62,15 +69,20 @@ async function getPortInfoFull(ip, username, password, port) {
         let description = document.getElementById('description')
         description.textContent = `${parsedData.description}`;
         let adminStatus = document.getElementById('adminStatus');
-        adminStatus.value = parsedData.adminStatus;
-        adminStatus.textContent = parsedData.adminStatus;
-        let notAdminStatus = document.getElementById('notAdminStatus')
-        if (adminStatus.textContent === 'AdmUp') {
-            notAdminStatus.value = 'AdmDown'
-            notAdminStatus.textContent = 'AdmDown'
-        } else {
-            notAdminStatus.value = 'AdmUp'
-            notAdminStatus.textContent = 'AdmUp'
+        let currentAdmStatus = document.getElementById('currentAdmStatus')
+        currentAdmStatus.value = parsedData.adminStatus;
+        currentAdmStatus.textContent = parsedData.adminStatus;
+
+        let statuses = ['AdmUp', 'AdmDown']
+
+        for (let stat of statuses) {
+            let option = document.createElement('option')
+            option.value = stat
+            option.textContent = stat
+
+            if (option.value !== currentAdmStatus.value) {
+                adminStatus.appendChild(option)
+            }
         }
         let operStatus = document.getElementById('operStatus')
         operStatus.textContent = parsedData.operStatus
@@ -88,8 +100,9 @@ async function getPortInfoFull(ip, username, password, port) {
         const speedList = data.result.supportedIfSpeed;
         let configSpeedSelect = document.getElementById('configSpeed');
 
-        let optionZero = document.createElement('option');
+        let optionZero = document.getElementById('optionZero');
         optionZero.value = parsedData.configSpeed;
+
         if (optionZero.value === '0') {
             optionZero.textContent = 'Auto';
         } else {
@@ -115,7 +128,7 @@ async function getPortInfoFull(ip, username, password, port) {
 
         if (optionZero.value !== '0') {
             let optionAuto = document.createElement('option');
-            optionAuto.value = 0;
+            optionAuto.value = '0';
             optionAuto.textContent = 'Auto';
 
             configSpeedSelect.appendChild(optionAuto);
@@ -149,12 +162,16 @@ async function getPortInfoFull(ip, username, password, port) {
         currentType.textContent = parsedData.vlan.linkType
         let pvid = document.getElementById('pvid')
         pvid.value = parsedData.vlan.pvid;
+        pvid.textContent = parsedData.vlan.pvid;
         let untaggedVlanList = document.getElementById('untaggedVlanList')
         untaggedVlanList.value = parsedData.vlan.untaggedVlanList.join(', ');
+        untaggedVlanList.textContent = parsedData.vlan.untaggedVlanList.join(', ');
         let taggedVlanList = document.getElementById('taggedVlanList')
         taggedVlanList.value = parsedData.vlan.taggedVlanList.join(', ');
+        taggedVlanList.textContent = parsedData.vlan.taggedVlanList.join(', ');
         let permitVlanList = document.getElementById('permitVlanList')
         permitVlanList.value = parsedData.vlan.permitVlanList.join(', ');
+        permitVlanList.textContent = parsedData.vlan.permitVlanList.join(', ');
 
         let types = ['Trunk', 'Hybrid', 'Access']
         let typeSelect = document.getElementById('linkType')
@@ -220,7 +237,7 @@ async function getPortInfoFull(ip, username, password, port) {
         unicastUnit.value = parsedData.suppression.unknownUnicast.unit
         unicastUnit.textContent = parsedData.suppression.unknownUnicast.unit
 
-        let units = ['Pps', 'Kbps', 'Rate']
+        let units = ['Pps', 'Kbps', 'Ratio']
         let broadcastSelect = document.getElementById('broadcastUnit')
         let multicastSelect = document.getElementById('multicastUnit')
         let unicastSelect = document.getElementById('unicastUnit')
@@ -260,7 +277,7 @@ async function getPortInfoFull(ip, username, password, port) {
 
         // ARP filter sources
         let arpFilterSources = document.getElementById('arpFilterSources')
-        arpFilterSources.value = parsedData.arpFilter.sources.join('\n');
+        arpFilterSources.value = parsedData.arpFilter.sources.join(', ');
 
         const textarea = document.getElementById('arpFilterSources');
 
@@ -278,14 +295,113 @@ async function getPortInfoFull(ip, username, password, port) {
         }
 
         // ACL
-        let inboundAclName = document.getElementById('inboundAclName')
-        inboundAclName.textContent = parsedData.acl.inbound[0].name
-        let inboundAclType = document.getElementById('inboundAclType')
-        inboundAclType.textContent = parsedData.acl.inbound[0].type
-        let outboundAclName = document.getElementById('outboundAclName')
-        outboundAclName.textContent = parsedData.acl.outbound[0].name
-        let outboundAclType = document.getElementById('outboundAclType')
-        outboundAclType.textContent = parsedData.acl.outbound[0].type
-
+        if (parsedData.acl.inbound.length > 0) {
+            let inboundAclName = document.getElementById('inboundAclName')
+            inboundAclName.textContent = parsedData.acl.inbound[0].name
+            let inboundAclType = document.getElementById('inboundAclType')
+            inboundAclType.textContent = parsedData.acl.inbound[0].type
+            let outboundAclName = document.getElementById('outboundAclName')
+            outboundAclName.textContent = parsedData.acl.outbound[0].name
+            let outboundAclType = document.getElementById('outboundAclType')
+            outboundAclType.textContent = parsedData.acl.outbound[0].type
+        }
     }
 }
+
+async function setPortConfig(ip, username, password, port) {
+    // General info
+    let description = document.getElementById('description').textContent;
+    let adminStatus = document.getElementById('adminStatus').value;
+
+// Speed
+    let configSpeed = parseInt(document.getElementById('configSpeed').value);
+
+// VLAN
+    let linkType = document.getElementById('linkType').value
+    let pvid = parseInt(document.getElementById('pvid').value)
+    let taggedVlanList = null
+    let taggedVlanListCheck = document.getElementById('taggedVlanList').value.split(', ').map(Number)
+    if (taggedVlanListCheck[0] === 0) {
+        taggedVlanList = []
+    } else {
+        taggedVlanList = taggedVlanListCheck
+    }
+
+// Suppression
+    let broadcastUnit = document.getElementById('broadcastUnit').value
+    let broadcastValue = parseInt(document.getElementById('braodcastValue').value)
+    let multicastUnit = document.getElementById('multicastUnit').value
+    let multicastValue = parseInt(document.getElementById('multicastValue').value)
+    let unicastUnit = document.getElementById('unicastUnit').value
+    let unicastValue = parseInt(document.getElementById('unicastValue').value)
+
+// ARP filter
+    let sources = null
+    let sourcesElement = document.getElementById('arpFilterSources').value;
+    if (sourcesElement === '') {
+        sources = []
+    } else {
+        sources = sourcesElement.split(', ').map(String)
+    }
+    const response = await fetch('http://5.149.127.105', {
+        method: 'POST',
+        headers: {
+            'Content-type': 'application/json',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+            jsonrpc: '2.0',
+            method: 'comware.SetPortConfig',
+            params: {
+                target: {
+                    ip: ip,
+                    username: username,
+                    password: password
+                },
+                ifIndex: parseInt(port),
+                "config": {
+                    "description": description,
+                    "adminStatus": adminStatus,
+                    "speed": configSpeed,
+                    "vlan": {
+                        "linkType": linkType,
+                        "pvid": pvid,
+                        "taggedVlanList": taggedVlanList
+                    },
+                    "suppression": {
+                        "broadcast": {
+                            "unit": broadcastUnit,
+                            "value": broadcastValue
+                        },
+                        "multicast": {
+                            "unit": multicastUnit,
+                            "value": multicastValue
+                        },
+                        "unknownUnicast": {
+                            "unit": unicastUnit,
+                            "value": unicastValue
+                        }
+                    },
+                    "bpduDropAny": true,
+                    "arpFilter": {
+                        "sources": sources
+                    }
+                }
+            },
+            id: '38276e9c-018d-498e-95af-ad8c019a000d'
+        })
+    });
+
+    if (!response.ok) {
+        const message = `An error has occurred: ${response.status}`;
+        throw new Error(message);
+    }
+
+    const data = await response.json();
+
+    if (data) {
+        console.log(data)
+        await getPortInfoFull(connectIp.value, connectUsername.value, connectPassword.value, connectPort.value)
+    }
+}
+

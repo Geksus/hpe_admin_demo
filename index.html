@@ -69,9 +69,8 @@
         </div>
         <div class="row">
             <div class="card card-outline bg-primary" id="adminStatusSelect">Status</div>
-            <select class="card card-outline card-danger">
-                <option id="adminStatus"></option>
-                <option id="notAdminStatus"></option>
+            <select class="card card-outline card-danger" id="adminStatus">
+                <option id="currentAdmStatus"></option>
             </select>
         </div>
         <div class="row">
@@ -99,7 +98,9 @@
         </div>
         <div class="row">
             <div class="card card-outline bg-primary">Config speed</div>
-            <select class="card card-outline card-danger" id="configSpeed"></select>
+            <select class="card card-outline card-danger" id="configSpeed">
+                <option id="optionZero"></option>
+            </select>
         </div>
     </div>
     <div class="col-sm main-content">
@@ -173,7 +174,7 @@
                 <option id="broadcastCurrentUnit"></option>
             </select>
             <div class="card card-outline bg-primary">Value</div>
-            <div class="card card-outline card-danger" id="braodcastValue"></div>
+            <input class="card card-outline card-danger" id="braodcastValue">
         </div>
         <div class="row mac-row">
             <div class="card mac-info">Multicast</div>
@@ -184,7 +185,7 @@
                 <option id="multicastCurrentUnit"></option>
             </select>
             <div class="card card-outline bg-primary">Value</div>
-            <div class="card card-outline card-danger" id="multicastValue"></div>
+            <input class="card card-outline card-danger" id="multicastValue">
         </div>
         <div class="row mac-row">
             <div class="card mac-info">Unknown unicast</div>
@@ -195,7 +196,7 @@
                 <option id="unicastCurrentUnit"></option>
             </select>
             <div class="card card-outline bg-primary">Value</div>
-            <div class="card card-outline card-danger" id="unicastValue"></div>
+            <input class="card card-outline card-danger" id="unicastValue">
         </div>
     </div>
     <div class="col-sm main-content">
@@ -233,6 +234,9 @@
             <div class="card mac-info" id="macMac">MAC</div>
         </div>
     </div>
+</div>
+<div class="row">
+    <button class="btn btn-warning save-button" id="saveButton">Save</button>
 </div>
 <!-- /.Main content -->
 
