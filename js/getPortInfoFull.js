@@ -22,61 +22,75 @@ saveButton.addEventListener('click', function () {
 });
 
 async function getPortInfoFull(ip, username, password, port) {
-    const response = await fetch('http://5.149.127.105', {
-        method: 'POST',
-        headers: {
-            'Content-type': 'application/json',
-            'Accept': 'application/json'
-        },
-        body: JSON.stringify({
-            jsonrpc: '2.0',
-            method: 'comware.GetPortInfoFull',
-            params: {
-                target: {
-                    ip: ip,
-                    username: username,
-                    password: password
-                },
-                ifIndex: parseInt(port)
+    const response = await fetch('http://5.149.127.105',
+        {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+                'Accept': 'application/json'
             },
-            id: '38276e9c-018d-498e-95af-ad8c019a000d'
-        })
-    });
+            body: JSON.stringify({
+                jsonrpc: '2.0',
+                method: 'comware.GetPortInfoFull',
+                params: {
+                    target: {
+                        ip: ip,
+                        username: username,
+                        password: password
+                    },
+                    ifIndex: parseInt(port)
+                },
+                id: '38276e9c-018d-498e-95af-ad8c019a000d'
+            }),
+            cache: "no-store"
+        });
 
     if (!response.ok) {
         const message = `An error has occurred: ${response.status}`;
         throw new Error(message);
     }
 
-    const data = await response.json();
+    let data = ''
+    data = await response.json();
 
     const parsedData = data.result;
+    let errorMessage = document.getElementById('errorMessage')
+    if (parsedData.error) {
+        errorMessage.textContent = parsedData.error.data
+    }
+
+    console.log(parsedData)
     for (let key in parsedData) {
         let newDiv = document.createElement('div');
+        newDiv.className = 'invisibleDiv'
         newDiv.setAttribute('id', key);
-        newDiv.textContent = `${key}: ${JSON.stringify(parsedData[key], null, 2)}`;
+        newDiv.innerHTML = ''
+        // newDiv.textContent = `${key}: ${JSON.stringify(parsedData[key], null, 2)}`;
         document.body.appendChild(newDiv);
     }
 
     if (parsedData) {
         // General info
         let ifName = document.getElementById('ifName')
-        ifName.textContent = `${parsedData.ifName}`;
+        ifName.textContent = parsedData.ifName
         let ifType = document.getElementById('ifType')
-        ifType.textContent = `${parsedData.ifType}`;
+        ifType.textContent = parsedData.ifType
         let ifAbbreviatedName = document.getElementById('ifAbbreviatedName')
-        ifAbbreviatedName.textContent = `${parsedData.ifAbbreviatedName}`;
+        ifAbbreviatedName.textContent = parsedData.ifAbbreviatedName
         let description = document.getElementById('description')
-        description.textContent = `${parsedData.description}`;
+        description.textContent = parsedData.description
+
         let adminStatus = document.getElementById('adminStatus');
-        let currentAdmStatus = document.getElementById('currentAdmStatus')
+        adminStatus.innerHTML = ''
+        let currentAdmStatus = document.createElement('option')
         currentAdmStatus.value = parsedData.adminStatus;
         currentAdmStatus.textContent = parsedData.adminStatus;
+        adminStatus.appendChild(currentAdmStatus)
 
         let statuses = ['AdmUp', 'AdmDown']
 
         for (let stat of statuses) {
-            let option = document.createElement('option')
+            let option = document.createElement('option',)
             option.value = stat
             option.textContent = stat
 
@@ -84,23 +98,30 @@ async function getPortInfoFull(ip, username, password, port) {
                 adminStatus.appendChild(option)
             }
         }
+
         let operStatus = document.getElementById('operStatus')
+        operStatus.textContent = ''
         operStatus.textContent = parsedData.operStatus
         let actualDuplex = document.getElementById('actualDuplex')
-        actualDuplex.textContent = `${parsedData.actualDuplex}`
+        actualDuplex.textContent = ''
+        actualDuplex.textContent = parsedData.actualDuplex
         let bpduDropAny = document.getElementById('bpduDropAny')
-        bpduDropAny.textContent = `${parsedData.bpduDropAny}`
+        bpduDropAny.textContent = null
+        bpduDropAny.textContent = parsedData.bpduDropAny
 
         // Speed
         let actualSpeed = document.getElementById('actualSpeed')
-        actualSpeed.textContent = `${parsedData.actualSpeed}`
+        actualSpeed.textContent = null
+        actualSpeed.textContent = parsedData.actualSpeed
         let supportedIfSpeed = document.getElementById('supportedIfSpeed')
+        supportedIfSpeed.textContent = null
         supportedIfSpeed.textContent = parsedData.supportedIfSpeed.join(', ');
 
         const speedList = data.result.supportedIfSpeed;
         let configSpeedSelect = document.getElementById('configSpeed');
+        configSpeedSelect.innerHTML = ''
 
-        let optionZero = document.getElementById('optionZero');
+        let optionZero = document.createElement('option');
         optionZero.value = parsedData.configSpeed;
 
         if (optionZero.value === '0') {
@@ -136,20 +157,27 @@ async function getPortInfoFull(ip, username, password, port) {
 
         // Statistics
         let inInterval = document.getElementById('inInterval')
-        inInterval.textContent = `${parsedData.statistics.interval}`;
+        inInterval.textContent = ''
+        inInterval.textContent = parsedData.statistics.interval
         let outInterval = document.getElementById('outInterval')
-        outInterval.textContent = `${parsedData.statistics.interval}`;
+        outInterval.textContent = ''
+        outInterval.textContent = parsedData.statistics.interval
         let inPackets = document.getElementById('inPackets')
-        inPackets.textContent = `${parsedData.statistics.inPackets}`;
+        inPackets.textContent = ''
+        inPackets.textContent = parsedData.statistics.inPackets
         let outPackets = document.getElementById('outPackets')
-        outPackets.textContent = `${parsedData.statistics.outPackets}`;
+        outPackets.textContent = ''
+        outPackets.textContent = parsedData.statistics.outPackets
         let inOctets = document.getElementById('inOctets')
-        inOctets.textContent = `${parsedData.statistics.inOctets}`;
+        inOctets.textContent = ''
+        inOctets.textContent = parsedData.statistics.inOctets
         let inUsage = document.getElementById('inUsage')
+        inUsage.textContent = null
         inUsage.textContent = (parseInt(inOctets.textContent) * 8 / parseInt(inInterval.textContent) / parseInt(actualSpeed.textContent)).toFixed(2) + '%'
         let outOctets = document.getElementById('outOctets')
         outOctets.textContent = `${parsedData.statistics.outOctets}`;
         let outUsage = document.getElementById('outUsage')
+        outUsage.textContent = null
         outUsage.textContent = (parseInt(outOctets.textContent) * 8 / parseInt(outInterval.textContent) / parseInt(actualSpeed.textContent)).toFixed(2) + '%'
         // let inBits = document.getElementById('inBits')
         // inBits.textContent = `${parsedData.statistics.inBits}`;
@@ -157,42 +185,53 @@ async function getPortInfoFull(ip, username, password, port) {
         // outBits.textContent = `${parsedData.statistics.outBits}`;
 
         // VLAN
-        let currentType = document.getElementById('currentType')
+        let vlanLinkType = document.getElementById('linkType')
+        vlanLinkType.innerHTML = ''
+        let currentType = document.createElement('option')
         currentType.value = parsedData.vlan.linkType
         currentType.textContent = parsedData.vlan.linkType
-        let pvid = document.getElementById('pvid')
-        pvid.value = parsedData.vlan.pvid;
-        pvid.textContent = parsedData.vlan.pvid;
-        let untaggedVlanList = document.getElementById('untaggedVlanList')
-        untaggedVlanList.value = parsedData.vlan.untaggedVlanList.join(', ');
-        untaggedVlanList.textContent = parsedData.vlan.untaggedVlanList.join(', ');
-        let taggedVlanList = document.getElementById('taggedVlanList')
-        taggedVlanList.value = parsedData.vlan.taggedVlanList.join(', ');
-        taggedVlanList.textContent = parsedData.vlan.taggedVlanList.join(', ');
-        let permitVlanList = document.getElementById('permitVlanList')
-        permitVlanList.value = parsedData.vlan.permitVlanList.join(', ');
-        permitVlanList.textContent = parsedData.vlan.permitVlanList.join(', ');
+        vlanLinkType.appendChild(currentType)
 
         let types = ['Trunk', 'Hybrid', 'Access']
-        let typeSelect = document.getElementById('linkType')
 
         for (let type of types) {
             let option = document.createElement('option')
-
             option.value = type
             option.textContent = type
 
             if (option.value !== currentType.value) {
-                typeSelect.appendChild(option)
+                vlanLinkType.appendChild(option)
             }
         }
+
+        let pvid = document.getElementById('pvid')
+        pvid.value = null
+        pvid.value = parsedData.vlan.pvid;
+        pvid.textContent = ''
+        pvid.textContent = parsedData.vlan.pvid;
+        let untaggedVlanList = document.getElementById('untaggedVlanList')
+        untaggedVlanList.value = null
+        untaggedVlanList.value = parsedData.vlan.untaggedVlanList.join(', ');
+        untaggedVlanList.textContent = ''
+        untaggedVlanList.textContent = parsedData.vlan.untaggedVlanList.join(', ');
+        let taggedVlanList = document.getElementById('taggedVlanList')
+        taggedVlanList.value = null
+        taggedVlanList.value = parsedData.vlan.taggedVlanList.join(', ');
+        taggedVlanList.textContent = ''
+        taggedVlanList.textContent = parsedData.vlan.taggedVlanList.join(', ');
+        let permitVlanList = document.getElementById('permitVlanList')
+        permitVlanList.value = null
+        permitVlanList.value = parsedData.vlan.permitVlanList.join(', ');
+        permitVlanList.textContent = ''
+        permitVlanList.textContent = parsedData.vlan.permitVlanList.join(', ');
 
 
         // MAC table
         const macTable = data.result.macTable;
 
         // Get the main container where you want to add your new elements
-        let macContent = document.querySelector('.mac-content');
+        let macContent = document.getElementById('macInfo')
+        macContent.innerHTML = ''
 
         // Iterate over 'macTable' to create new elements for each object
         for (let i = 0; i < macTable.length; i++) {
@@ -227,15 +266,24 @@ async function getPortInfoFull(ip, username, password, port) {
         let unicastValue = document.getElementById('unicastValue')
         unicastValue.value = parsedData.suppression.unknownUnicast.configValue
         unicastValue.textContent = parsedData.suppression.unknownUnicast.configValue
-        let broadcastUnit = document.getElementById('broadcastCurrentUnit')
-        broadcastUnit.value = parsedData.suppression.broadcast.unit
-        broadcastUnit.textContent = parsedData.suppression.broadcast.unit
-        let multicastUnit = document.getElementById('multicastCurrentUnit')
-        multicastUnit.value = parsedData.suppression.multicast.unit
-        multicastUnit.textContent = parsedData.suppression.multicast.unit
-        let unicastUnit = document.getElementById('unicastCurrentUnit')
-        unicastUnit.value = parsedData.suppression.unknownUnicast.unit
-        unicastUnit.textContent = parsedData.suppression.unknownUnicast.unit
+        let broadcastUnit = document.getElementById('broadcastUnit')
+        broadcastUnit.innerHTML = ''
+        let broadcastCurrentUnit = document.createElement('option')
+        broadcastCurrentUnit.value = parsedData.suppression.broadcast.unit
+        broadcastCurrentUnit.textContent = parsedData.suppression.broadcast.unit
+        broadcastUnit.appendChild(broadcastCurrentUnit)
+        let multicastUnit = document.getElementById('multicastUnit')
+        multicastUnit.innerHTML = ''
+        let multicastCurrentUnit = document.createElement('option')
+        multicastCurrentUnit.value = parsedData.suppression.multicast.unit
+        multicastCurrentUnit.textContent = parsedData.suppression.multicast.unit
+        multicastUnit.appendChild(multicastCurrentUnit)
+        let unicastUnit = document.getElementById('unicastUnit')
+        unicastUnit.innerHTML = ''
+        let unicastCurrentUnit = document.createElement('option')
+        unicastCurrentUnit.value = parsedData.suppression.unknownUnicast.unit
+        unicastCurrentUnit.textContent = parsedData.suppression.unknownUnicast.unit
+        unicastUnit.appendChild(unicastCurrentUnit)
 
         let units = ['Pps', 'Kbps', 'Ratio']
         let broadcastSelect = document.getElementById('broadcastUnit')
@@ -275,23 +323,47 @@ async function getPortInfoFull(ip, username, password, port) {
             }
         }
 
-        // ARP filter sources
-        let arpFilterSources = document.getElementById('arpFilterSources')
-        arpFilterSources.value = parsedData.arpFilter.sources.join(', ');
+        broadcastUnit.addEventListener("change", function () {
+            // Get the selected value
+            let selectedValue = this.value;
 
-        const textarea = document.getElementById('arpFilterSources');
-
-        autosize(textarea);
-
-        textarea.addEventListener('input', function () {
-            autosize(this);
+            // Set the values of other select elements
+            multicastUnit.value = selectedValue;
+            unicastUnit.value = selectedValue;
         });
 
-        function autosize(textarea) {
-            // Reset the textarea height in case its content has been deleted
-            textarea.style.height = 'auto';
-            // Set the textarea height to match its scroll height
-            textarea.style.height = textarea.scrollHeight + 'px';
+        multicastUnit.addEventListener("change", function () {
+            // Get the selected value
+            let selectedValue = this.value;
+
+            // Set the values of other select elements
+            broadcastUnit.value = selectedValue;
+            unicastUnit.value = selectedValue;
+        });
+
+        unicastUnit.addEventListener("change", function () {
+            // Get the selected value
+            let selectedValue = this.value;
+
+            // Set the values of other select elements
+            multicastUnit.value = selectedValue;
+            broadcastUnit.value = selectedValue;
+        });
+
+        // ARP filter sources
+        let arpFilterSources = document.getElementById('arpSources')
+        let sourcesList = parsedData.arpFilter.sources
+
+        for (let i = 0; i < 8; i++) {
+            let val = document.getElementById('arpInput' + i.toString())
+            val.value = null
+            val.textContent = ''
+        }
+
+        for (let i = 0; i < sourcesList.length; i++) {
+            let inp = document.getElementById('arpInput' + i.toString())
+            inp.value = sourcesList[i]
+            inp.textContent = sourcesList[i]
         }
 
         // ACL
@@ -304,6 +376,15 @@ async function getPortInfoFull(ip, username, password, port) {
             outboundAclName.textContent = parsedData.acl.outbound[0].name
             let outboundAclType = document.getElementById('outboundAclType')
             outboundAclType.textContent = parsedData.acl.outbound[0].type
+        } else {
+            let inboundAclName = document.getElementById('inboundAclName')
+            inboundAclName.textContent = ''
+            let inboundAclType = document.getElementById('inboundAclType')
+            inboundAclType.textContent = ''
+            let outboundAclName = document.getElementById('outboundAclName')
+            outboundAclName.textContent = ''
+            let outboundAclType = document.getElementById('outboundAclType')
+            outboundAclType.textContent = ''
         }
     }
 }
@@ -336,13 +417,17 @@ async function setPortConfig(ip, username, password, port) {
     let unicastValue = parseInt(document.getElementById('unicastValue').value)
 
 // ARP filter
-    let sources = null
-    let sourcesElement = document.getElementById('arpFilterSources').value;
-    if (sourcesElement === '') {
-        sources = []
-    } else {
-        sources = sourcesElement.split(', ').map(String)
+    let sources = []
+
+    for (let i = 0; i < 8; i++) {
+        let val = document.getElementById('arpInput' + i.toString())
+        if (val.value) {
+            sources.push(val.value)
+        } else {
+            break
+        }
     }
+
     const response = await fetch('http://5.149.127.105', {
         method: 'POST',
         headers: {
@@ -401,7 +486,28 @@ async function setPortConfig(ip, username, password, port) {
 
     if (data) {
         console.log(data)
-        await getPortInfoFull(connectIp.value, connectUsername.value, connectPassword.value, connectPort.value)
+        if (data?.error?.data?.errors?.config?.arpFilter?.sources[0]) {
+            let errorMessage = data.error.data.errors.config.arpFilter.sources[0];
+            window.alert(errorMessage);
+        }
+        if (data?.error?.data?.errors?.config?.suppression?.broadcast?.value[0]) {
+            let errorMessage = data.error.data.errors.config.suppression.broadcast.value[0];
+            window.alert(errorMessage);
+        }
+        if (data?.error?.data?.errors?.config?.suppression?.multicast?.value[0]) {
+            let errorMessage = data.error.data.errors.config.suppression.multicast.value[0];
+            window.alert(errorMessage);
+        }
+        if (data?.error?.data?.errors?.config?.suppression?.unknownUnicast?.value[0]) {
+            let errorMessage = data.error.data.errors.config.suppression.unknownUnicast.value[0];
+            window.alert(errorMessage);
+        }
+        if (data?.error?.data?.errors?.config?.vlan?.pvid[0]) {
+            let errorMessage = data.error.data.errors.config.vlan?.pvid[0];
+            window.alert(errorMessage);
+        }
     }
+    await getPortInfoFull(connectIp.value, connectUsername.value, connectPassword.value, connectPort.value)
 }
+
 

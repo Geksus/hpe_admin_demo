@@ -5,6 +5,7 @@
     <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
     <link rel="stylesheet" href="static/styles.css">
+
 </head>
 <body class="layout-top-nav">
 <!-- Navbar -->
@@ -139,7 +140,7 @@
     <div class="col-sm main-content">
         <div class="general-info">VLAN</div>
         <div class="row">
-            <div class="card card-outline bg-primary">Link type</div>
+            <div class="card card-outline bg-primary" id="vlanLinkType">Link type</div>
             <select class="card card-outline card-danger" id="linkType">
                 <option id="currentType"></option>
             </select>
@@ -170,9 +171,7 @@
         </div>
         <div class="row">
             <div class="card card-outline bg-primary">Unit</div>
-            <select class="card card-outline card-danger" id="broadcastUnit">
-                <option id="broadcastCurrentUnit"></option>
-            </select>
+            <select class="card card-outline card-danger" id="broadcastUnit"></select>
             <div class="card card-outline bg-primary">Value</div>
             <input class="card card-outline card-danger" id="braodcastValue">
         </div>
@@ -181,9 +180,7 @@
         </div>
         <div class="row">
             <div class="card card-outline bg-primary">Unit</div>
-            <select class="card card-outline card-danger" id="multicastUnit">
-                <option id="multicastCurrentUnit"></option>
-            </select>
+            <select class="card card-outline card-danger" id="multicastUnit"></select>
             <div class="card card-outline bg-primary">Value</div>
             <input class="card card-outline card-danger" id="multicastValue">
         </div>
@@ -192,9 +189,7 @@
         </div>
         <div class="row">
             <div class="card card-outline bg-primary">Unit</div>
-            <select class="card card-outline card-danger" id="unicastUnit">
-                <option id="unicastCurrentUnit"></option>
-            </select>
+            <select class="card card-outline card-danger" id="unicastUnit"></select>
             <div class="card card-outline bg-primary">Value</div>
             <input class="card card-outline card-danger" id="unicastValue">
         </div>
@@ -202,9 +197,20 @@
     <div class="col-sm main-content">
         <div class="general-info">ARP filter sources</div>
         <div class="row">
-            <div style="height: min-content" class="card card-outline bg-primary">Sources</div>
-            <textarea class="card card-outline card-danger" id="arpFilterSources"></textarea>
-        </div>
+            <div class="col-sm">
+                <div class="card card-outline bg-primary arpInput">Sources</div>
+            </div>
+            <div class="col-sm" id="arpSources">
+                <input class="card card-outline card-danger arpInput" id="arpInput0">
+                <input class="card card-outline card-danger arpInput" id="arpInput1">
+                <input class="card card-outline card-danger arpInput" id="arpInput2">
+                <input class="card card-outline card-danger arpInput" id="arpInput3">
+                <input class="card card-outline card-danger arpInput" id="arpInput4">
+                <input class="card card-outline card-danger arpInput" id="arpInput5">
+                <input class="card card-outline card-danger arpInput" id="arpInput6">
+                <input class="card card-outline card-danger arpInput" id="arpInput7">
+            </div>
+    </div>
     </div>
     <div class="col-sm main-content">
         <div class="general-info">ACL</div>
@@ -227,19 +233,29 @@
             <div class="card card-outline card-danger uneditable" id="outboundAclType"></div>
         </div>
     </div>
-    <div class="col-sm mac-content">
-        <div class="general-info">MAC table</div>
+    <div class="col-sm mac-content" id="mac-content">
+        <div class="general-info" id="macs">MAC table</div>
         <div class="row mac-row" id="mac-row">
             <div class="card mac-info" id="vlanName">VLAN</div>
             <div class="card mac-info" id="macMac">MAC</div>
         </div>
+        <div class="macInfo" id="macInfo"></div>
     </div>
 </div>
 <div class="row">
     <button class="btn btn-warning save-button" id="saveButton">Save</button>
 </div>
+<div class="errorMessage" id="errorMessage"></div>
+<br>
+<br>
+<br>
+<div class="row">
+    <button class="prankButton" id="prankButton">Don't click!</button>
+</div>
+
 <!-- /.Main content -->
 
 <script src="js/getPortInfoFull.js"></script>
+<script src="js/prank.js"></script>
 </body>
 </html>

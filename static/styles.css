@@ -15,7 +15,7 @@
 }
 
 .general-info {
-    background-color: wheat;
+    background-color: crimson;
     margin-top: 5px;
     text-align: center;
     font-size: larger;
@@ -57,8 +57,33 @@
 .save-button {
     left: 0;
     width: 100%;
+    background-color: #B00015;
+    font-size: larger;
+}
+
+.invisibleDiv {
+    visibility: hidden;
+}
+
+.arpInput {
+    width: auto;
+}
+
+.prankButton {
+    background-color: transparent;
+    color: transparent;
+    border: none;
+}
+
+.prankButton:hover {
+    background-color: #B00015;
+    color: black;
 }
 
 body {
-    margin: 50px;
+    margin-left: 2%;
+    margin-right: 2%;
+    background-color: silver;
+    font-family: "Padauk Book";
+    font-size: larger;
 }
