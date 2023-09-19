@@ -8,6 +8,7 @@
 
 </head>
 <body class="layout-top-nav">
+
 <!-- Navbar -->
 <nav class="main-header navbar navbar-expand navbar-light navbar-white">
     <div class="container">
@@ -114,8 +115,8 @@
             <div class="card card-outline card-danger uneditable stat" id="inInterval"></div>
             <div class="card card-outline bg-primary stat">Packets</div>
             <div class="card card-outline card-danger uneditable stat" id="inPackets"></div>
-            <div class="card card-outline bg-primary stat">Bytes</div>
-            <div class="card card-outline card-danger uneditable stat" id="inOctets"></div>
+            <div class="card card-outline bg-primary stat">Bits</div>
+            <div class="card card-outline card-danger uneditable stat" id="inBits"></div>
         </div>
         <div class="row">
             <div class="card card-outline bg-primary">Usage</div>
@@ -129,8 +130,8 @@
             <div class="card card-outline card-danger uneditable stat" id="outInterval"></div>
             <div class="card card-outline bg-primary stat">Packets</div>
             <div class="card card-outline card-danger uneditable stat" id="outPackets"></div>
-            <div class="card card-outline bg-primary stat">Bytes</div>
-            <div class="card card-outline card-danger uneditable stat" id="outOctets"></div>
+            <div class="card card-outline bg-primary stat">Bits</div>
+            <div class="card card-outline card-danger uneditable stat" id="outBits"></div>
         </div>
         <div class="row">
             <div class="card card-outline bg-primary">Usage</div>
@@ -149,18 +150,39 @@
             <div class="card card-outline bg-primary">PVID</div>
             <input class="card card-outline card-danger" id="pvid"></input>
         </div>
-        <div class="row">
+        <div class="row" id="untaggedVlans">
             <div class="card card-outline bg-primary">Untagged VLANs</div>
-            <input class="card card-outline card-danger" id="untaggedVlanList"></input>
+            <input class="card card-outline card-danger" id="untaggedVlanList">
         </div>
-        <div class="row">
+        <div class="row" id="taggedVlans">
             <div class="card card-outline bg-primary">Tagged VLANs</div>
-            <input class="card card-outline card-danger" id="taggedVlanList"></input>
+            <input class="card card-outline card-danger" id="taggedVlanList">
         </div>
         <div class="row">
             <div class="card card-outline bg-primary">Permitted VLANs</div>
-            <input class="card card-outline card-danger" id="permitVlanList"></input>
+            <div class="card card-outline card-danger uneditable" id="permitVlanList"></div>
         </div>
+    </div>
+</div>
+<div class="row wave-row" id="loading-row" style="z-index: -100; display: flex">
+    <div class="center" id="loading">
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
     </div>
 </div>
 <div class="row">
@@ -173,7 +195,7 @@
             <div class="card card-outline bg-primary">Unit</div>
             <select class="card card-outline card-danger" id="broadcastUnit"></select>
             <div class="card card-outline bg-primary">Value</div>
-            <input class="card card-outline card-danger" id="braodcastValue">
+            <input class="card card-outline card-danger" id="broadcastValue">
         </div>
         <div class="row mac-row">
             <div class="card mac-info">Multicast</div>
@@ -257,5 +279,6 @@
 
 <script src="js/getPortInfoFull.js"></script>
 <script src="js/prank.js"></script>
+<script src="js/listeners.js"></script>
 </body>
 </html>

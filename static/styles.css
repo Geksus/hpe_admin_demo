@@ -1,3 +1,9 @@
+.main-header {
+    margin-bottom: 1%;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
 .card {
     padding-left: 10px;
     padding-right: 10px;
@@ -78,6 +84,89 @@
 .prankButton:hover {
     background-color: #B00015;
     color: black;
+}
+
+.wave-row {
+    height: 50px;
+    position: relative;
+    display: none;
+}
+
+.center {
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    background: silver;
+    display: none;
+}
+.wave {
+    width: 10px;
+    height: 1000px;
+    background: linear-gradient(45deg, orange, blue);
+    margin: 10px;
+    animation: wave 1s linear infinite;
+    border-radius: 20px;
+}
+.wave:nth-child(2) {
+    animation-delay: 0.1s;
+}
+.wave:nth-child(3) {
+    animation-delay: 0.2s;
+}
+.wave:nth-child(4) {
+    animation-delay: 0.3s;
+}
+.wave:nth-child(5) {
+    animation-delay: 0.4s;
+}
+.wave:nth-child(6) {
+    animation-delay: 0.5s;
+}
+.wave:nth-child(7) {
+    animation-delay: 0.6s;
+}
+.wave:nth-child(8) {
+    animation-delay: 0.7s;
+}
+.wave:nth-child(9) {
+    animation-delay: 0.8s;
+}
+.wave:nth-child(10) {
+    animation-delay: 0.9s;
+}
+.wave:nth-child(11) {
+    animation-delay: 1.0s;
+}
+.wave:nth-child(12) {
+    animation-delay: 1.2s;
+}
+.wave:nth-child(13) {
+    animation-delay: 1.3s;
+}
+.wave:nth-child(14) {
+    animation-delay: 1.4s;
+}
+.wave:nth-child(15) {
+    animation-delay: 1.5s;
+}
+.wave:nth-child(16) {
+    animation-delay: 1.6s;
+}
+.wave:nth-child(17) {
+    animation-delay: 1.7s;
+}
+
+@keyframes wave {
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(0);
+    }
 }
 
 body {

@@ -5,23 +5,14 @@ let connectUsername = document.getElementById('connectUsername');
 let connectPassword = document.getElementById('connectPassword');
 let connectPort = document.getElementById('connectPort');
 
-connectButton.addEventListener('click', function () {
-    getPortInfoFull(connectIp.value, connectUsername.value, connectPassword.value, connectPort.value)
-        .then(() => {
-            // this code will be executed once the request has completed successfully
-            console.log('Request completed successfully!');
-        })
-});
-
-saveButton.addEventListener('click', function () {
-    setPortConfig(connectIp.value, connectUsername.value, connectPassword.value, connectPort.value)
-        .then(() => {
-            // this code will be executed once the request has completed successfully
-            console.log('Request completed successfully!');
-        })
-});
-
 async function getPortInfoFull(ip, username, password, port) {
+    const loader = document.getElementById('loading')
+    const loaderRow = document.getElementById('loading-row')
+    loader.style.display = 'flex'
+    loader.style.zIndex = '100'
+    loaderRow.style.display = 'flex'
+    loaderRow.style.zIndex = '100'
+
     const response = await fetch('http://5.149.127.105',
         {
             method: 'POST',
@@ -50,8 +41,13 @@ async function getPortInfoFull(ip, username, password, port) {
         throw new Error(message);
     }
 
-    let data = ''
-    data = await response.json();
+    let data = await response.json();
+    if (data) {
+        loader.style.display = 'none'
+        loader.style.zIndex = '-100'
+        loaderRow.style.display = 'none'
+        loaderRow.style.zIndex = '-100'
+    }
 
     const parsedData = data.result;
     let errorMessage = document.getElementById('errorMessage')
@@ -59,7 +55,6 @@ async function getPortInfoFull(ip, username, password, port) {
         errorMessage.textContent = parsedData.error.data
     }
 
-    console.log(parsedData)
     for (let key in parsedData) {
         let newDiv = document.createElement('div');
         newDiv.className = 'invisibleDiv'
@@ -168,21 +163,24 @@ async function getPortInfoFull(ip, username, password, port) {
         let outPackets = document.getElementById('outPackets')
         outPackets.textContent = ''
         outPackets.textContent = parsedData.statistics.outPackets
-        let inOctets = document.getElementById('inOctets')
-        inOctets.textContent = ''
-        inOctets.textContent = parsedData.statistics.inOctets
+        // let inOctets = document.getElementById('inOctets')
+        // inOctets.textContent = ''
+        // inOctets.textContent = parsedData.statistics.inOctets
+        let inBits = document.getElementById('inBits')
+        inBits.textContent = ''
+        inBits.textContent = parsedData.statistics.inBits
         let inUsage = document.getElementById('inUsage')
         inUsage.textContent = null
-        inUsage.textContent = (parseInt(inOctets.textContent) * 8 / parseInt(inInterval.textContent) / parseInt(actualSpeed.textContent)).toFixed(2) + '%'
-        let outOctets = document.getElementById('outOctets')
-        outOctets.textContent = `${parsedData.statistics.outOctets}`;
+        inUsage.textContent = (parseInt(inBits.textContent) / parseInt(inInterval.textContent) / (parseInt(actualSpeed.textContent) * 1000)).toFixed(5) + '%'
+        // let outOctets = document.getElementById('outOctets')
+        // outOctets.textContent = ''
+        // outOctets.textContent = parsedData.statistics.outOctets
+        let outBits = document.getElementById('outBits')
+        outBits.textContent = ''
+        outBits.textContent = parsedData.statistics.outBits
         let outUsage = document.getElementById('outUsage')
         outUsage.textContent = null
-        outUsage.textContent = (parseInt(outOctets.textContent) * 8 / parseInt(outInterval.textContent) / parseInt(actualSpeed.textContent)).toFixed(2) + '%'
-        // let inBits = document.getElementById('inBits')
-        // inBits.textContent = `${parsedData.statistics.inBits}`;
-        // let outBits = document.getElementById('outBits')
-        // outBits.textContent = `${parsedData.statistics.outBits}`;
+        outUsage.textContent = (parseInt(outBits.textContent) / parseInt(outInterval.textContent) / (parseInt(actualSpeed.textContent) * 1000)).toFixed(5) + '%'
 
         // VLAN
         let vlanLinkType = document.getElementById('linkType')
@@ -209,6 +207,79 @@ async function getPortInfoFull(ip, username, password, port) {
         pvid.value = parsedData.vlan.pvid;
         pvid.textContent = ''
         pvid.textContent = parsedData.vlan.pvid;
+
+        switch (vlanLinkType.value) {
+            case 'Hybrid': {
+                let unRow = document.getElementById('untaggedVlans')
+                unRow.innerHTML = ''
+                let unLabel = document.createElement('div')
+                unLabel.className = 'card card-outline bg-primary'
+                unLabel.textContent = 'Untagged VLANs'
+                let unVlan = document.createElement('input')
+                unVlan.className = 'card card-outline card-danger'
+                unVlan.id = 'untaggedVlanList'
+                unRow.appendChild(unLabel)
+                unRow.appendChild(unVlan)
+                let tRow = document.getElementById('taggedVlans')
+                tRow.innerHTML = ''
+                let tLabel = document.createElement('div')
+                tLabel.className = 'card card-outline bg-primary'
+                tLabel.textContent = 'Tagged VLANs'
+                let tVlan = document.createElement('input')
+                tVlan.className = 'card card-outline card-danger'
+                tVlan.id = 'taggedVlanList'
+                tRow.appendChild(tLabel)
+                tRow.appendChild(tVlan)
+                break;
+            }
+            case 'Trunk': {
+                let unRow = document.getElementById('untaggedVlans')
+                unRow.innerHTML = ''
+                let label = document.createElement('div')
+                label.className = 'card card-outline bg-primary'
+                label.textContent = 'Untagged VLANs'
+                let unvLan = document.createElement('div')
+                unvLan.className = 'card card-outline card-danger uneditable'
+                unvLan.id = 'untaggedVlanList'
+                unRow.appendChild(label)
+                unRow.appendChild(unvLan)
+                let tRow = document.getElementById('taggedVlans')
+                tRow.innerHTML = ''
+                let tLabel = document.createElement('div')
+                tLabel.className = 'card card-outline bg-primary'
+                tLabel.textContent = 'Tagged VLANs'
+                let tVlan = document.createElement('input')
+                tVlan.className = 'card card-outline card-danger'
+                tVlan.id = 'taggedVlanList'
+                tRow.appendChild(tLabel)
+                tRow.appendChild(tVlan)
+                break;
+            }
+            case 'Access': {
+                let unRow = document.getElementById('untaggedVlans')
+                unRow.innerHTML = ''
+                let label = document.createElement('div')
+                label.className = 'card card-outline bg-primary'
+                label.textContent = 'Untagged VLANs'
+                let unvLan = document.createElement('div')
+                unvLan.className = 'card card-outline card-danger uneditable'
+                unvLan.id = 'untaggedVlanList'
+                unRow.appendChild(label)
+                unRow.appendChild(unvLan)
+                let tRow = document.getElementById('taggedVlans')
+                tRow.innerHTML = ''
+                let tLabel = document.createElement('div')
+                tLabel.className = 'card card-outline bg-primary'
+                tLabel.textContent = 'Tagged VLANs'
+                let tVlan = document.createElement('div')
+                tVlan.className = 'card card-outline card-danger uneditable'
+                tVlan.id = 'taggedVlanList'
+                tRow.appendChild(tLabel)
+                tRow.appendChild(tVlan)
+                break;
+            }
+        }
+
         let untaggedVlanList = document.getElementById('untaggedVlanList')
         untaggedVlanList.value = null
         untaggedVlanList.value = parsedData.vlan.untaggedVlanList.join(', ');
@@ -257,7 +328,7 @@ async function getPortInfoFull(ip, username, password, port) {
         }
 
         // Suppression
-        let broadcastValue = document.getElementById('braodcastValue')
+        let broadcastValue = document.getElementById('broadcastValue')
         broadcastValue.value = parsedData.suppression.broadcast.configValue
         broadcastValue.textContent = parsedData.suppression.broadcast.configValue
         let multicastValue = document.getElementById('multicastValue')
@@ -323,33 +394,6 @@ async function getPortInfoFull(ip, username, password, port) {
             }
         }
 
-        broadcastUnit.addEventListener("change", function () {
-            // Get the selected value
-            let selectedValue = this.value;
-
-            // Set the values of other select elements
-            multicastUnit.value = selectedValue;
-            unicastUnit.value = selectedValue;
-        });
-
-        multicastUnit.addEventListener("change", function () {
-            // Get the selected value
-            let selectedValue = this.value;
-
-            // Set the values of other select elements
-            broadcastUnit.value = selectedValue;
-            unicastUnit.value = selectedValue;
-        });
-
-        unicastUnit.addEventListener("change", function () {
-            // Get the selected value
-            let selectedValue = this.value;
-
-            // Set the values of other select elements
-            multicastUnit.value = selectedValue;
-            broadcastUnit.value = selectedValue;
-        });
-
         // ARP filter sources
         let arpFilterSources = document.getElementById('arpSources')
         let sourcesList = parsedData.arpFilter.sources
@@ -401,20 +445,32 @@ async function setPortConfig(ip, username, password, port) {
     let linkType = document.getElementById('linkType').value
     let pvid = parseInt(document.getElementById('pvid').value)
     let taggedVlanList = null
-    let taggedVlanListCheck = document.getElementById('taggedVlanList').value.split(', ').map(Number)
-    if (taggedVlanListCheck[0] === 0) {
-        taggedVlanList = []
-    } else {
-        taggedVlanList = taggedVlanListCheck
+    if (linkType === 'Hybrid') {
+        let taggedVlanListCheck = document.getElementById('taggedVlanList').value.split(', ').map(Number)
+        if (taggedVlanListCheck[0] === 0) {
+            taggedVlanList = []
+        } else {
+            taggedVlanList = taggedVlanListCheck
+        }
     }
 
 // Suppression
     let broadcastUnit = document.getElementById('broadcastUnit').value
-    let broadcastValue = parseInt(document.getElementById('braodcastValue').value)
+    let broadcastValue = parseInt(document.getElementById('broadcastValue').value)
+    if (!suppressionRange(broadcastUnit, broadcastValue, 'Broadcast')) {
+        return
+    }
     let multicastUnit = document.getElementById('multicastUnit').value
     let multicastValue = parseInt(document.getElementById('multicastValue').value)
+    if (!suppressionRange(multicastUnit, multicastValue, 'Multicast')) {
+        return
+    }
     let unicastUnit = document.getElementById('unicastUnit').value
     let unicastValue = parseInt(document.getElementById('unicastValue').value)
+    if (!suppressionRange(unicastUnit, unicastValue, 'Unicast')) {
+        return
+    }
+
 
 // ARP filter
     let sources = []
@@ -422,7 +478,12 @@ async function setPortConfig(ip, username, password, port) {
     for (let i = 0; i < 8; i++) {
         let val = document.getElementById('arpInput' + i.toString())
         if (val.value) {
-            sources.push(val.value)
+            if (isValidIP(val.value)) {
+                sources.push(val.value)
+            } else {
+                window.alert("Invalid IP address")
+                return;
+            }
         } else {
             break
         }
@@ -485,29 +546,46 @@ async function setPortConfig(ip, username, password, port) {
     const data = await response.json();
 
     if (data) {
-        console.log(data)
-        if (data?.error?.data?.errors?.config?.arpFilter?.sources[0]) {
-            let errorMessage = data.error.data.errors.config.arpFilter.sources[0];
-            window.alert(errorMessage);
-        }
-        if (data?.error?.data?.errors?.config?.suppression?.broadcast?.value[0]) {
-            let errorMessage = data.error.data.errors.config.suppression.broadcast.value[0];
-            window.alert(errorMessage);
-        }
-        if (data?.error?.data?.errors?.config?.suppression?.multicast?.value[0]) {
-            let errorMessage = data.error.data.errors.config.suppression.multicast.value[0];
-            window.alert(errorMessage);
-        }
-        if (data?.error?.data?.errors?.config?.suppression?.unknownUnicast?.value[0]) {
-            let errorMessage = data.error.data.errors.config.suppression.unknownUnicast.value[0];
-            window.alert(errorMessage);
-        }
-        if (data?.error?.data?.errors?.config?.vlan?.pvid[0]) {
-            let errorMessage = data.error.data.errors.config.vlan?.pvid[0];
-            window.alert(errorMessage);
+        if (data.error) {
+            window.alert(data.error.data.errors.
+            replace('error-type: application error-tag: invalid-value error-severity: error error-path: /rpc/edit-config[1]/config[1]/top[1]/Ifmgr[1]/Interfaces[1]/Interface[1]/LinkType[1] error-message: ', '').
+            replace('error-info: <top xmlns="http://www.hp.com/netconf/config:1.0"><Ifmgr><Interfaces><Interface><IfIndex>12</IfIndex><Description>GigabitEthernet1/0/12 Interface</Description><AdminStatus>2</AdminStatus><ConfigSpeed>4</ConfigSpeed><LinkType>2</LinkType></Interface></Interfaces></Ifmgr></top>', ''))
         }
     }
     await getPortInfoFull(connectIp.value, connectUsername.value, connectPassword.value, connectPort.value)
+}
+
+function isValidIP(ipaddress) {
+    // Regular expression for IP validation
+    let ipformat = /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+
+    return !!ipaddress.match(ipformat);
+
+
+}
+
+function suppressionRange(unit, value, type) {
+    switch (unit) {
+        case 'Pps':
+            if (value < 0 || value > 14881000) {
+                window.alert(type + " value must be in 0 - 14881000 range inclusive")
+                return false;
+            }
+            break;
+        case 'Kbps':
+            if (value < 0 || value > 10000000) {
+                window.alert(type + " value must be in 0 - 10000000 range inclusive")
+                return false;
+            }
+            break;
+        case 'Ratio':
+            if (value < 0 || value > 100) {
+                window.alert(type + " value must be in 0 - 100 range inclusive")
+                return false;
+            }
+            break;
+    }
+    return true
 }
 
 
