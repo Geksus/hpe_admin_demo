@@ -53,3 +53,8 @@ unicastUnit.addEventListener("change", function () {
     multicastUnit.value = selectedValue;
     broadcastUnit.value = selectedValue;
 });
+
+let addTaggedVlanButton = document.getElementById('addTaggedVlanButton')
+addTaggedVlanButton.addEventListener("click", function () {
+    addTaggedVlanHandler()
+})

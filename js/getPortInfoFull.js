@@ -6,12 +6,8 @@ let connectPassword = document.getElementById('connectPassword');
 let connectPort = document.getElementById('connectPort');
 
 async function getPortInfoFull(ip, username, password, port) {
-    const loader = document.getElementById('loading')
-    const loaderRow = document.getElementById('loading-row')
+    const loader = document.getElementById('loader-holder')
     loader.style.display = 'flex'
-    loader.style.zIndex = '100'
-    loaderRow.style.display = 'flex'
-    loaderRow.style.zIndex = '100'
 
     const response = await fetch('http://5.149.127.105',
         {
@@ -44,9 +40,6 @@ async function getPortInfoFull(ip, username, password, port) {
     let data = await response.json();
     if (data) {
         loader.style.display = 'none'
-        loader.style.zIndex = '-100'
-        loaderRow.style.display = 'none'
-        loaderRow.style.zIndex = '-100'
     }
 
     const parsedData = data.result;
@@ -225,11 +218,7 @@ async function getPortInfoFull(ip, username, password, port) {
                 let tLabel = document.createElement('div')
                 tLabel.className = 'card card-outline bg-primary'
                 tLabel.textContent = 'Tagged VLANs'
-                let tVlan = document.createElement('input')
-                tVlan.className = 'card card-outline card-danger'
-                tVlan.id = 'taggedVlanList'
                 tRow.appendChild(tLabel)
-                tRow.appendChild(tVlan)
                 break;
             }
             case 'Trunk': {
@@ -248,11 +237,7 @@ async function getPortInfoFull(ip, username, password, port) {
                 let tLabel = document.createElement('div')
                 tLabel.className = 'card card-outline bg-primary'
                 tLabel.textContent = 'Tagged VLANs'
-                let tVlan = document.createElement('input')
-                tVlan.className = 'card card-outline card-danger'
-                tVlan.id = 'taggedVlanList'
                 tRow.appendChild(tLabel)
-                tRow.appendChild(tVlan)
                 break;
             }
             case 'Access': {
@@ -271,11 +256,7 @@ async function getPortInfoFull(ip, username, password, port) {
                 let tLabel = document.createElement('div')
                 tLabel.className = 'card card-outline bg-primary'
                 tLabel.textContent = 'Tagged VLANs'
-                let tVlan = document.createElement('div')
-                tVlan.className = 'card card-outline card-danger uneditable'
-                tVlan.id = 'taggedVlanList'
                 tRow.appendChild(tLabel)
-                tRow.appendChild(tVlan)
                 break;
             }
         }
@@ -285,11 +266,20 @@ async function getPortInfoFull(ip, username, password, port) {
         untaggedVlanList.value = parsedData.vlan.untaggedVlanList.join(', ');
         untaggedVlanList.textContent = ''
         untaggedVlanList.textContent = parsedData.vlan.untaggedVlanList.join(', ');
-        let taggedVlanList = document.getElementById('taggedVlanList')
-        taggedVlanList.value = null
-        taggedVlanList.value = parsedData.vlan.taggedVlanList.join(', ');
-        taggedVlanList.textContent = ''
-        taggedVlanList.textContent = parsedData.vlan.taggedVlanList.join(', ');
+        let taggedVlanList = document.getElementById('taggedVlans')
+        taggedVlanList.value = parsedData.vlan.taggedVlanList;
+        for (tVlan of taggedVlanList.value) {
+            let input = document.createElement('input')
+            input.className = "taggedVlanItem card card-outline card-danger"
+            input.value = tVlan
+            taggedVlanList.appendChild(input)
+        }
+        let addTaggedVlan = document.createElement('button')
+        addTaggedVlan.className = 'card taggedVlanItem addVlan'
+        addTaggedVlan.id = 'addtaggedVlan'
+        addTaggedVlan.textContent = '+ Add'
+        addTaggedVlan.onclick = addTaggedVlanHandler
+        taggedVlanList.appendChild(addTaggedVlan)
         let permitVlanList = document.getElementById('permitVlanList')
         permitVlanList.value = null
         permitVlanList.value = parsedData.vlan.permitVlanList.join(', ');
@@ -434,6 +424,8 @@ async function getPortInfoFull(ip, username, password, port) {
 }
 
 async function setPortConfig(ip, username, password, port) {
+    const loader = document.getElementById('loader-holder')
+    loader.style.display = 'flex'
     // General info
     let description = document.getElementById('description').textContent;
     let adminStatus = document.getElementById('adminStatus').value;
@@ -444,15 +436,14 @@ async function setPortConfig(ip, username, password, port) {
 // VLAN
     let linkType = document.getElementById('linkType').value
     let pvid = parseInt(document.getElementById('pvid').value)
-    let taggedVlanList = null
-    if (linkType === 'Hybrid') {
-        let taggedVlanListCheck = document.getElementById('taggedVlanList').value.split(', ').map(Number)
-        if (taggedVlanListCheck[0] === 0) {
-            taggedVlanList = []
-        } else {
-            taggedVlanList = taggedVlanListCheck
+    let taggedVlanList = []
+    let taggedVlanItems = document.getElementsByClassName('taggedVlanItem')
+    for (vlan of taggedVlanItems) {
+        if (vlan.value) {
+            taggedVlanList.push(parseInt(vlan.value))
         }
     }
+
 
 // Suppression
     let broadcastUnit = document.getElementById('broadcastUnit').value
@@ -547,9 +538,7 @@ async function setPortConfig(ip, username, password, port) {
 
     if (data) {
         if (data.error) {
-            window.alert(data.error.data.errors.
-            replace('error-type: application error-tag: invalid-value error-severity: error error-path: /rpc/edit-config[1]/config[1]/top[1]/Ifmgr[1]/Interfaces[1]/Interface[1]/LinkType[1] error-message: ', '').
-            replace('error-info: <top xmlns="http://www.hp.com/netconf/config:1.0"><Ifmgr><Interfaces><Interface><IfIndex>12</IfIndex><Description>GigabitEthernet1/0/12 Interface</Description><AdminStatus>2</AdminStatus><ConfigSpeed>4</ConfigSpeed><LinkType>2</LinkType></Interface></Interfaces></Ifmgr></top>', ''))
+            window.alert('Please set the link type of the port to access first.')
         }
     }
     await getPortInfoFull(connectIp.value, connectUsername.value, connectPassword.value, connectPort.value)
@@ -588,4 +577,12 @@ function suppressionRange(unit, value, type) {
     return true
 }
 
+function addTaggedVlanHandler() {
+    let parentElement = document.getElementById('taggedVlans');
+    let taggedVlanItem = document.createElement('input');
+    taggedVlanItem.className = 'taggedVlanItem card card-outline card-danger';
+    let button = document.getElementById('addTaggedVlanButton')
 
+    // insert new element right before the add button
+    parentElement.insertBefore(taggedVlanItem, button);
+}

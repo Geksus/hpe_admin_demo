@@ -154,9 +154,9 @@
             <div class="card card-outline bg-primary">Untagged VLANs</div>
             <input class="card card-outline card-danger" id="untaggedVlanList">
         </div>
-        <div class="row" id="taggedVlans">
+        <div class="row taggedVlansRow" id="taggedVlans">
             <div class="card card-outline bg-primary">Tagged VLANs</div>
-            <input class="card card-outline card-danger" id="taggedVlanList">
+            <button id="addTaggedVlanButton" class="card addVlan">+ Add</button>
         </div>
         <div class="row">
             <div class="card card-outline bg-primary">Permitted VLANs</div>
@@ -164,25 +164,9 @@
         </div>
     </div>
 </div>
-<div class="row wave-row" id="loading-row" style="z-index: -100; display: flex">
-    <div class="center" id="loading">
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
-        <div class="wave"></div>
+<div class="cover" id="loader-holder">
+    <div class="ring">Loading
+        <span></span>
     </div>
 </div>
 <div class="row">
