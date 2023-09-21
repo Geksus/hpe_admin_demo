@@ -266,20 +266,37 @@ async function getPortInfoFull(ip, username, password, port) {
         untaggedVlanList.value = parsedData.vlan.untaggedVlanList.join(', ');
         untaggedVlanList.textContent = ''
         untaggedVlanList.textContent = parsedData.vlan.untaggedVlanList.join(', ');
+
         let taggedVlanList = document.getElementById('taggedVlans')
         taggedVlanList.value = parsedData.vlan.taggedVlanList;
         for (tVlan of taggedVlanList.value) {
-            let input = document.createElement('input')
-            input.className = "taggedVlanItem card card-outline card-danger"
+            let input = document.createElement('div')
+            input.className = "taggedVlanItem card card-outline card-danger uneditable deletable"
             input.value = tVlan
+            input.textContent = tVlan
             taggedVlanList.appendChild(input)
+
+            // On mouse over, change the text to 'Remove'
+            input.addEventListener('mouseover', function() {
+                this.textContent = 'Remove';
+            });
+
+            // On mouse out, change the text back to the original value
+            input.addEventListener('mouseout', function() {
+                this.textContent = this.value;
+            });
+
+            // On click, remove the div
+            input.addEventListener('click', function() {
+                this.parentElement.removeChild(this);
+            });
         }
         let addTaggedVlan = document.createElement('button')
         addTaggedVlan.className = 'card taggedVlanItem addVlan'
         addTaggedVlan.id = 'addtaggedVlan'
         addTaggedVlan.textContent = '+ Add'
         addTaggedVlan.onclick = addTaggedVlanHandler
-        taggedVlanList.appendChild(addTaggedVlan)
+        taggedVlanList.insertBefore(addTaggedVlan, taggedVlanList.children[1])
         let permitVlanList = document.getElementById('permitVlanList')
         permitVlanList.value = null
         permitVlanList.value = parsedData.vlan.permitVlanList.join(', ');
@@ -584,5 +601,5 @@ function addTaggedVlanHandler() {
     let button = document.getElementById('addTaggedVlanButton')
 
     // insert new element right before the add button
-    parentElement.insertBefore(taggedVlanItem, button);
+    parentElement.appendChild(taggedVlanItem);
 }

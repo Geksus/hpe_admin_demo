@@ -101,6 +101,14 @@
     width: max-content;
 }
 
+.deletable:hover {
+    cursor: pointer;
+    width: max-content;
+    background-color: #B00015;
+    font-weight: bold;
+    color: #fff000;
+}
+
 .cover {
     position: fixed; /* or 'absolute' depending on your requirement */
     top: 0;
