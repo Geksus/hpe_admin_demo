@@ -164,7 +164,7 @@ async function getPortInfoFull(ip, username, password, port) {
         inBits.textContent = parsedData.statistics.inBits
         let inUsage = document.getElementById('inUsage')
         inUsage.textContent = null
-        inUsage.textContent = (parseInt(inBits.textContent) / parseInt(inInterval.textContent) / (parseInt(actualSpeed.textContent) * 1000)).toFixed(5) + '%'
+        inUsage.textContent = (parseInt(inBits.textContent) / parseInt(inInterval.textContent) / (parseInt(actualSpeed.textContent) * 1000)).toFixed(3) + '%'
         // let outOctets = document.getElementById('outOctets')
         // outOctets.textContent = ''
         // outOctets.textContent = parsedData.statistics.outOctets
@@ -173,7 +173,7 @@ async function getPortInfoFull(ip, username, password, port) {
         outBits.textContent = parsedData.statistics.outBits
         let outUsage = document.getElementById('outUsage')
         outUsage.textContent = null
-        outUsage.textContent = (parseInt(outBits.textContent) / parseInt(outInterval.textContent) / (parseInt(actualSpeed.textContent) * 1000)).toFixed(5) + '%'
+        outUsage.textContent = (parseInt(outBits.textContent) / parseInt(outInterval.textContent) / (parseInt(actualSpeed.textContent) * 1000)).toFixed(3) + '%'
 
         // VLAN
         let vlanLinkType = document.getElementById('linkType')
@@ -311,23 +311,37 @@ async function getPortInfoFull(ip, username, password, port) {
         let macContent = document.getElementById('macInfo')
         macContent.innerHTML = ''
 
+        let legend = document.createElement('legend')
+        legend.className = 'scheduler-border invisibleDiv'
+        legend.textContent = 'S'
+
+        macContent.appendChild(legend);
+
         // Iterate over 'macTable' to create new elements for each object
         for (let i = 0; i < macTable.length; i++) {
             // Create new elements with corresponding data
             let row = document.createElement('div');
-            row.className = "row";
+            row.className = "row statRow";
             row.innerHTML = '';
 
-            let vlanCard = document.createElement('div');
-            vlanCard.className = "card bg-primary";
+            let vlanCard = document.createElement('label');
+            vlanCard.className = "scheduler-border";
+            vlanCard.for = "vlan" + macTable[i].vlan;
             vlanCard.textContent = macTable[i].vlan;
 
             let macCard = document.createElement('div');
-            macCard.className = "card card-outline card-danger uneditable";
+            macCard.className = "statRight aclInfo";
+            macCard.id = "vlan" + macTable[i].vlan;
             macCard.textContent = macTable[i].mac;
+
+            let plug = document.createElement('div')
+            plug.className = 'plug'
+
+
 
             // Append new elements to the row
             row.appendChild(vlanCard);
+            row.appendChild(plug);
             row.appendChild(macCard);
 
             // Append the row to the main-content div
@@ -403,18 +417,33 @@ async function getPortInfoFull(ip, username, password, port) {
 
         // ARP filter sources
         let arpFilterSources = document.getElementById('arpSources')
+        arpFilterSources.innerHTML = ''
+
+        let arpLegend = document.createElement('legend')
+        arpLegend.className = 'scheduler-border'
+        arpLegend.textContent = 'Sources'
+        arpFilterSources.appendChild(arpLegend)
+
         let sourcesList = parsedData.arpFilter.sources
 
-        for (let i = 0; i < 8; i++) {
-            let val = document.getElementById('arpInput' + i.toString())
-            val.value = null
-            val.textContent = ''
-        }
-
         for (let i = 0; i < sourcesList.length; i++) {
-            let inp = document.getElementById('arpInput' + i.toString())
-            inp.value = sourcesList[i]
-            inp.textContent = sourcesList[i]
+            let arpRow = document.createElement('div')
+            arpRow.className = 'row statRow'
+
+            let arpLabel = document.createElement('label')
+            arpLabel.className = 'scheduler-border arpLeft'
+            let arpPlug = document.createElement('div')
+            arpPlug.className = 'plug'
+            let arpIp = document.createElement('div')
+            arpIp.className = 'statRight arpRight'
+            arpIp.id = 'arpInput' + i.toString()
+            arpIp.textContent = sourcesList[i]
+
+            arpRow.appendChild(arpLabel)
+            arpRow.appendChild(arpPlug)
+            arpRow.appendChild(arpIp)
+
+            arpFilterSources.appendChild(arpRow)
         }
 
         // ACL
@@ -438,6 +467,7 @@ async function getPortInfoFull(ip, username, password, port) {
             outboundAclType.textContent = ''
         }
     }
+    adjustWidth()
 }
 
 async function setPortConfig(ip, username, password, port) {
@@ -485,7 +515,7 @@ async function setPortConfig(ip, username, password, port) {
 
     for (let i = 0; i < 8; i++) {
         let val = document.getElementById('arpInput' + i.toString())
-        if (val.value) {
+        if (val) {
             if (isValidIP(val.value)) {
                 sources.push(val.value)
             } else {
