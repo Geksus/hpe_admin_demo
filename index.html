@@ -60,36 +60,41 @@
 <div class="row">
     <div class="col-sm main-content">
         <div class="general-info">General info</div>
-        <div class="row">
-            <div class="card card-outline bg-primary">Interface name</div>
-            <div class="card card-outline card-danger uneditable " id="ifName"></div>
-        </div>
-        <div class="row">
-            <div class="card card-outline bg-primary">Interface short name</div>
-            <div class="card card-outline card-danger uneditable" id="ifAbbreviatedName"></div>
-        </div>
-        <div class="row">
-            <div class="card card-outline bg-primary">Description</div>
-            <div class="card card-outline card-danger uneditable" id="description"></div>
-        </div>
-        <div class="row">
-            <div class="card card-outline bg-primary" id="adminStatusSelect">Status</div>
-            <select class="card card-outline card-danger" id="adminStatus">
-                <option id="currentAdmStatus"></option>
-            </select>
-        </div>
-        <div class="row">
-            <div class="card card-outline bg-primary">Oper Status</div>
-            <div class="card card-outline card-danger uneditable" id="operStatus"></div>
-        </div>
-        <div class="row">
-            <div class="card card-outline bg-primary">Duplex</div>
-            <div class="card card-outline card-danger uneditable" id="actualDuplex"></div>
-        </div>
-        <div class="row">
-            <div class="card card-outline bg-primary">BPDU drop any</div>
-            <div class="card card-outline card-danger uneditable" id="bpduDropAny"></div>
-        </div>
+        <form>
+            <fieldset class="scheduler-border">
+                <legend class="scheduler-border invisibleDiv">S</legend>
+                <div class="row statRow" style="display: flex">
+                    <label class="scheduler-border generalLeft" for="ifName">Interface name: </label>
+                    <div class="statRight generalRight" id="ifName"></div>
+                </div>
+                <div class="row statRow">
+                    <label class="scheduler-border generalLeft" for="ifAbbreviatedName">Short name: </label>
+                    <div class="statRight generalRight" id="ifAbbreviatedName"></div>
+                </div>
+                <div class="row statRow" style="display: flex">
+                    <label class="scheduler-border generalLeft" for="description">Description: </label>
+                    <div class="statRight generalRight" id="description"></div>
+                </div>
+                <div class="row statRow" style="display: flex">
+                    <label class="scheduler-border generalLeft" for="adminStatus">Status: </label>
+                    <select class="statRight generalRight" id="adminStatus">
+                        <option id="currentAdmStatus"></option>
+                    </select>
+                </div>
+                <div class="row statRow" style="display: flex">
+                    <label class="scheduler-border generalLeft" for="operStatus">Oper Status: </label>
+                    <div class="statRight generalRight" id="operStatus"></div>
+                </div>
+                <div class="row statRow" style="display: flex">
+                    <label class="scheduler-border generalLeft" for="actualDuplex">Duplex: </label>
+                    <div class="statRight generalRight" id="actualDuplex"></div>
+                </div>
+                <div class="row statRow" style="display: flex">
+                    <label class="scheduler-border generalLeft" for="bpduDropAny">BPDU drop any: </label>
+                    <div class="statRight generalRight" id="bpduDropAny"></div>
+                </div>
+            </fieldset>
+        </form>
     </div>
     <div class="col-sm main-content">
         <div class="general-info">Speed info</div>
@@ -98,17 +103,10 @@
                 <legend class="scheduler-border invisibleDiv">S</legend>
                 <div class="row statRow" style="display: flex">
                     <label class="scheduler-border speedLeft" for="actualSpeed">Actual speed: </label>
-                    
                     <div class="statRight speedRight" id="actualSpeed"></div>
-                </div>
-                <div class="row statRow">
-                    <label class="scheduler-border speedLeft" for="supportedIfSpeed">Supported speed: </label>
-                    
-                    <div class="statRight speedRight" id="supportedIfSpeed"></div>
                 </div>
                 <div class="row statRow" style="display: flex">
                     <label class="scheduler-border speedLeft" for="configSpeed">Config speed: </label>
-                    
                     <select class="statRight speedRight" id="configSpeed"></select>
                 </div>
             </fieldset>
@@ -121,22 +119,22 @@
                 <legend class="scheduler-border">IN</legend>
                 <div class="row statRow" style="display: flex">
                     <label class="scheduler-border statisticsLeft" for="inInterval">Interval: </label>
-                    
+
                     <div class="statRight statisticsRight" id="inInterval"></div>
                 </div>
                 <div class="row statRow">
                     <label class="scheduler-border statisticsLeft" for="inPackets">Packets: </label>
-                    
+
                     <div class="statRight statisticsRight" id="inPackets"></div>
                 </div>
                 <div class="row statRow" style="display: flex">
                     <label class="scheduler-border statisticsLeft" for="inBits">Bits: </label>
-                    
+
                     <div class="statRight statisticsRight" id="inBits"></div>
                 </div>
                 <div class="row statRow" style="display: flex">
                     <label class="scheduler-border statisticsLeft" for="inUsage">Usage: </label>
-                    
+
                     <div class="statRight statisticsRight" id="inUsage"></div>
                 </div>
             </fieldset>
@@ -147,22 +145,22 @@
                 <legend class="scheduler-border">OUT</legend>
                 <div class="row statRow">
                     <label class="scheduler-border statisticsLeft" for="inInterval">Interval: </label>
-                    
+
                     <div class="statRight statisticsRight" id="outInterval"></div>
                 </div>
                 <div class="row statRow">
                     <label class="scheduler-border statisticsLeft" for="outPackets">Packets: </label>
-                    
+
                     <div class="statRight statisticsRight" id="outPackets"></div>
                 </div>
                 <div class="row statRow">
                     <label class="scheduler-border statisticsLeft" for="outBits">Bits: </label>
-                    
+
                     <div class="statRight statisticsRight" id="outBits"></div>
                 </div>
                 <div class="row statRow">
                     <label class="scheduler-border statisticsLeft" for="outUsage">Usage: </label>
-                    
+
                     <div class="statRight statisticsRight" id="outUsage"></div>
                 </div>
             </fieldset>
@@ -170,28 +168,34 @@
     </div>
     <div class="col-sm main-content">
         <div class="general-info">VLAN</div>
-        <div class="row">
-            <div class="card card-outline bg-primary" id="vlanLinkType">Link type</div>
-            <select class="card card-outline card-danger" id="linkType">
-                <option id="currentType"></option>
-            </select>
-        </div>
-        <div class="row">
-            <div class="card card-outline bg-primary">PVID</div>
-            <input class="card card-outline card-danger" id="pvid"></input>
-        </div>
-        <div class="row" id="untaggedVlans">
-            <div class="card card-outline bg-primary">Untagged VLANs</div>
-            <input class="card card-outline card-danger" id="untaggedVlanList">
-        </div>
-        <div class="row taggedVlansRow" id="taggedVlans">
-            <div class="card card-outline bg-primary">Tagged VLANs</div>
-            <button id="addTaggedVlanButton" class="card addVlan">+ Add</button>
-        </div>
-        <div class="row">
-            <div class="card card-outline bg-primary">Permitted VLANs</div>
-            <div class="card card-outline card-danger uneditable" id="permitVlanList"></div>
-        </div>
+        <form>
+            <fieldset class="scheduler-border">
+                <legend class="scheduler-border invisibleDiv">S</legend>
+                <div class="row statRow">
+                    <label class="scheduler-border vlanLeft" for="linkType">Link type: </label>
+                    <select class="statRight vlanRight" id="linkType"></select>
+                </div>
+                <div class="row statRow">
+                    <label class="scheduler-border vlanLeft" for="pvid">PVID: </label>
+                    <input class="statRight vlanRight" id="pvid">
+                </div>
+                <div class="row statRow" id="untaggedVlans">
+                    <label class="scheduler-border vlanLeft" for="untaggedVlanList">Untagged VLANs: </label>
+                    <input class="statRight vlanRight" id="untaggedVlanList">
+                </div>
+                <div class="row statRow" id="taggedLabelButton">
+                    <label class="scheduler-border vlanLeft">Tagged VLANs: </label>
+                </div>
+                <div class="row vlanRow" id="taggedVlans">
+                    <label class="scheduler-border vlanLeft" for="taggedVlanItems"></label>
+                    <div class="vlanRight" id="taggedVlanItems"></div>
+                </div>
+                <div class="row statRow">
+                    <label class="scheduler-border vlanLeft" for="permitVlanList">Permitted VLANs: </label>
+                    <div class="statRight vlanRight" id="permitVlanList"></div>
+                </div>
+            </fieldset>
+        </form>
     </div>
 </div>
 <div class="cover" id="loader-holder">
@@ -207,12 +211,11 @@
                 <legend class="scheduler-border">BROADCAST</legend>
                 <div class="row statRow">
                     <label class="scheduler-border suppressionLeft" for="broadcastUnit">Unit: </label>
-                    
+
                     <select class="statRight suppressionRight" id="broadcastUnit"></select>
                 </div>
                 <div class="row statRow">
                     <label class="scheduler-border suppressionLeft" for="broadcastValue">Value: </label>
-                    
                     <input class="statRight suppressionRight" id="broadcastValue">
                 </div>
             </fieldset>
@@ -223,12 +226,10 @@
                 <legend class="scheduler-border">MULTICAST</legend>
                 <div class="row statRow" style="display: flex">
                     <label class="scheduler-border suppressionLeft" for="broadcastUnit">Unit: </label>
-                    
                     <select class="statRight suppressionRight" id="multicastUnit"></select>
                 </div>
                 <div class="row statRow" style="display: flex">
                     <label class="scheduler-border suppressionLeft" for="broadcastValue">Value: </label>
-                    
                     <input class="statRight suppressionRight" id="multicastValue">
                 </div>
             </fieldset>
@@ -239,12 +240,12 @@
                 <legend class="scheduler-border">UNICAST</legend>
                 <div class="row statRow" style="display: flex">
                     <label class="scheduler-border suppressionLeft" for="broadcastUnit">Unit: </label>
-                    
+
                     <select class="statRight suppressionRight" id="unicastUnit"></select>
                 </div>
                 <div class="row statRow" style="display: flex">
                     <label class="scheduler-border suppressionLeft" for="broadcastValue">Value: </label>
-                    
+
                     <input class="statRight suppressionRight" id="unicastValue">
                 </div>
             </fieldset>
@@ -262,47 +263,47 @@
         <form>
             <fieldset class="scheduler-border">
                 <legend class="scheduler-border">INBOUND</legend>
-                <div class="row statRow" style="display: flex">
-                    <label class="scheduler-border" for="inboundAclName">Name: </label>
-                    
-                    <div class="statRight aclInfo" id="inboundAclName"></div>
-                </div>
-                <div class="row statRow" style="display: flex">
-                    <label class="scheduler-border" for="inboundAclType">Type: </label>
-                    
-                    <div class="statRight aclInfo" id="inboundAclType"></div>
-                </div>
+                <table class="acl-table" id="inboundAclTable">
+                    <tr class="macTr">
+                        <td>IPv4</td>
+                        <td id="inboundIpv4"></td>
+                    </tr>
+                    <tr class="macTr" style="background-color: darkgray">
+                        <td>IPv6</td>
+                        <td id="inboundIpv6"></td>
+                    </tr>
+                    <tr class="macTr">
+                        <td>MAC</td>
+                        <td id="inboundMac"></td>
+                    </tr>
+                </table>
             </fieldset>
         </form>
 
         <form>
             <fieldset class="scheduler-border">
                 <legend class="scheduler-border">OUTBOUND</legend>
-                <div class="row statRow" style="display: flex">
-                    <label class="scheduler-border" for="outboundAclName">Name: </label>
-                    
-                    <div class="statRight aclInfo" id="outboundAclName"></div>
-                </div>
-                <div class="row statRow">
-                    <label class="scheduler-border" for="outboundAclType">Type: </label>
-                    
-                    <div class="statRight aclInfo" id="outboundAclType"></div>
-                </div>
+                <table class="acl-table">
+                    <tr class="macTr">
+                        <td>IPv4</td>
+                        <td id="outboundIpv4"></td>
+                    </tr>
+                    <tr class="macTr" style="background-color: darkgray">
+                        <td>IPv6</td>
+                        <td id="outboundIpv6"></td>
+                    </tr>
+                    <tr class="macTr">
+                        <td>MAC</td>
+                        <td id="outboundMac"></td>
+                    </tr>
+                </table>
             </fieldset>
         </form>
 
     </div>
-    <div class="col-sm mac-content" id="mac-content">
-        <div class="general-info" id="macs">MAC table</div>
-        <div class="row mac-row" id="mac-row">
-            <div class="card mac-info" id="vlanName">VLAN</div>
-            <div class="card mac-info" id="macMac">MAC</div>
-        </div>
-        <form>
-            <fieldset class="scheduler-border" id="macInfo">
-                <legend class="scheduler-border invisibleDiv">S</legend>
-            </fieldset>
-        </form>
+    <div class="col-sm main-content" id="mac-content">
+        <div class="general-info mac-content" id="macs">MAC table</div>
+            <table class="mac-table" id="mac-row"></table>
     </div>
 </div>
 <div class="row">

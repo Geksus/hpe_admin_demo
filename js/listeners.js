@@ -54,7 +54,7 @@ unicastUnit.addEventListener("change", function () {
     broadcastUnit.value = selectedValue;
 });
 
-let addTaggedVlanButton = document.getElementById('addTaggedVlanButton')
-addTaggedVlanButton.addEventListener("click", function () {
-    addTaggedVlanHandler()
-})
+// let addTaggedVlanButton = document.getElementById('addTaggedVlanButton')
+// addTaggedVlanButton.addEventListener("click", function (event) {
+//     addTaggedVlanHandler(event)
+// })

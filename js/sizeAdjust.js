@@ -6,9 +6,13 @@ function adjustWidth() {
         'statisticsLeft',
         'suppressionLeft',
         'suppressionRight',
-        'arpRight'
+        'arpRight',
+        'generalRight',
+        'generalLeft',
+        'vlanRight',
+        'vlanLeft',
+        'vlanItem'
     ]
-    const PADDING_WIDTH = 10; // constant to avoid magic number
 
     for (let className of classes) {
         let maxWidth = 0
@@ -21,7 +25,7 @@ function adjustWidth() {
         }
 
         // write phase
-        let newWidth = maxWidth + PADDING_WIDTH + 'px';
+        let newWidth = maxWidth + 'px';
         for (let element of elements) {
             element.style.width = newWidth;
         }

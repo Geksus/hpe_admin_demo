@@ -21,11 +21,13 @@
 }
 
 .general-info {
-    background-color: crimson;
+    background-color: darkcyan;
     margin-top: 5px;
     text-align: center;
     font-size: larger;
+    font-weight: bolder;
     border-radius: 5px;
+    color: floralwhite;
 }
 
 .mac-info {
@@ -51,15 +53,6 @@
     border-style: solid;
 }
 
-.mac-content {
-    margin: 5px;
-    background-color: lightgray;
-    border-radius: 5px;
-    border-color: black;
-    border-width: 1px;
-    border-style: solid;
-}
-
 .taggedVlanItem {
     width: 12%;
     padding-right: 5px;
@@ -70,7 +63,7 @@
 .save-button {
     left: 0;
     width: 100%;
-    background-color: #B00015;
+    background-color: goldenrod;
     font-size: larger;
     border-radius: 5px;
 }
@@ -101,14 +94,6 @@
     width: max-content;
 }
 
-.deletable:hover {
-    cursor: pointer;
-    width: max-content;
-    background-color: #B00015;
-    font-weight: bold;
-    color: #fff000;
-}
-
 .cover {
     position: fixed; /* or 'absolute' depending on your requirement */
     top: 0;
@@ -124,18 +109,20 @@ fieldset.scheduler-border {
     border: thick double #32a1ce;
     padding: 0.7em 1.4em 0.5em 1.4em !important;
     margin: 10px;
-    -webkit-box-shadow:  0px 0px 0px 0px #000;
-    box-shadow:  0px 0px 0px 0px #000;
+    -webkit-box-shadow:  0 0 0 0 #000;
+    box-shadow:  3px 3px 5px 0 lightcyan;
     width: inherit;
     border-radius: 5px;
 }
 
 legend.scheduler-border {
-    font-size: 1.2em !important;
+    font-size: 1em !important;
     font-weight: bold !important;
     text-align: left !important;
     width:inherit; /* Or auto */
     padding:0 10px; /* To give a bit of padding on the left and right */
+    display: flex;
+    justify-content: space-evenly;
 }
 
 label.scheduler-border {
@@ -155,6 +142,12 @@ label.scheduler-border {
     margin-bottom: 5px;
 }
 
+.vlanRow {
+    display: flex;
+    justify-content: right;
+    margin-bottom: 5px;
+}
+
 .statRight {
     border: 1px solid black;
     padding-left: 5px;
@@ -167,8 +160,68 @@ label.scheduler-border {
     width: max-content;
 }
 
+.vlanLeft {
+    width: 50%;
+}
+
+.vlanRight {
+    width: 45%;
+    display: inline-block;
+}
+
+.vlanItem {
+    width: max-content;
+    margin: 5px;
+}
+
 .arpLeft {
     width: 20%;
+}
+
+.arpAddButton {
+    text-align: right;
+    font-weight: bolder;
+    width: max-content;
+}
+
+.arpAddButton:hover {
+    background-color: forestgreen;
+    color: floralwhite;
+}
+
+.acl-table {
+    text-align: center;
+    width: 100%;
+    border: #32a1ce 2px solid;
+    margin-bottom: 0.9em;
+}
+
+.mac-content {
+}
+
+.mac-table {
+    text-align: center;
+    width: 100%;
+    margin-top: 20px;
+    border: #32a1ce 2px solid;
+}
+
+.macTr:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+td {
+    border-left: #32a1ce 2px solid;
+    border-right: #32a1ce 2px solid;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+th {
+    border: #32a1ce 2px solid;
+    padding-left: 5px;
+    padding-right: 5px;
+    background-color: floralwhite;
 }
 
 .ring
