@@ -1,0 +1,78 @@
+/*Header*/
+.main-header {
+    margin-bottom: 2em;
+}
+
+/*Content*/
+.header {
+    font-weight: bolder;
+    font-size: larger;
+    background-color: #32a1ce;
+    color: floralwhite;
+    margin-bottom: 0.5em;
+}
+
+.input-group {
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+}
+
+.content-row {
+    padding-bottom: 1em;
+    border: #32a1ce thin solid;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    margin-bottom: 1em;
+    /*margin-right: 0.5em;*/
+    /*margin-left: 0.5em;*/
+}
+
+.far-right {
+    margin-right: 1em;
+}
+
+/*Tables*/
+.table-scroll tbody {
+    position: absolute;
+    overflow-y: scroll;
+    border-left: #32a1ce thin solid;
+    padding-left: 1em;
+    width: fit-content;
+}
+
+.table-scroll tr {
+    width: 100%;
+    table-layout: fixed;
+    display: inline-table;
+}
+
+.table-scroll thead > tr {
+    border-left: #32a1ce thin solid;
+}
+
+.table-scroll thead > tr > th{
+    padding-left: 1em;
+    width: max-content;
+}
+
+td {
+    width: min-content;
+}
+
+/*ARP config*/
+.ip-address {
+    width: auto;
+}
+
+.arpRow {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+/*Rest*/
+body {
+    width: 30%;
+    padding-left: 1em;
+    display: inline;
+    justify-content: center;
+}

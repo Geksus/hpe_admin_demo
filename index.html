@@ -1,328 +1,330 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Data Display</title>
-    <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
-    <link rel="stylesheet" href="static/styles.css">
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <title>Data Display</title>-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
+<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">    <link rel="stylesheet" href="static/styles_2.css">-->
+<!--&lt;!&ndash;    <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>&ndash;&gt;-->
+<!--&lt;!&ndash;    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">&ndash;&gt;-->
+<!--    <link rel="stylesheet" href="static/styles.css">-->
+<!--</head>-->
+<!--<body class="layout-top-nav">-->
 
-</head>
-<body class="layout-top-nav">
+<!--&lt;!&ndash; Navbar &ndash;&gt;-->
+<!--<nav class="main-header navbar navbar-expand navbar-light navbar-white">-->
+<!--    <div class="container">-->
+<!--        <img src="static/logo.svg" alt="Mirohost Logo"-->
+<!--             style="opacity: .8">-->
+<!--        &lt;!&ndash; Left navbar links &ndash;&gt;-->
+<!--        <ul class="navbar-nav">-->
+<!--            <li class="nav-item">-->
+<!--            </li>-->
+<!--            <li class="nav-item d-none d-sm-inline-block">-->
+<!--                <div class="nav-link">IP:</div>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--                <input id="connectIp" class="form-control form-control-navbar" type="text" placeholder="IP"-->
+<!--                       aria-label="IP">-->
+<!--            </li>-->
+<!--            <li class="nav-item d-none d-sm-inline-block">-->
+<!--                <div class="nav-link">Username</div>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--                <input id="connectUsername" class="form-control form-control-navbar" type="text" placeholder="Username"-->
+<!--                       aria-label="Username">-->
+<!--            </li>-->
+<!--            <li class="nav-item d-none d-sm-inline-block">-->
+<!--                <div class="nav-link">Password</div>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--                <input id="connectPassword" class="form-control form-control-navbar" type="password"-->
+<!--                       placeholder="Password"-->
+<!--                       aria-label="Password">-->
+<!--            </li>-->
+<!--            <li class="nav-item d-none d-sm-inline-block">-->
+<!--                <div class="nav-link">Port</div>-->
+<!--            </li>-->
+<!--            <li>-->
+<!--                <input type="text" id="connectPort" class="form-control form-control-navbar" placeholder="Port"-->
+<!--                       aria-label="Port">-->
+<!--            </li>-->
+<!--            <li>-->
+<!--                <button id="connectButton" class="btn btn-outline-primary" style="margin-left: 20px">Connect</button>-->
+<!--            </li>-->
+<!--        </ul>-->
+<!--    </div>-->
+<!--</nav>-->
+<!--&lt;!&ndash; /.navbar &ndash;&gt;-->
 
-<!-- Navbar -->
-<nav class="main-header navbar navbar-expand navbar-light navbar-white">
-    <div class="container">
-        <img src="static/logo.svg" alt="Mirohost Logo"
-             style="opacity: .8">
-        <!-- Left navbar links -->
-        <ul class="navbar-nav">
-            <li class="nav-item">
-            </li>
-            <li class="nav-item d-none d-sm-inline-block">
-                <div class="nav-link">IP:</div>
-            </li>
-            <li>
-                <input id="connectIp" class="form-control form-control-navbar" type="text" placeholder="IP"
-                       aria-label="IP">
-            </li>
-            <li class="nav-item d-none d-sm-inline-block">
-                <div class="nav-link">Username</div>
-            </li>
-            <li>
-                <input id="connectUsername" class="form-control form-control-navbar" type="text" placeholder="Username"
-                       aria-label="Username">
-            </li>
-            <li class="nav-item d-none d-sm-inline-block">
-                <div class="nav-link">Password</div>
-            </li>
-            <li>
-                <input id="connectPassword" class="form-control form-control-navbar" type="password"
-                       placeholder="Password"
-                       aria-label="Password">
-            </li>
-            <li class="nav-item d-none d-sm-inline-block">
-                <div class="nav-link">Port</div>
-            </li>
-            <li>
-                <input type="text" id="connectPort" class="form-control form-control-navbar" placeholder="Port"
-                       aria-label="Port">
-            </li>
-            <li>
-                <button id="connectButton" class="btn btn-outline-primary" style="margin-left: 20px">Connect</button>
-            </li>
-        </ul>
-    </div>
-</nav>
-<!-- /.navbar -->
+<!--&lt;!&ndash; Main content &ndash;&gt;-->
 
-<!-- Main content -->
+<!--<div class="row">-->
+<!--    <div class="col-sm main-content">-->
+<!--        <div class="general-info">General info</div>-->
+<!--        <form>-->
+<!--            <fieldset class="scheduler-border">-->
+<!--                <legend class="scheduler-border invisibleDiv">S</legend>-->
+<!--                <div class="row statRow" style="display: flex">-->
+<!--                    <label class="scheduler-border generalLeft" for="ifName">Interface name: </label>-->
+<!--                    <div class="statRight generalRight" id="ifName"></div>-->
+<!--                </div>-->
+<!--                <div class="row statRow">-->
+<!--                    <label class="scheduler-border generalLeft" for="ifAbbreviatedName">Short name: </label>-->
+<!--                    <div class="statRight generalRight" id="ifAbbreviatedName"></div>-->
+<!--                </div>-->
+<!--                <div class="row statRow" style="display: flex">-->
+<!--                    <label class="scheduler-border generalLeft" for="description">Description: </label>-->
+<!--                    <div class="statRight generalRight" id="description"></div>-->
+<!--                </div>-->
+<!--                <div class="row statRow" style="display: flex">-->
+<!--                    <label class="scheduler-border generalLeft" for="adminStatus">Status: </label>-->
+<!--                    <select class="statRight generalRight" id="adminStatus">-->
+<!--                        <option id="currentAdmStatus"></option>-->
+<!--                    </select>-->
+<!--                </div>-->
+<!--                <div class="row statRow" style="display: flex">-->
+<!--                    <label class="scheduler-border generalLeft" for="operStatus">Oper Status: </label>-->
+<!--                    <div class="statRight generalRight" id="operStatus"></div>-->
+<!--                </div>-->
+<!--                <div class="row statRow" style="display: flex">-->
+<!--                    <label class="scheduler-border generalLeft" for="actualDuplex">Duplex: </label>-->
+<!--                    <div class="statRight generalRight" id="actualDuplex"></div>-->
+<!--                </div>-->
+<!--                <div class="row statRow" style="display: flex">-->
+<!--                    <label class="scheduler-border generalLeft" for="bpduDropAny">BPDU drop any: </label>-->
+<!--                    <div class="statRight generalRight" id="bpduDropAny"></div>-->
+<!--                </div>-->
+<!--            </fieldset>-->
+<!--        </form>-->
+<!--    </div>-->
+<!--    <div class="col-sm main-content">-->
+<!--        <div class="general-info">Speed info</div>-->
+<!--        <form>-->
+<!--            <fieldset class="scheduler-border">-->
+<!--                <legend class="scheduler-border invisibleDiv">S</legend>-->
+<!--                <div class="row statRow" style="display: flex">-->
+<!--                    <label class="scheduler-border speedLeft" for="actualSpeed">Actual speed: </label>-->
+<!--                    <div class="statRight speedRight" id="actualSpeed"></div>-->
+<!--                </div>-->
+<!--                <div class="row statRow" style="display: flex">-->
+<!--                    <label class="scheduler-border speedLeft" for="configSpeed">Config speed: </label>-->
+<!--                    <select class="statRight speedRight" id="configSpeed"></select>-->
+<!--                </div>-->
+<!--            </fieldset>-->
+<!--        </form>-->
+<!--    </div>-->
+<!--    <div class="col-sm main-content">-->
+<!--        <div class="general-info">Statistics</div>-->
+<!--        <form>-->
+<!--            <fieldset class="scheduler-border">-->
+<!--                <legend class="scheduler-border">IN</legend>-->
+<!--                <div class="row statRow" style="display: flex">-->
+<!--                    <label class="scheduler-border statisticsLeft" for="inInterval">Interval: </label>-->
 
-<div class="row">
-    <div class="col-sm main-content">
-        <div class="general-info">General info</div>
-        <form>
-            <fieldset class="scheduler-border">
-                <legend class="scheduler-border invisibleDiv">S</legend>
-                <div class="row statRow" style="display: flex">
-                    <label class="scheduler-border generalLeft" for="ifName">Interface name: </label>
-                    <div class="statRight generalRight" id="ifName"></div>
-                </div>
-                <div class="row statRow">
-                    <label class="scheduler-border generalLeft" for="ifAbbreviatedName">Short name: </label>
-                    <div class="statRight generalRight" id="ifAbbreviatedName"></div>
-                </div>
-                <div class="row statRow" style="display: flex">
-                    <label class="scheduler-border generalLeft" for="description">Description: </label>
-                    <div class="statRight generalRight" id="description"></div>
-                </div>
-                <div class="row statRow" style="display: flex">
-                    <label class="scheduler-border generalLeft" for="adminStatus">Status: </label>
-                    <select class="statRight generalRight" id="adminStatus">
-                        <option id="currentAdmStatus"></option>
-                    </select>
-                </div>
-                <div class="row statRow" style="display: flex">
-                    <label class="scheduler-border generalLeft" for="operStatus">Oper Status: </label>
-                    <div class="statRight generalRight" id="operStatus"></div>
-                </div>
-                <div class="row statRow" style="display: flex">
-                    <label class="scheduler-border generalLeft" for="actualDuplex">Duplex: </label>
-                    <div class="statRight generalRight" id="actualDuplex"></div>
-                </div>
-                <div class="row statRow" style="display: flex">
-                    <label class="scheduler-border generalLeft" for="bpduDropAny">BPDU drop any: </label>
-                    <div class="statRight generalRight" id="bpduDropAny"></div>
-                </div>
-            </fieldset>
-        </form>
-    </div>
-    <div class="col-sm main-content">
-        <div class="general-info">Speed info</div>
-        <form>
-            <fieldset class="scheduler-border">
-                <legend class="scheduler-border invisibleDiv">S</legend>
-                <div class="row statRow" style="display: flex">
-                    <label class="scheduler-border speedLeft" for="actualSpeed">Actual speed: </label>
-                    <div class="statRight speedRight" id="actualSpeed"></div>
-                </div>
-                <div class="row statRow" style="display: flex">
-                    <label class="scheduler-border speedLeft" for="configSpeed">Config speed: </label>
-                    <select class="statRight speedRight" id="configSpeed"></select>
-                </div>
-            </fieldset>
-        </form>
-    </div>
-    <div class="col-sm main-content">
-        <div class="general-info">Statistics</div>
-        <form>
-            <fieldset class="scheduler-border">
-                <legend class="scheduler-border">IN</legend>
-                <div class="row statRow" style="display: flex">
-                    <label class="scheduler-border statisticsLeft" for="inInterval">Interval: </label>
+<!--                    <div class="statRight statisticsRight" id="inInterval"></div>-->
+<!--                </div>-->
+<!--                <div class="row statRow">-->
+<!--                    <label class="scheduler-border statisticsLeft" for="inPackets">Packets: </label>-->
 
-                    <div class="statRight statisticsRight" id="inInterval"></div>
-                </div>
-                <div class="row statRow">
-                    <label class="scheduler-border statisticsLeft" for="inPackets">Packets: </label>
+<!--                    <div class="statRight statisticsRight" id="inPackets"></div>-->
+<!--                </div>-->
+<!--                <div class="row statRow" style="display: flex">-->
+<!--                    <label class="scheduler-border statisticsLeft" for="inBits">Bits: </label>-->
 
-                    <div class="statRight statisticsRight" id="inPackets"></div>
-                </div>
-                <div class="row statRow" style="display: flex">
-                    <label class="scheduler-border statisticsLeft" for="inBits">Bits: </label>
+<!--                    <div class="statRight statisticsRight" id="inBits"></div>-->
+<!--                </div>-->
+<!--                <div class="row statRow" style="display: flex">-->
+<!--                    <label class="scheduler-border statisticsLeft" for="inUsage">Usage: </label>-->
 
-                    <div class="statRight statisticsRight" id="inBits"></div>
-                </div>
-                <div class="row statRow" style="display: flex">
-                    <label class="scheduler-border statisticsLeft" for="inUsage">Usage: </label>
+<!--                    <div class="statRight statisticsRight" id="inUsage"></div>-->
+<!--                </div>-->
+<!--            </fieldset>-->
+<!--        </form>-->
 
-                    <div class="statRight statisticsRight" id="inUsage"></div>
-                </div>
-            </fieldset>
-        </form>
+<!--        <form>-->
+<!--            <fieldset class="scheduler-border">-->
+<!--                <legend class="scheduler-border">OUT</legend>-->
+<!--                <div class="row statRow">-->
+<!--                    <label class="scheduler-border statisticsLeft" for="inInterval">Interval: </label>-->
 
-        <form>
-            <fieldset class="scheduler-border">
-                <legend class="scheduler-border">OUT</legend>
-                <div class="row statRow">
-                    <label class="scheduler-border statisticsLeft" for="inInterval">Interval: </label>
+<!--                    <div class="statRight statisticsRight" id="outInterval"></div>-->
+<!--                </div>-->
+<!--                <div class="row statRow">-->
+<!--                    <label class="scheduler-border statisticsLeft" for="outPackets">Packets: </label>-->
 
-                    <div class="statRight statisticsRight" id="outInterval"></div>
-                </div>
-                <div class="row statRow">
-                    <label class="scheduler-border statisticsLeft" for="outPackets">Packets: </label>
+<!--                    <div class="statRight statisticsRight" id="outPackets"></div>-->
+<!--                </div>-->
+<!--                <div class="row statRow">-->
+<!--                    <label class="scheduler-border statisticsLeft" for="outBits">Bits: </label>-->
 
-                    <div class="statRight statisticsRight" id="outPackets"></div>
-                </div>
-                <div class="row statRow">
-                    <label class="scheduler-border statisticsLeft" for="outBits">Bits: </label>
+<!--                    <div class="statRight statisticsRight" id="outBits"></div>-->
+<!--                </div>-->
+<!--                <div class="row statRow">-->
+<!--                    <label class="scheduler-border statisticsLeft" for="outUsage">Usage: </label>-->
 
-                    <div class="statRight statisticsRight" id="outBits"></div>
-                </div>
-                <div class="row statRow">
-                    <label class="scheduler-border statisticsLeft" for="outUsage">Usage: </label>
+<!--                    <div class="statRight statisticsRight" id="outUsage"></div>-->
+<!--                </div>-->
+<!--            </fieldset>-->
+<!--        </form>-->
+<!--    </div>-->
+<!--    <div class="col-sm main-content">-->
+<!--        <div class="general-info">VLAN</div>-->
+<!--        <form>-->
+<!--            <fieldset class="scheduler-border">-->
+<!--                <legend class="scheduler-border invisibleDiv">S</legend>-->
+<!--                <div class="row statRow">-->
+<!--                    <label class="scheduler-border vlanLeft" for="linkType">Link type: </label>-->
+<!--                    <select class="statRight vlanRight" id="linkType"></select>-->
+<!--                </div>-->
+<!--                <div class="row statRow">-->
+<!--                    <label class="scheduler-border vlanLeft" for="pvid">PVID: </label>-->
+<!--                    <input class="statRight vlanRight" id="pvid">-->
+<!--                </div>-->
+<!--                <div class="row statRow" id="untaggedVlans">-->
+<!--                    <label class="scheduler-border vlanLeft" for="untaggedVlanList">Untagged VLANs: </label>-->
+<!--                    <input class="statRight vlanRight" id="untaggedVlanList">-->
+<!--                </div>-->
+<!--                <div class="row statRow" id="taggedLabelButton">-->
+<!--                    <label class="scheduler-border vlanLeft">Tagged VLANs: </label>-->
+<!--                </div>-->
+<!--                <div class="row vlanRow" id="taggedVlans">-->
+<!--                    <label class="scheduler-border vlanLeft" for="taggedVlanItems"></label>-->
+<!--                    <div class="vlanRight" id="taggedVlanItems"></div>-->
+<!--                </div>-->
+<!--                <div class="row statRow">-->
+<!--                    <label class="scheduler-border vlanLeft" for="permitVlanList">Permitted VLANs: </label>-->
+<!--                    <div class="statRight vlanRight" id="permitVlanList"></div>-->
+<!--                </div>-->
+<!--            </fieldset>-->
+<!--        </form>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<div class="cover" id="loader-holder">-->
+<!--    <div class="ring">Loading-->
+<!--        <span></span>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<div class="row">-->
+<!--    <div class="col-sm main-content">-->
+<!--        <div class="general-info">Suppression</div>-->
+<!--        <form>-->
+<!--            <fieldset class="scheduler-border">-->
+<!--                <legend class="scheduler-border">BROADCAST</legend>-->
+<!--                <div class="row statRow">-->
+<!--                    <label class="scheduler-border suppressionLeft" for="broadcastUnit">Unit: </label>-->
 
-                    <div class="statRight statisticsRight" id="outUsage"></div>
-                </div>
-            </fieldset>
-        </form>
-    </div>
-    <div class="col-sm main-content">
-        <div class="general-info">VLAN</div>
-        <form>
-            <fieldset class="scheduler-border">
-                <legend class="scheduler-border invisibleDiv">S</legend>
-                <div class="row statRow">
-                    <label class="scheduler-border vlanLeft" for="linkType">Link type: </label>
-                    <select class="statRight vlanRight" id="linkType"></select>
-                </div>
-                <div class="row statRow">
-                    <label class="scheduler-border vlanLeft" for="pvid">PVID: </label>
-                    <input class="statRight vlanRight" id="pvid">
-                </div>
-                <div class="row statRow" id="untaggedVlans">
-                    <label class="scheduler-border vlanLeft" for="untaggedVlanList">Untagged VLANs: </label>
-                    <input class="statRight vlanRight" id="untaggedVlanList">
-                </div>
-                <div class="row statRow" id="taggedLabelButton">
-                    <label class="scheduler-border vlanLeft">Tagged VLANs: </label>
-                </div>
-                <div class="row vlanRow" id="taggedVlans">
-                    <label class="scheduler-border vlanLeft" for="taggedVlanItems"></label>
-                    <div class="vlanRight" id="taggedVlanItems"></div>
-                </div>
-                <div class="row statRow">
-                    <label class="scheduler-border vlanLeft" for="permitVlanList">Permitted VLANs: </label>
-                    <div class="statRight vlanRight" id="permitVlanList"></div>
-                </div>
-            </fieldset>
-        </form>
-    </div>
-</div>
-<div class="cover" id="loader-holder">
-    <div class="ring">Loading
-        <span></span>
-    </div>
-</div>
-<div class="row">
-    <div class="col-sm main-content">
-        <div class="general-info">Suppression</div>
-        <form>
-            <fieldset class="scheduler-border">
-                <legend class="scheduler-border">BROADCAST</legend>
-                <div class="row statRow">
-                    <label class="scheduler-border suppressionLeft" for="broadcastUnit">Unit: </label>
+<!--                    <select class="statRight suppressionRight" id="broadcastUnit"></select>-->
+<!--                </div>-->
+<!--                <div class="row statRow">-->
+<!--                    <label class="scheduler-border suppressionLeft" for="broadcastValue">Value: </label>-->
+<!--                    <input class="statRight suppressionRight" id="broadcastValue">-->
+<!--                </div>-->
+<!--            </fieldset>-->
+<!--        </form>-->
 
-                    <select class="statRight suppressionRight" id="broadcastUnit"></select>
-                </div>
-                <div class="row statRow">
-                    <label class="scheduler-border suppressionLeft" for="broadcastValue">Value: </label>
-                    <input class="statRight suppressionRight" id="broadcastValue">
-                </div>
-            </fieldset>
-        </form>
+<!--        <form>-->
+<!--            <fieldset class="scheduler-border">-->
+<!--                <legend class="scheduler-border">MULTICAST</legend>-->
+<!--                <div class="row statRow" style="display: flex">-->
+<!--                    <label class="scheduler-border suppressionLeft" for="broadcastUnit">Unit: </label>-->
+<!--                    <select class="statRight suppressionRight" id="multicastUnit"></select>-->
+<!--                </div>-->
+<!--                <div class="row statRow" style="display: flex">-->
+<!--                    <label class="scheduler-border suppressionLeft" for="broadcastValue">Value: </label>-->
+<!--                    <input class="statRight suppressionRight" id="multicastValue">-->
+<!--                </div>-->
+<!--            </fieldset>-->
+<!--        </form>-->
 
-        <form>
-            <fieldset class="scheduler-border">
-                <legend class="scheduler-border">MULTICAST</legend>
-                <div class="row statRow" style="display: flex">
-                    <label class="scheduler-border suppressionLeft" for="broadcastUnit">Unit: </label>
-                    <select class="statRight suppressionRight" id="multicastUnit"></select>
-                </div>
-                <div class="row statRow" style="display: flex">
-                    <label class="scheduler-border suppressionLeft" for="broadcastValue">Value: </label>
-                    <input class="statRight suppressionRight" id="multicastValue">
-                </div>
-            </fieldset>
-        </form>
+<!--        <form>-->
+<!--            <fieldset class="scheduler-border">-->
+<!--                <legend class="scheduler-border">UNICAST</legend>-->
+<!--                <div class="row statRow" style="display: flex">-->
+<!--                    <label class="scheduler-border suppressionLeft" for="broadcastUnit">Unit: </label>-->
 
-        <form>
-            <fieldset class="scheduler-border">
-                <legend class="scheduler-border">UNICAST</legend>
-                <div class="row statRow" style="display: flex">
-                    <label class="scheduler-border suppressionLeft" for="broadcastUnit">Unit: </label>
+<!--                    <select class="statRight suppressionRight" id="unicastUnit"></select>-->
+<!--                </div>-->
+<!--                <div class="row statRow" style="display: flex">-->
+<!--                    <label class="scheduler-border suppressionLeft" for="broadcastValue">Value: </label>-->
 
-                    <select class="statRight suppressionRight" id="unicastUnit"></select>
-                </div>
-                <div class="row statRow" style="display: flex">
-                    <label class="scheduler-border suppressionLeft" for="broadcastValue">Value: </label>
+<!--                    <input class="statRight suppressionRight" id="unicastValue">-->
+<!--                </div>-->
+<!--            </fieldset>-->
+<!--        </form>-->
+<!--    </div>-->
+<!--    <div class="col-sm main-content">-->
+<!--        <div class="general-info">ARP filter sources</div>-->
+<!--        <form>-->
+<!--            <fieldset class="scheduler-border" id="arpSources">-->
+<!--            </fieldset>-->
+<!--        </form>-->
+<!--    </div>-->
+<!--    <div class="col-sm main-content">-->
+<!--        <div class="general-info">ACL</div>-->
+<!--        <form>-->
+<!--            <fieldset class="scheduler-border">-->
+<!--                <legend class="scheduler-border">INBOUND</legend>-->
+<!--                <table class="acl-table" id="inboundAclTable">-->
+<!--                    <tr class="macTr">-->
+<!--                        <td>IPv4</td>-->
+<!--                        <td id="inboundIpv4"></td>-->
+<!--                    </tr>-->
+<!--                    <tr class="macTr" style="background-color: darkgray">-->
+<!--                        <td>IPv6</td>-->
+<!--                        <td id="inboundIpv6"></td>-->
+<!--                    </tr>-->
+<!--                    <tr class="macTr">-->
+<!--                        <td>MAC</td>-->
+<!--                        <td id="inboundMac"></td>-->
+<!--                    </tr>-->
+<!--                </table>-->
+<!--            </fieldset>-->
+<!--        </form>-->
 
-                    <input class="statRight suppressionRight" id="unicastValue">
-                </div>
-            </fieldset>
-        </form>
-    </div>
-    <div class="col-sm main-content">
-        <div class="general-info">ARP filter sources</div>
-        <form>
-            <fieldset class="scheduler-border" id="arpSources">
-            </fieldset>
-        </form>
-    </div>
-    <div class="col-sm main-content">
-        <div class="general-info">ACL</div>
-        <form>
-            <fieldset class="scheduler-border">
-                <legend class="scheduler-border">INBOUND</legend>
-                <table class="acl-table" id="inboundAclTable">
-                    <tr class="macTr">
-                        <td>IPv4</td>
-                        <td id="inboundIpv4"></td>
-                    </tr>
-                    <tr class="macTr" style="background-color: darkgray">
-                        <td>IPv6</td>
-                        <td id="inboundIpv6"></td>
-                    </tr>
-                    <tr class="macTr">
-                        <td>MAC</td>
-                        <td id="inboundMac"></td>
-                    </tr>
-                </table>
-            </fieldset>
-        </form>
+<!--        <form>-->
+<!--            <fieldset class="scheduler-border">-->
+<!--                <legend class="scheduler-border">OUTBOUND</legend>-->
+<!--                <table class="acl-table">-->
+<!--                    <tr class="macTr">-->
+<!--                        <td>IPv4</td>-->
+<!--                        <td id="outboundIpv4"></td>-->
+<!--                    </tr>-->
+<!--                    <tr class="macTr" style="background-color: darkgray">-->
+<!--                        <td>IPv6</td>-->
+<!--                        <td id="outboundIpv6"></td>-->
+<!--                    </tr>-->
+<!--                    <tr class="macTr">-->
+<!--                        <td>MAC</td>-->
+<!--                        <td id="outboundMac"></td>-->
+<!--                    </tr>-->
+<!--                </table>-->
+<!--            </fieldset>-->
+<!--        </form>-->
 
-        <form>
-            <fieldset class="scheduler-border">
-                <legend class="scheduler-border">OUTBOUND</legend>
-                <table class="acl-table">
-                    <tr class="macTr">
-                        <td>IPv4</td>
-                        <td id="outboundIpv4"></td>
-                    </tr>
-                    <tr class="macTr" style="background-color: darkgray">
-                        <td>IPv6</td>
-                        <td id="outboundIpv6"></td>
-                    </tr>
-                    <tr class="macTr">
-                        <td>MAC</td>
-                        <td id="outboundMac"></td>
-                    </tr>
-                </table>
-            </fieldset>
-        </form>
+<!--    </div>-->
+<!--    <div class="col-sm main-content" id="mac-content">-->
+<!--        <div class="general-info mac-content" id="macs">MAC table</div>-->
+<!--            <table class="table-danger" id="mac-row"></table>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<div class="row">-->
+<!--    <button class="btn btn-warning save-button" id="saveButton">Save</button>-->
+<!--</div>-->
+<!--<div class="errorMessage" id="errorMessage"></div>-->
+<!--<br>-->
+<!--<br>-->
+<!--<br>-->
+<!--<div class="row">-->
+<!--    <button class="prankButton" id="prankButton">Don't click!</button>-->
+<!--</div>-->
 
-    </div>
-    <div class="col-sm main-content" id="mac-content">
-        <div class="general-info mac-content" id="macs">MAC table</div>
-            <table class="mac-table" id="mac-row"></table>
-    </div>
-</div>
-<div class="row">
-    <button class="btn btn-warning save-button" id="saveButton">Save</button>
-</div>
-<div class="errorMessage" id="errorMessage"></div>
-<br>
-<br>
-<br>
-<div class="row">
-    <button class="prankButton" id="prankButton">Don't click!</button>
-</div>
+<!--&lt;!&ndash; /.Main content &ndash;&gt;-->
 
-<!-- /.Main content -->
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>-->
+<!--<script src="js/getPortInfoFull.js"></script>-->
+<!--<script src="js/prank.js"></script>-->
+<!--<script src="js/listeners.js"></script>-->
+<!--<script src="js/sizeAdjust.js"></script>-->
 
-<script src="js/getPortInfoFull.js"></script>
-<script src="js/prank.js"></script>
-<script src="js/listeners.js"></script>
-<script src="js/sizeAdjust.js"></script>
-
-</body>
-</html>
+<!--</body>-->
+<!--</html>-->

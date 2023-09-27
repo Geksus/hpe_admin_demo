@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Port Config</title>
+    <link rel="stylesheet" href="static/styles_2.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body>
+<!-- Navbar -->
+<nav class="main-header navbar navbar-expand navbar-light navbar-white">
+    <div class="container">
+        <img src="static/logo.svg" alt="Mirohost Logo"
+             style="opacity: .8">
+        <!-- Left navbar links -->
+        <ul class="navbar-nav">
+            <li class="nav-item">
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <div class="nav-link">IP:</div>
+            </li>
+            <li>
+                <input id="connectIp"
+                       class="form-control ip-address ip-address form-control ip-address ip-address-navbar" type="text"
+                       placeholder="IP"
+                       aria-label="IP">
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <div class="nav-link">Username</div>
+            </li>
+            <li>
+                <input id="connectUsername"
+                       class="form-control ip-address ip-address form-control ip-address ip-address-navbar" type="text"
+                       placeholder="Username"
+                       aria-label="Username">
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <div class="nav-link">Password</div>
+            </li>
+            <li>
+                <input id="connectPassword"
+                       class="form-control ip-address ip-address form-control ip-address ip-address-navbar"
+                       type="password"
+                       placeholder="Password"
+                       aria-label="Password">
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <div class="nav-link">Port</div>
+            </li>
+            <li>
+                <input type="text" id="connectPort"
+                       class="form-control ip-address ip-address form-control ip-address ip-address-navbar"
+                       placeholder="Port"
+                       aria-label="Port">
+            </li>
+            <li>
+                <button id="connectButton" class="btn btn-outline-primary" style="margin-left: 20px">Connect</button>
+            </li>
+        </ul>
+    </div>
+</nav>
+<!-- /.navbar -->
+
+<div class="container container-fluid">
+    <div class="row">
+        <div class="col-sm">
+            <div class="row content-row">
+                <div class="header">General info</div>
+                <div class="container-fluid">
+                    <div class="mb-3">
+                        <div class="input-group">
+                            <span class="input-group-text">Interface name/Short name</span>
+                            <div type="text" class="form-control" id="ifName"
+                                 aria-describedby="basic-addon3 basic-addon4"></div>
+                            <div type="text" class="form-control" id="ifAbbreviatedName"
+                                 aria-describedby="basic-addon3 basic-addon4"></div>
+                            <span class="input-group-text">Duplex</span>
+                            <div type="text" class="form-control far-right" id="actualDuplex"
+                                 aria-describedby="basic-addon3 basic-addon4"></div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="input-group">
+                            <span class="input-group-text">Description</span>
+                            <div type="text" class="form-control far-right" id="description"
+                                 aria-describedby="basic-addon3 basic-addon4"></div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="input-group">
+                            <span class="input-group-text">BPDU drop any</span>
+                            <select type="text" class="form-select" id="bpduDropAny"
+                                    aria-describedby="basic-addon3 basic-addon4"></select>
+                            <span class="input-group-text">Status</span>
+                            <select type="text" class="form-select far-right" id="adminStatus"
+                                    aria-describedby="basic-addon3 basic-addon4"></select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="display: flex; justify-content: space-between">
+                <div class="col-sm far-right">
+                    <div class="row content-row">
+                        <div class="header">Interface speed</div>
+                        <div class="input-group">
+                            <span class="input-group-text">Current speed</span>
+                            <div type="text" class="form-control" id="actualSpeed"
+                                 aria-describedby="basic-addon3 basic-addon4"></div>
+                            <span class="input-group-text">Config speed</span>
+                            <select type="text" class="form-select far-right" id="configSpeed"
+                                    aria-describedby="basic-addon3 basic-addon4"></select>
+                        </div>
+                    </div>
+                    <div class="row content-row">
+                        <div class="header">VLAN config</div>
+
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="row content-row">
+                        <div class="header">ARP filter sources</div>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">IP</span>
+                            </div>
+                            <input type="text" class="form-control ip-address"
+                                   data-inputmask="'alias': 'ip'"/>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">IP</span>
+                            </div>
+                            <input type="text" class="form-control ip-address"
+                                   data-inputmask="'alias': 'ip'"/>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">IP</span>
+                            </div>
+                            <input type="text" class="form-control ip-address"
+                                   data-inputmask="'alias': 'ip'"/>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">IP</span>
+                            </div>
+                            <input type="text" class="form-control ip-address"
+                                   data-inputmask="'alias': 'ip'"/>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">IP</span>
+                            </div>
+                            <input type="text" class="form-control ip-address"
+                                   data-inputmask="'alias': 'ip'"/>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">IP</span>
+                            </div>
+                            <input type="text" class="form-control ip-address"
+                                   data-inputmask="'alias': 'ip'"/>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">IP</span>
+                            </div>
+                            <input type="text" class="form-control ip-address"
+                                   data-inputmask="'alias': 'ip'"/>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">IP</span>
+                            </div>
+                            <input type="text" class="form-control ip-address"
+                                   data-inputmask="'alias': 'ip'"/>
+                        </div>
+                    </div>
+                    <div class="row content-row">
+                        <div class="header">MAC table</div>
+                        <div class="overflow-y-scroll" style="height: 30em">
+                            <table class='table table-striped'>
+                                <thead>
+                                <tr>
+                                    <th scope="col">VLAN</th>
+                                    <th scope="col">MAC</th>
+                                </tr>
+                                </thead>
+                                <tbody id="mac-row">
+                                <tr>
+                                    <td>99</td>
+                                    <td>223aasddczxda</td>
+                                </tr>
+                                <tr>
+                                    <td>23</td>
+                                    <td>454hfghfgh567</td>
+                                </tr>
+                                <tr>
+                                    <td>23</td>
+                                    <td>454hfghfgh567</td>
+                                </tr>
+                                <tr>
+                                    <td>23</td>
+                                    <td>454hfghfgh567</td>
+                                </tr>
+                                <tr>
+                                    <td>23</td>
+                                    <td>454hfghfgh567</td>
+                                </tr>
+                                <tr>
+                                    <td>23</td>
+                                    <td>454hfghfgh567</td>
+                                </tr>
+                                <tr>
+                                    <td>23</td>
+                                    <td>454hfghfgh567</td>
+                                </tr>
+                                <tr>
+                                    <td>23</td>
+                                    <td>454hfghfgh567</td>
+                                </tr>
+                                <tr>
+                                    <td>23</td>
+                                    <td>454hfghfgh567</td>
+                                </tr>
+                                <tr>
+                                    <td>23</td>
+                                    <td>454hfghfgh567</td>
+                                </tr>
+                                <tr>
+                                    <td>23</td>
+                                    <td>454hfghfgh567</td>
+                                </tr>
+                                <tr>
+                                    <td>23</td>
+                                    <td>454hfghfgh567</td>
+                                </tr>
+                                <tr>
+                                    <td>23</td>
+                                    <td>454hfghfgh567</td>
+                                </tr>
+                                <tr>
+                                    <td>23</td>
+                                    <td>454hfghfgh567</td>
+                                </tr>
+                                <tr>
+                                    <td>23</td>
+                                    <td>454hfghfgh567</td>
+                                </tr>
+                                <tr>
+                                    <td>23</td>
+                                    <td>454hfghfgh567</td>
+                                </tr>
+                                <tr>
+                                    <td>23</td>
+                                    <td>454hfghfgh567</td>
+                                </tr>
+                                <tr>
+                                    <td>23</td>
+                                    <td>454hfghfgh567</td>
+                                </tr>
+                                <tr>
+                                    <td>23</td>
+                                    <td>454hfghfgh567</td>
+                                </tr>
+                                <tr>
+                                    <td>23</td>
+                                    <td>454hfghfgh567</td>
+                                </tr>
+                                <tr>
+                                    <td>23</td>
+                                    <td>454hfghfgh567</td>
+                                </tr>
+                                <tr>
+                                    <td>23</td>
+                                    <td>7675fghf56dbdg</td>
+                                </tr>
+                                <tr>
+                                    <td>1212</td>
+                                    <td>dfgyh5646fgdgfd</td>
+                                </tr>
+                                <tr>
+                                    <td>42</td>
+                                    <td>sdfsdfsdfaw2342</td>
+                                </tr>
+                                <tr>
+                                    <td>5545</td>
+                                    <td>ggyu5745fdg5t43t</td>
+                                </tr>
+                                <tr>
+                                    <td>5545</td>
+                                    <td>ggyu5745fdg5t43t</td>
+                                </tr>
+                                <tr>
+                                    <td>5545</td>
+                                    <td>ggyu5745fdg5t43t</td>
+                                </tr>
+                                <tr>
+                                    <td>5545</td>
+                                    <td>ggyu5745fdg5t43t</td>
+                                </tr>
+                                <tr>
+                                    <td>5545</td>
+                                    <td>ggyu5745fdg5t43t</td>
+                                </tr>
+                                <tr>
+                                    <td>5545</td>
+                                    <td>ggyu5745fdg5t43t</td>
+                                </tr>
+                                <tr>
+                                    <td>5545</td>
+                                    <td>ggyu5745fdg5t43t</td>
+                                </tr>
+                                <tr>
+                                    <td>5545</td>
+                                    <td>ggyu5745fdg5t43t</td>
+                                </tr>
+                                <tr>
+                                    <td>5545</td>
+                                    <td>ggyu5745fdg5t43t</td>
+                                </tr>
+                                <tr>
+                                    <td>5545</td>
+                                    <td>ggyu5745fdg5t43t</td>
+                                </tr>
+                                <tr>
+                                    <td>5545</td>
+                                    <td>ggyu5745fdg5t43t</td>
+                                </tr>
+                                <tr>
+                                    <td>5545</td>
+                                    <td>ggyu5745fdg5t43t</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+<!--<script src="js/prank.js"></script>-->
+<script src="js/listeners.js"></script>
+<script src="js/sizeAdjust.js"></script>
+<script src="js/getPortInfoFull.js"></script>
+</body>
+</html>

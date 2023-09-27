@@ -210,19 +210,19 @@ label.scheduler-border {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
-td {
-    border-left: #32a1ce 2px solid;
-    border-right: #32a1ce 2px solid;
-    padding-left: 5px;
-    padding-right: 5px;
-}
+/*td {*/
+/*    border-left: #32a1ce 2px solid;*/
+/*    border-right: #32a1ce 2px solid;*/
+/*    padding-left: 5px;*/
+/*    padding-right: 5px;*/
+/*}*/
 
-th {
-    border: #32a1ce 2px solid;
-    padding-left: 5px;
-    padding-right: 5px;
-    background-color: floralwhite;
-}
+/*th {*/
+/*    border: #32a1ce 2px solid;*/
+/*    padding-left: 5px;*/
+/*    padding-right: 5px;*/
+/*    background-color: floralwhite;*/
+/*}*/
 
 .ring
 {

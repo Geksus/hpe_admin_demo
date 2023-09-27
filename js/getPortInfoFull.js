@@ -6,8 +6,8 @@ let connectPassword = document.getElementById('connectPassword');
 let connectPort = document.getElementById('connectPort');
 
 async function getPortInfoFull(ip, username, password, port) {
-    const loader = document.getElementById('loader-holder')
-    loader.style.display = 'flex'
+    // const loader = document.getElementById('loader-holder')
+    // loader.style.display = 'flex'
 
     const response = await fetch('http://5.149.127.105',
         {
@@ -39,7 +39,7 @@ async function getPortInfoFull(ip, username, password, port) {
 
     let data = await response.json();
     if (data) {
-        loader.style.display = 'none'
+        // loader.style.display = 'none'
     }
 
     const parsedData = data.result;
@@ -73,14 +73,28 @@ async function getPortInfoFull(ip, username, password, port) {
         let currentAdmStatus = document.createElement('option')
         currentAdmStatus.value = parsedData.adminStatus;
         currentAdmStatus.textContent = parsedData.adminStatus;
+        currentAdmStatus.style.backgroundColor = 'white'
+        currentAdmStatus.style.color = 'black'
+
+        if (currentAdmStatus.value === 'AdmUp') {
+            adminStatus.style.borderColor = 'green'
+            adminStatus.style.backgroundColor = 'green'
+            adminStatus.style.color = 'white'
+        } else {
+            adminStatus.style.borderColor = 'red'
+            adminStatus.style.backgroundColor = 'red'
+        }
         adminStatus.appendChild(currentAdmStatus)
 
         let statuses = ['AdmUp', 'AdmDown']
 
         for (let stat of statuses) {
-            let option = document.createElement('option',)
+            let option = document.createElement('option')
             option.value = stat
             option.textContent = stat
+            option.style.backgroundColor = 'white'
+            option.style.color = 'black'
+
 
             if (option.value !== currentAdmStatus.value) {
                 adminStatus.appendChild(option)
@@ -94,8 +108,19 @@ async function getPortInfoFull(ip, username, password, port) {
         actualDuplex.textContent = ''
         actualDuplex.textContent = parsedData.actualDuplex
         let bpduDropAny = document.getElementById('bpduDropAny')
-        bpduDropAny.textContent = null
-        bpduDropAny.textContent = parsedData.bpduDropAny
+        let bpduOption = document.createElement('option')
+        let notBpduOption = document.createElement('option')
+        bpduOption.textContent = null
+        bpduOption.textContent = parsedData.bpduDropAny
+
+        if (bpduOption.textContent === 'true') {
+            notBpduOption.textContent = 'false'
+        } else {
+            notBpduOption.textContent = 'true'
+        }
+
+        bpduDropAny.appendChild(bpduOption)
+        bpduDropAny.appendChild(notBpduOption)
 
         // Speed
         let actualSpeed = document.getElementById('actualSpeed')
