@@ -1,3 +1,9 @@
+.main-header {
+    margin-bottom: 1%;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
 .card {
     padding-left: 10px;
     padding-right: 10px;
@@ -15,11 +21,13 @@
 }
 
 .general-info {
-    background-color: wheat;
+    background-color: darkcyan;
     margin-top: 5px;
     text-align: center;
     font-size: larger;
+    font-weight: bolder;
     border-radius: 5px;
+    color: floralwhite;
 }
 
 .mac-info {
@@ -45,15 +53,268 @@
     border-style: solid;
 }
 
-.mac-content {
-    margin: 5px;
-    background-color: lightgray;
+.taggedVlanItem {
+    width: 12%;
+    padding-right: 5px;
+    padding-left: 5px;
+    margin-right: 0;
+}
+
+.save-button {
+    left: 0;
+    width: 100%;
+    background-color: goldenrod;
+    font-size: larger;
     border-radius: 5px;
-    border-color: black;
-    border-width: 1px;
-    border-style: solid;
+}
+
+.invisibleDiv {
+    visibility: hidden;
+}
+
+.arpInput {
+    width: auto;
+}
+
+.prankButton {
+    background-color: transparent;
+    color: transparent;
+    border: none;
+}
+
+.prankButton:hover {
+    background-color: #B00015;
+    color: black;
+}
+
+.addVlan {
+    background-color: forestgreen;
+    color: white;
+    padding-top: 3px;
+    width: max-content;
+}
+
+.cover {
+    position: fixed; /* or 'absolute' depending on your requirement */
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    z-index: 100;
+    background-color: black;
+    display: none;
+}
+
+fieldset.scheduler-border {
+    border: thick double #32a1ce;
+    padding: 0.7em 1.4em 0.5em 1.4em !important;
+    margin: 10px;
+    -webkit-box-shadow:  0 0 0 0 #000;
+    box-shadow:  3px 3px 5px 0 lightcyan;
+    width: inherit;
+    border-radius: 5px;
+}
+
+legend.scheduler-border {
+    font-size: 1em !important;
+    font-weight: bold !important;
+    text-align: left !important;
+    width:inherit; /* Or auto */
+    padding:0 10px; /* To give a bit of padding on the left and right */
+    display: flex;
+    justify-content: space-evenly;
+}
+
+label.scheduler-border {
+    text-align: left !important;
+}
+
+.plug {
+    border-top: 1px solid black;
+    margin-left: 10px;
+    flex-grow: 1;
+    border-top-right-radius: 5px;
+}
+
+.statRow {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+.vlanRow {
+    display: flex;
+    justify-content: right;
+    margin-bottom: 5px;
+}
+
+.statRight {
+    border: 1px solid black;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+    border-radius: 5px;
+}
+
+.statRight.aclInfo {
+    width: max-content;
+}
+
+.vlanLeft {
+    width: 50%;
+}
+
+.vlanRight {
+    width: 45%;
+    display: inline-block;
+}
+
+.vlanItem {
+    width: max-content;
+    margin: 5px;
+}
+
+.arpLeft {
+    width: 20%;
+}
+
+.arpAddButton {
+    text-align: right;
+    font-weight: bolder;
+    width: max-content;
+}
+
+.arpAddButton:hover {
+    background-color: forestgreen;
+    color: floralwhite;
+}
+
+.acl-table {
+    text-align: center;
+    width: 100%;
+    border: #32a1ce 2px solid;
+    margin-bottom: 0.9em;
+}
+
+.mac-content {
+}
+
+.mac-table {
+    text-align: center;
+    width: 100%;
+    margin-top: 20px;
+    border: #32a1ce 2px solid;
+}
+
+.macTr:hover {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+/*td {*/
+/*    border-left: #32a1ce 2px solid;*/
+/*    border-right: #32a1ce 2px solid;*/
+/*    padding-left: 5px;*/
+/*    padding-right: 5px;*/
+/*}*/
+
+/*th {*/
+/*    border: #32a1ce 2px solid;*/
+/*    padding-left: 5px;*/
+/*    padding-right: 5px;*/
+/*    background-color: floralwhite;*/
+/*}*/
+
+.ring
+{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:150px;
+    height:150px;
+    background: black;
+    border:3px solid #3c3c3c;
+    border-radius:50%;
+    text-align:center;
+    line-height:150px;
+    font-family:sans-serif;
+    font-size:20px;
+    color:#fff000;
+    letter-spacing:4px;
+    text-transform:uppercase;
+    text-shadow:0 0 10px #fff000;
+    box-shadow:0 0 20px rgba(0,0,0,.5);
+    z-index: 100;
+}
+.ring:before
+{
+    content:'';
+    position:absolute;
+    top:-3px;
+    left:-3px;
+    width:100%;
+    height:100%;
+    border:3px solid transparent;
+    border-top:3px solid #fff000;
+    border-right:3px solid #fff000;
+    border-radius:50%;
+    animation:animateC 2s linear infinite;
+}
+span
+{
+    display:block;
+    position:absolute;
+    top:calc(50% - 2px);
+    left:50%;
+    width:50%;
+    height:4px;
+    background:transparent;
+    transform-origin:left;
+    animation:animate 2s linear infinite;
+}
+span:before
+{
+    content:'';
+    position:absolute;
+    width:16px;
+    height:16px;
+    border-radius:50%;
+    background:#fff000;
+    top:-6px;
+    right:-8px;
+    box-shadow:0 0 20px #fff000;
+}
+@keyframes animateC
+{
+    0%
+    {
+        transform:rotate(0deg);
+    }
+    100%
+    {
+        transform:rotate(360deg);
+    }
+}
+@keyframes animate
+{
+    0%
+    {
+        transform:rotate(45deg);
+    }
+    100%
+    {
+        transform:rotate(405deg);
+    }
+}
+
+input {
+    width: 10px;
 }
 
 body {
-    margin: 50px;
+    margin-left: 2%;
+    margin-right: 2%;
+    background-color: white;
+    font-family: "Arial", serif;
+    font-size: larger;
 }
