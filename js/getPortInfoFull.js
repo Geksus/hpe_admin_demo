@@ -4,6 +4,7 @@ let connectIp = document.getElementById('connectIp');
 let connectUsername = document.getElementById('connectUsername');
 let connectPassword = document.getElementById('connectPassword');
 let connectPort = document.getElementById('connectPort');
+let backupData = {}
 
 async function getPortInfoFull(ip, username, password, port) {
     // const loader = document.getElementById('loader-holder')
@@ -71,6 +72,7 @@ async function getPortInfoFull(ip, username, password, port) {
         let adminStatus = document.getElementById('adminStatus');
         adminStatus.innerHTML = ''
         let currentAdmStatus = document.createElement('option')
+        currentAdmStatus.id = 'currentAdmStatus';
         currentAdmStatus.value = parsedData.adminStatus;
         currentAdmStatus.textContent = parsedData.adminStatus;
         currentAdmStatus.style.backgroundColor = 'white'
@@ -104,6 +106,7 @@ async function getPortInfoFull(ip, username, password, port) {
         let operStatus = document.getElementById('operStatus')
         operStatus.textContent = ''
         operStatus.textContent = parsedData.operStatus
+        operStatus.value = parsedData.operStatus
         let actualDuplex = document.getElementById('actualDuplex')
         actualDuplex.textContent = ''
         actualDuplex.textContent = parsedData.actualDuplex
@@ -168,10 +171,11 @@ async function getPortInfoFull(ip, username, password, port) {
         // Statistics
         let inInterval = document.getElementById('inInterval')
         inInterval.textContent = ''
-        inInterval.textContent = parsedData.statistics.interval
-        let outInterval = document.getElementById('outInterval')
-        outInterval.textContent = ''
-        outInterval.textContent = parsedData.statistics.interval
+        inInterval.textContent = 'Interval: ' + parsedData.statistics.interval + ' seconds'
+        inInterval.value = parsedData.statistics.interval
+        // let outInterval = document.getElementById('outInterval')
+        // outInterval.textContent = ''
+        // outInterval.textContent = parsedData.statistics.interval
         let inPackets = document.getElementById('inPackets')
         inPackets.textContent = ''
         inPackets.textContent = parsedData.statistics.inPackets
@@ -186,7 +190,7 @@ async function getPortInfoFull(ip, username, password, port) {
         inBits.textContent = parsedData.statistics.inBits
         let inUsage = document.getElementById('inUsage')
         inUsage.textContent = null
-        inUsage.textContent = (parseInt(inBits.textContent) / parseInt(inInterval.textContent) / (parseInt(actualSpeed.textContent) * 1000)).toFixed(3) + '%'
+        inUsage.textContent = (parseInt(inBits.textContent) / parseInt(inInterval.value) / (parseInt(actualSpeed.textContent) * 1000)).toFixed(3) + '%'
         // let outOctets = document.getElementById('outOctets')
         // outOctets.textContent = ''
         // outOctets.textContent = parsedData.statistics.outOctets
@@ -195,7 +199,7 @@ async function getPortInfoFull(ip, username, password, port) {
         outBits.textContent = parsedData.statistics.outBits
         let outUsage = document.getElementById('outUsage')
         outUsage.textContent = null
-        outUsage.textContent = (parseInt(outBits.textContent) / parseInt(outInterval.textContent) / (parseInt(actualSpeed.textContent) * 1000)).toFixed(3) + '%'
+        outUsage.textContent = (parseInt(outBits.textContent) / parseInt(inInterval.value) / (parseInt(actualSpeed.textContent) * 1000)).toFixed(3) + '%'
 
         // VLAN
         let vlanLinkType = document.getElementById('linkType')
@@ -223,109 +227,52 @@ async function getPortInfoFull(ip, username, password, port) {
         pvid.textContent = ''
         pvid.textContent = parsedData.vlan.pvid;
 
-        switch (vlanLinkType.value) {
-            case 'Hybrid': {
-                let unRow = document.getElementById('untaggedVlans')
-                unRow.innerHTML = ''
-                let unLabel = document.createElement('label')
-                unLabel.className = 'scheduler-border vlanLeft'
-                unLabel.for = 'untaggedVlanList'
-                unLabel.textContent = 'Untagged VLANs'
-                let unVlan = document.createElement('input')
-                unVlan.className = 'statRight vlanRight'
-                unVlan.id = 'untaggedVlanList'
-                unRow.appendChild(unLabel)
-                unRow.appendChild(unVlan)
-                let tRow = document.getElementById('taggedLabelButton')
-                tRow.innerHTML = ''
-                let tLabel = document.createElement('label')
-                tLabel.className = 'scheduler-border vlanLeft'
-                tLabel.textContent = 'Tagged VLANs: '
-                tRow.appendChild(tLabel)
-                break;
-            }
-            case 'Trunk': {
-                let unRowTrunck = document.getElementById('untaggedVlans')
-                unRowTrunck.innerHTML = ''
-                let label = document.createElement('label')
-                label.className = 'scheduler-border vlanLeft'
-                label.textContent = 'Untagged VLANs: '
-                let unvLan = document.createElement('div')
-                unvLan.className = 'statRight vlanRight'
-                unvLan.id = 'untaggedVlanList'
-                unRowTrunck.appendChild(label)
-                unRowTrunck.appendChild(unvLan)
-                let tRow = document.getElementById('taggedLabelButton')
-                tRow.innerHTML = ''
-                let tLabel = document.createElement('label')
-                tLabel.className = 'scheduler-border vlanLeft'
-                tLabel.textContent = 'Tagged VLANs: '
-                tRow.appendChild(tLabel)
-                break;
-            }
-            case 'Access': {
-                let unRowAccess = document.getElementById('untaggedVlans')
-                unRowAccess.innerHTML = ''
-                let label = document.createElement('label')
-                label.className = 'scheduler-border vlanLeft'
-                label.textContent = 'Untagged VLANs: '
-                let unvLan = document.createElement('div')
-                unvLan.className = 'statRight vlanRight'
-                unvLan.id = 'untaggedVlanList'
-                unRowAccess.appendChild(label)
-                unRowAccess.appendChild(unvLan)
-                let tRow = document.getElementById('taggedLabelButton')
-                tRow.innerHTML = ''
-                let tLabel = document.createElement('label')
-                tLabel.className = 'scheduler-border vlanLeft'
-                tLabel.textContent = 'Tagged VLANs: '
-                tRow.appendChild(tLabel)
-                break;
-            }
-        }
+        linkTypeLayout(vlanLinkType)
+        vlanLinkType.addEventListener('change', function () {
+            linkTypeLayout(vlanLinkType)
+        })
 
-        let untaggedVlanList = document.getElementById('untaggedVlanList')
+        let untaggedVlanList = document.getElementById('untaggedVlans')
         untaggedVlanList.value = null
         untaggedVlanList.value = parsedData.vlan.untaggedVlanList.join(', ');
         untaggedVlanList.textContent = ''
         untaggedVlanList.textContent = parsedData.vlan.untaggedVlanList.join(', ');
 
-        let taggedVlanList = document.getElementById('taggedVlanItems')
-        taggedVlanList.value = parsedData.vlan.taggedVlanList;
+        let taggedVlanList = parsedData.vlan.taggedVlanList;
+        let taggedVlansForm = document.getElementById('taggedVlanGroup')
 
-        for (let tVlan of taggedVlanList.value) {
-            let input = document.createElement('div')
-            input.className = "statRight vlanItem"
-            input.value = tVlan
-            input.textContent = tVlan
-            taggedVlanList.appendChild(input)
+        let taggedArray = Array.from(document.getElementsByClassName('taggedVlan'))
+        for (let element of taggedArray) {
+            element.remove()
+        }
+
+        for (let tVlan of taggedVlanList) {
+            let item = document.createElement('div')
+            item.className = "form-control taggedVlan"
+            item.type = 'text'
+            // item.aria-describedby = 'basic-addon3 basic-addon4'
+            item.value = tVlan
+            item.textContent = tVlan
+            taggedVlansForm.appendChild(item)
 
             // On mouse over, change the text to 'Remove'
-            input.addEventListener('mouseover', function () {
+            item.addEventListener('mouseover', function () {
                 this.textContent = 'Remove';
+                this.style.backgroundColor = 'orange'
+                this.style.cursor = 'pointer'
             });
 
             // On mouse out, change the text back to the original value
-            input.addEventListener('mouseout', function () {
+            item.addEventListener('mouseout', function () {
                 this.textContent = this.value;
+                this.style.backgroundColor = 'white'
             });
 
             // On click, remove the div
-            input.addEventListener('click', function () {
+            item.addEventListener('click', function () {
                 this.parentElement.removeChild(this);
             });
         }
-
-        let taggedLabelButton = document.getElementById('taggedLabelButton')
-        let addTaggedVlan = document.createElement('button')
-        addTaggedVlan.className = 'statRight vlanRight arpAddButton'
-        addTaggedVlan.id = 'addtaggedVlan'
-        addTaggedVlan.textContent = '+ Add'
-        // addTaggedVlan.addEventListener("click", function (event) {
-        //     addTaggedVlanHandler(event)
-        // })
-        addTaggedVlan.onclick = addTaggedVlanHandler
-        taggedLabelButton.appendChild(addTaggedVlan)
 
         let permitVlanList = document.getElementById('permitVlanList')
         permitVlanList.value = null
@@ -341,24 +288,10 @@ async function getPortInfoFull(ip, username, password, port) {
         let macContent = document.getElementById('mac-row')
         macContent.innerHTML = ''
 
-        let headersRow = document.createElement('tr')
-        let headersVlan = document.createElement('th')
-        headersVlan.textContent = 'VLAN'
-        let headersMac = document.createElement('th')
-        headersMac.textContent = 'MAC'
-        headersRow.appendChild(headersVlan)
-        headersRow.appendChild(headersMac)
-
-        macContent.appendChild(headersRow)
-
         // Iterate over 'macTable' to create new elements for each object
         for (let i = 0; i < macTable.length; i++) {
             // Create new elements with corresponding data
             let row = document.createElement('tr');
-            row.className = 'macTr'
-            if (i % 2 !== 0) {
-                row.style.backgroundColor = 'darkgray'
-            }
 
             let vlanCard = document.createElement('td');
             vlanCard.textContent = 'VLAN ' + macTable[i].vlan;
@@ -390,23 +323,11 @@ async function getPortInfoFull(ip, username, password, port) {
         broadcastCurrentUnit.value = parsedData.suppression.broadcast.unit
         broadcastCurrentUnit.textContent = parsedData.suppression.broadcast.unit
         broadcastUnit.appendChild(broadcastCurrentUnit)
-        let multicastUnit = document.getElementById('multicastUnit')
-        multicastUnit.innerHTML = ''
-        let multicastCurrentUnit = document.createElement('option')
-        multicastCurrentUnit.value = parsedData.suppression.multicast.unit
-        multicastCurrentUnit.textContent = parsedData.suppression.multicast.unit
-        multicastUnit.appendChild(multicastCurrentUnit)
-        let unicastUnit = document.getElementById('unicastUnit')
-        unicastUnit.innerHTML = ''
-        let unicastCurrentUnit = document.createElement('option')
-        unicastCurrentUnit.value = parsedData.suppression.unknownUnicast.unit
-        unicastCurrentUnit.textContent = parsedData.suppression.unknownUnicast.unit
-        unicastUnit.appendChild(unicastCurrentUnit)
 
         let units = ['Pps', 'Kbps', 'Ratio']
         let broadcastSelect = document.getElementById('broadcastUnit')
-        let multicastSelect = document.getElementById('multicastUnit')
-        let unicastSelect = document.getElementById('unicastUnit')
+        // let multicastSelect = document.getElementById('multicastUnit')
+        // let unicastSelect = document.getElementById('unicastUnit')
 
         for (let unit of units) {
             let option = document.createElement('option')
@@ -419,100 +340,22 @@ async function getPortInfoFull(ip, username, password, port) {
             }
         }
 
-        for (let unit of units) {
-            let option = document.createElement('option')
-
-            option.value = unit
-            option.textContent = unit
-
-            if (option.value !== multicastSelect.value) {
-                multicastSelect.appendChild(option)
-            }
-        }
-
-        for (let unit of units) {
-            let option = document.createElement('option')
-
-            option.value = unit
-            option.textContent = unit
-
-            if (option.value !== unicastSelect.value) {
-                unicastSelect.appendChild(option)
-            }
-        }
-
         // ARP filter sources
-        let arpFilterSources = document.getElementById('arpSources')
-        arpFilterSources.innerHTML = ''
-
         let sourcesList = parsedData.arpFilter.sources
 
-        let arpLegend = document.createElement('legend')
-        arpLegend.className = 'scheduler-border'
-        arpLegend.textContent = 'SOURCES'
+        for (let i = 0; i < 8; i++) {
+            let source = document.getElementById('arpSource-' + i.toString())
+            source.value = null
+            source.textContent = ''
 
-        let arpAddRow = document.createElement('div')
-        arpAddRow.className = 'row statRow'
-
-        let arpAddLabel = document.createElement('label')
-        arpAddLabel.className = 'scheduler-border arpLeft'
-
-        let arpAddButton = document.createElement('button')
-        arpAddButton.className = 'statRight arpRight arpAddButton'
-        arpAddButton.id = 'arpAddButton'
-        arpAddButton.textContent = '+ Add'
-        if (sourcesList.length === 0) {
-            arpAddButton.style.width = '160px'
-        }
-        arpAddButton.addEventListener("click", function (event) {
-            if (arpFilterSources.children.length < 10) {
-                arpAddHandler(event)
-            } else {
-                event.preventDefault();
-                alert("Maximum number of elements reached.");
+            if (sourcesList[i]) {
+                source.value = sourcesList[i]
+                source.textContent = sourcesList[i]
             }
-        })
-
-        arpFilterSources.appendChild(arpLegend)
-        arpAddRow.appendChild(arpAddLabel)
-        arpAddRow.appendChild(arpAddButton)
-        arpFilterSources.appendChild(arpAddRow)
-
-        for (let i = 0; i < sourcesList.length; i++) {
-            let arpRow = document.createElement('div')
-            arpRow.className = 'row statRow'
-
-            let arpLabel = document.createElement('label')
-            arpLabel.className = 'scheduler-border arpLeft'
-            let arpIp = document.createElement('div')
-            arpIp.className = 'statRight arpRight arpIp'
-            arpIp.value = sourcesList[i]
-            arpIp.textContent = sourcesList[i]
-
-            // On mouse over, change the text to 'Remove'
-            arpIp.addEventListener('mouseover', function () {
-                this.textContent = 'Remove';
-            });
-
-            // On mouse out, change the text back to the original value
-            arpIp.addEventListener('mouseout', function () {
-                this.textContent = this.value;
-            });
-
-            // On click, remove the div
-            arpIp.addEventListener('click', function () {
-                this.parentElement.removeChild(this);
-            });
-
-            arpRow.appendChild(arpLabel)
-            arpRow.appendChild(arpIp)
-
-            arpFilterSources.appendChild(arpRow)
         }
 
         // ACL
         if (parsedData.acl.inbound.length > 0) {
-            console.log(parsedData.acl)
             let inboundIpv4 = document.getElementById('inboundIpv4')
             inboundIpv4.textContent = ''
             let inboundIpv6 = document.getElementById('inboundIpv6')
@@ -553,8 +396,8 @@ async function getPortInfoFull(ip, username, password, port) {
                 }
             }
         }
+        backupData = backupFormData()
     }
-    adjustWidth()
 }
 
 async function setPortConfig(ip, username, password, port) {
@@ -572,8 +415,8 @@ async function setPortConfig(ip, username, password, port) {
     if (linkType === 'Access') {
         taggedVlanList = null
     } else {
-        let taggedVlanItems = document.getElementsByClassName('taggedVlanItem')
-        for (vlan of taggedVlanItems) {
+        let taggedVlanItems = document.getElementsByClassName('taggedVlan')
+        for (let vlan of taggedVlanItems) {
             if (vlan.value) {
                 taggedVlanList.push(parseInt(vlan.value))
             }
@@ -587,12 +430,12 @@ async function setPortConfig(ip, username, password, port) {
     if (!suppressionRange(broadcastUnit, broadcastValue, 'Broadcast')) {
         return
     }
-    let multicastUnit = document.getElementById('multicastUnit').value
+    let multicastUnit = document.getElementById('broadcastUnit').value
     let multicastValue = parseInt(document.getElementById('multicastValue').value)
     if (!suppressionRange(multicastUnit, multicastValue, 'Multicast')) {
         return
     }
-    let unicastUnit = document.getElementById('unicastUnit').value
+    let unicastUnit = document.getElementById('broadcastUnit').value
     let unicastValue = parseInt(document.getElementById('unicastValue').value)
     if (!suppressionRange(unicastUnit, unicastValue, 'Unicast')) {
         return
@@ -604,16 +447,21 @@ async function setPortConfig(ip, username, password, port) {
 
     let values = document.getElementsByClassName('arpIp')
     for (let val of values) {
-        if (isValidIP(val.value)) {
-            sources.push(val.value)
+        if (val.textContent) {
+            if (isValidIP(val.value)) {
+                sources.push(val.value)
+            } else {
+                window.alert("Invalid IP address: " + val.value)
+                return;
+            }
         } else {
-            window.alert("Invalid IP address: " + val.value)
-            return;
+            break;
         }
+
     }
 
-    const loader = document.getElementById('loader-holder')
-    loader.style.display = 'flex'
+    // const loader = document.getElementById('loader-holder')
+    // loader.style.display = 'flex'
     const response = await fetch('http://5.149.127.105', {
         method: 'POST',
         headers: {
@@ -711,31 +559,88 @@ function suppressionRange(unit, value, type) {
     return true
 }
 
-function addTaggedVlanHandler(event) {
-    event.preventDefault()
-    let parentElement = document.getElementById('taggedVlanItems');
+function addTaggedVlanHandler() {
+    let parentElement = document.getElementById('taggedVlanGroup');
     let taggedVlanItem = document.createElement('input');
-    taggedVlanItem.className = 'statRight vlanItem';
-    taggedVlanItem.style.width = '60px'
+    taggedVlanItem.className = 'form-control taggedVlan';
+    taggedVlanItem.type = 'text'
 
     // insert new element right before the add button
     parentElement.appendChild(taggedVlanItem);
 }
 
-function arpAddHandler(event) {
-    event.preventDefault()
-    let parentElement = document.getElementById('arpSources');
-    let arpAddNewRow = document.createElement('div')
-    arpAddNewRow.className = 'row statRow'
+function backupFormData() {
+    let data = {};
+    data.adminStatus = document.getElementById('adminStatus').value
+    data.bpduDropAny = document.getElementById('bpduDropAny').value
+    data.configSpeed = document.getElementById('configSpeed').value
+    data.broadcastUnit = document.getElementById('broadcastUnit').value
+    data.broadcastValue = document.getElementById('broadcastValue').value
+    data.multicastValue = document.getElementById('multicastValue').value
+    data.unicastValue = document.getElementById('unicastValue').value
+    data.sourcesOne = document.getElementById('arpSource-0').value
+    data.sourcesTwo = document.getElementById('arpSource-1').value
+    data.sourcesThree = document.getElementById('arpSource-2').value
+    data.sourcesFour = document.getElementById('arpSource-3').value
+    data.sourcesFive = document.getElementById('arpSource-4').value
+    data.sourcesSix = document.getElementById('arpSource-5').value
+    data.sourcesSeven = document.getElementById('arpSource-6').value
+    data.sourcesEight = document.getElementById('arpSource-7').value
 
-    let arpAddLabel = document.createElement('label')
-    arpAddLabel.className = 'scheduler-border arpLeft'
+    return data;
+}
 
-    let arpAddIp = document.createElement('input')
-    arpAddIp.className = 'statRight arpRight arpIp'
+function restoreFormData() {
+    document.getElementById('adminStatus').value = backupData.adminStatus
+    document.getElementById('bpduDropAny').value = backupData.bpduDropAny
+    document.getElementById('configSpeed').value = backupData.configSpeed
+    document.getElementById('broadcastUnit').value = backupData.broadcastUnit
+    document.getElementById('broadcastValue').value = backupData.broadcastValue
+    document.getElementById('multicastValue').value = backupData.multicastValue
+    document.getElementById('unicastValue').value = backupData.unicastValue
+    document.getElementById('arpSource-0').value = backupData.sourcesOne
+    document.getElementById('arpSource-1').value = backupData.sourcesTwo
+    document.getElementById('arpSource-2').value = backupData.sourcesThree
+    document.getElementById('arpSource-3').value = backupData.sourcesFour
+    document.getElementById('arpSource-4').value = backupData.sourcesFive
+    document.getElementById('arpSource-5').value = backupData.sourcesSix
+    document.getElementById('arpSource-6').value = backupData.sourcesSeven
+    document.getElementById('arpSource-7').value = backupData.sourcesEight
+}
 
-    arpAddNewRow.appendChild(arpAddLabel)
-    arpAddNewRow.appendChild(arpAddIp)
-    parentElement.appendChild(arpAddNewRow)
+function linkTypeLayout(type) {
+    switch (type.value) {
+        case 'Hybrid': {
+            let untaggedVlans = document.getElementById('untaggedVlanGroup')
+            untaggedVlans.style.display = 'flex'
+            let taggedVlans = document.getElementById('taggedVlanGroup')
+            taggedVlans.style.display = 'flex'
+            let permitVlanList = document.getElementById('permitVlanGroup')
+            permitVlanList.style.display = 'flex'
+            break;
+        }
+        case 'Trunk': {
+            let untaggedVlans = document.getElementById('untaggedVlanGroup')
+            untaggedVlans.style.display = 'None'
+            let taggedVlans = document.getElementById('taggedVlanGroup')
+            taggedVlans.style.display = 'flex'
+            let permitVlanList = document.getElementById('permitVlanGroup')
+            permitVlanList.style.display = 'flex'
+            console.log(flexSwitchCheckChecked.value)
+            break;
+        }
+        case 'Access': {
+            let untaggedVlans = document.getElementById('untaggedVlanGroup')
+            untaggedVlans.style.display = 'None'
+            let taggedVlans = document.getElementById('taggedVlanGroup')
+            taggedVlans.style.display = 'None'
+            let permitVlanList = document.getElementById('permitVlanGroup')
+            permitVlanList.style.display = 'None'
+            break;
+        }
+    }
+}
+
+window.onload = function () {
     adjustWidth()
 }

@@ -12,6 +12,14 @@
     margin-bottom: 0.5em;
 }
 
+.header-yellow {
+    font-weight: bolder;
+    font-size: larger;
+    background-color: gold;
+    color: #32a1ce;
+    margin-bottom: 0.5em;
+}
+
 .input-group {
     margin-left: 0.5em;
     margin-right: 0.5em;
@@ -27,8 +35,16 @@
     /*margin-left: 0.5em;*/
 }
 
+.statLabel {
+    width: auto;
+}
+
 .far-right {
     margin-right: 1em;
+}
+
+.far-bottom {
+    margin-bottom: 0.1em;
 }
 
 /*Tables*/
@@ -55,13 +71,14 @@
     width: max-content;
 }
 
-td {
-    width: min-content;
+.aclTd {
+    margin-left: 1em;
+    border-right: #32a1ce thin solid;
+    width: 20%;
 }
 
-/*ARP config*/
-.ip-address {
-    width: auto;
+td {
+    width: min-content;
 }
 
 .arpRow {
@@ -75,4 +92,14 @@ body {
     padding-left: 1em;
     display: inline;
     justify-content: center;
+}
+
+.prank {
+    background-color: white;
+    color: white;
+    border: none;
+}
+
+.prank:hover {
+    box-shadow: 10px 10px 5px lightpink;
 }

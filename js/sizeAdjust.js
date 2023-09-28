@@ -1,17 +1,8 @@
 function adjustWidth() {
     let classes = [
-        'speedRight',
-        'speedLeft',
-        'statisticsRight',
-        'statisticsLeft',
-        'suppressionLeft',
-        'suppressionRight',
-        'arpRight',
-        'generalRight',
-        'generalLeft',
-        'vlanRight',
-        'vlanLeft',
-        'vlanItem'
+        'statLabel',
+        'vlanLabel',
+        'generalLabel'
     ]
 
     for (let className of classes) {

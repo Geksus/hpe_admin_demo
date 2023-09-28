@@ -23,7 +23,7 @@
             </li>
             <li>
                 <input id="connectIp"
-                       class="form-control ip-address ip-address form-control ip-address ip-address-navbar" type="text"
+                       class="form-control far-right ip-address form-control far-right ip-address-navbar" type="text"
                        placeholder="IP"
                        aria-label="IP">
             </li>
@@ -32,7 +32,7 @@
             </li>
             <li>
                 <input id="connectUsername"
-                       class="form-control ip-address ip-address form-control ip-address ip-address-navbar" type="text"
+                       class="form-control far-right ip-address form-control far-right ip-address-navbar" type="text"
                        placeholder="Username"
                        aria-label="Username">
             </li>
@@ -41,7 +41,7 @@
             </li>
             <li>
                 <input id="connectPassword"
-                       class="form-control ip-address ip-address form-control ip-address ip-address-navbar"
+                       class="form-control far-right ip-address form-control far-right ip-address-navbar"
                        type="password"
                        placeholder="Password"
                        aria-label="Password">
@@ -51,7 +51,7 @@
             </li>
             <li>
                 <input type="text" id="connectPort"
-                       class="form-control ip-address ip-address form-control ip-address ip-address-navbar"
+                       class="form-control far-right ip-address form-control far-right ip-address-navbar"
                        placeholder="Port"
                        aria-label="Port">
             </li>
@@ -64,280 +64,275 @@
 <!-- /.navbar -->
 
 <div class="container container-fluid">
-    <div class="row">
-        <div class="col-sm">
-            <div class="row content-row">
-                <div class="header">General info</div>
-                <div class="container-fluid">
+    <div class="row" style="display: flex; justify-content: space-between">
+        <div class="col-sm far-right">
+            <div class="card border-info-subtle mb-3">
+                <div class="card-header bg-info-subtle">General info</div>
+                <div class="card-body">
                     <div class="mb-3">
                         <div class="input-group">
-                            <span class="input-group-text">Interface name/Short name</span>
+                            <span class="input-group-text generalLabel">Interface</span>
                             <div type="text" class="form-control" id="ifName"
                                  aria-describedby="basic-addon3 basic-addon4"></div>
                             <div type="text" class="form-control" id="ifAbbreviatedName"
                                  aria-describedby="basic-addon3 basic-addon4"></div>
-                            <span class="input-group-text">Duplex</span>
+                            <span class="input-group-text generalLabel">Duplex</span>
                             <div type="text" class="form-control far-right" id="actualDuplex"
                                  aria-describedby="basic-addon3 basic-addon4"></div>
                         </div>
                     </div>
                     <div class="mb-3">
                         <div class="input-group">
-                            <span class="input-group-text">Description</span>
+                            <span class="input-group-text generalLabel">Description</span>
                             <div type="text" class="form-control far-right" id="description"
                                  aria-describedby="basic-addon3 basic-addon4"></div>
                         </div>
                     </div>
                     <div class="mb-3">
                         <div class="input-group">
-                            <span class="input-group-text">BPDU drop any</span>
-                            <select type="text" class="form-select" id="bpduDropAny"
-                                    aria-describedby="basic-addon3 basic-addon4"></select>
-                            <span class="input-group-text">Status</span>
+                            <span class="input-group-text generalLabel">Oper Status</span>
+                            <div type="text" class="form-control" id="operStatus"
+                                 aria-describedby="basic-addon3 basic-addon4"></div>
+                            <span class="input-group-text generalLabel">Admin Status</span>
                             <select type="text" class="form-select far-right" id="adminStatus"
                                     aria-describedby="basic-addon3 basic-addon4"></select>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row" style="display: flex; justify-content: space-between">
-                <div class="col-sm far-right">
-                    <div class="row content-row">
-                        <div class="header">Interface speed</div>
-                        <div class="input-group">
-                            <span class="input-group-text">Current speed</span>
-                            <div type="text" class="form-control" id="actualSpeed"
-                                 aria-describedby="basic-addon3 basic-addon4"></div>
-                            <span class="input-group-text">Config speed</span>
-                            <select type="text" class="form-select far-right" id="configSpeed"
-                                    aria-describedby="basic-addon3 basic-addon4"></select>
+            <div class="row">
+                <div class="col-sm">
+                    <div class="card border-info-subtle mb-3">
+                        <div class="card-header bg-info-subtle">Interface speed</div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <div class="input-group">
+                                    <span class="input-group-text">Current speed</span>
+                                    <div type="text" class="form-control" id="actualSpeed"
+                                         aria-describedby="basic-addon3 basic-addon4"></div>
+                                    <span class="input-group-text">Config speed</span>
+                                    <select type="text" class="form-select far-right" id="configSpeed"
+                                            aria-describedby="basic-addon3 basic-addon4"></select>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="row content-row">
-                        <div class="header">VLAN config</div>
-
-                    </div>
-                </div>
-                <div class="col-sm-4">
-                    <div class="row content-row">
-                        <div class="header">ARP filter sources</div>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">IP</span>
+                    <div class="card border-info-subtle mb-3">
+                        <div class="card-header bg-info-subtle">VLAN config</div>
+                        <div class="container container-fluid">
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <div class="input-group">
+                                        <span class="input-group-text vlanLabel">Link type</span>
+                                        <select type="text" class="form-select" id="linkType"
+                                                aria-describedby="basic-addon3 basic-addon4"></select>
+                                        <span class="input-group-text vlanLabel">PVID</span>
+                                        <input type="text" class="form-control far-right" id="pvid"
+                                               aria-describedby="basic-addon3 basic-addon4">
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="input-group" id="permitVlanGroup">
+                                        <span class="input-group-text vlanLabel">Permitted VLANs</span>
+                                        <div type="text" class="form-control far-right" id="permitVlanList"
+                                             aria-describedby="basic-addon3 basic-addon4"></div>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="input-group" id="untaggedVlanGroup">
+                                        <span class="input-group-text vlanLabel">Untagged VLANs</span>
+                                        <input type="text" class="form-control far-right" id="untaggedVlans"
+                                               aria-describedby="basic-addon3 basic-addon4">
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="input-group" id="taggedVlanGroup">
+                                        <span class="input-group-text vlanLabel">Tagged VLANs</span>
+                                        <button class="btn btn-outline-secondary" type="button"
+                                                onclick="addTaggedVlanHandler()">Add
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                            <input type="text" class="form-control ip-address"
-                                   data-inputmask="'alias': 'ip'"/>
-                        </div>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">IP</span>
-                            </div>
-                            <input type="text" class="form-control ip-address"
-                                   data-inputmask="'alias': 'ip'"/>
-                        </div>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">IP</span>
-                            </div>
-                            <input type="text" class="form-control ip-address"
-                                   data-inputmask="'alias': 'ip'"/>
-                        </div>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">IP</span>
-                            </div>
-                            <input type="text" class="form-control ip-address"
-                                   data-inputmask="'alias': 'ip'"/>
-                        </div>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">IP</span>
-                            </div>
-                            <input type="text" class="form-control ip-address"
-                                   data-inputmask="'alias': 'ip'"/>
-                        </div>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">IP</span>
-                            </div>
-                            <input type="text" class="form-control ip-address"
-                                   data-inputmask="'alias': 'ip'"/>
-                        </div>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">IP</span>
-                            </div>
-                            <input type="text" class="form-control ip-address"
-                                   data-inputmask="'alias': 'ip'"/>
-                        </div>
-                        <div class="input-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">IP</span>
-                            </div>
-                            <input type="text" class="form-control ip-address"
-                                   data-inputmask="'alias': 'ip'"/>
                         </div>
                     </div>
-                    <div class="row content-row">
-                        <div class="header">MAC table</div>
-                        <div class="overflow-y-scroll" style="height: 30em">
-                            <table class='table table-striped'>
-                                <thead>
-                                <tr>
-                                    <th scope="col">VLAN</th>
-                                    <th scope="col">MAC</th>
-                                </tr>
-                                </thead>
-                                <tbody id="mac-row">
-                                <tr>
-                                    <td>99</td>
-                                    <td>223aasddczxda</td>
-                                </tr>
-                                <tr>
-                                    <td>23</td>
-                                    <td>454hfghfgh567</td>
-                                </tr>
-                                <tr>
-                                    <td>23</td>
-                                    <td>454hfghfgh567</td>
-                                </tr>
-                                <tr>
-                                    <td>23</td>
-                                    <td>454hfghfgh567</td>
-                                </tr>
-                                <tr>
-                                    <td>23</td>
-                                    <td>454hfghfgh567</td>
-                                </tr>
-                                <tr>
-                                    <td>23</td>
-                                    <td>454hfghfgh567</td>
-                                </tr>
-                                <tr>
-                                    <td>23</td>
-                                    <td>454hfghfgh567</td>
-                                </tr>
-                                <tr>
-                                    <td>23</td>
-                                    <td>454hfghfgh567</td>
-                                </tr>
-                                <tr>
-                                    <td>23</td>
-                                    <td>454hfghfgh567</td>
-                                </tr>
-                                <tr>
-                                    <td>23</td>
-                                    <td>454hfghfgh567</td>
-                                </tr>
-                                <tr>
-                                    <td>23</td>
-                                    <td>454hfghfgh567</td>
-                                </tr>
-                                <tr>
-                                    <td>23</td>
-                                    <td>454hfghfgh567</td>
-                                </tr>
-                                <tr>
-                                    <td>23</td>
-                                    <td>454hfghfgh567</td>
-                                </tr>
-                                <tr>
-                                    <td>23</td>
-                                    <td>454hfghfgh567</td>
-                                </tr>
-                                <tr>
-                                    <td>23</td>
-                                    <td>454hfghfgh567</td>
-                                </tr>
-                                <tr>
-                                    <td>23</td>
-                                    <td>454hfghfgh567</td>
-                                </tr>
-                                <tr>
-                                    <td>23</td>
-                                    <td>454hfghfgh567</td>
-                                </tr>
-                                <tr>
-                                    <td>23</td>
-                                    <td>454hfghfgh567</td>
-                                </tr>
-                                <tr>
-                                    <td>23</td>
-                                    <td>454hfghfgh567</td>
-                                </tr>
-                                <tr>
-                                    <td>23</td>
-                                    <td>454hfghfgh567</td>
-                                </tr>
-                                <tr>
-                                    <td>23</td>
-                                    <td>454hfghfgh567</td>
-                                </tr>
-                                <tr>
-                                    <td>23</td>
-                                    <td>7675fghf56dbdg</td>
-                                </tr>
-                                <tr>
-                                    <td>1212</td>
-                                    <td>dfgyh5646fgdgfd</td>
-                                </tr>
-                                <tr>
-                                    <td>42</td>
-                                    <td>sdfsdfsdfaw2342</td>
-                                </tr>
-                                <tr>
-                                    <td>5545</td>
-                                    <td>ggyu5745fdg5t43t</td>
-                                </tr>
-                                <tr>
-                                    <td>5545</td>
-                                    <td>ggyu5745fdg5t43t</td>
-                                </tr>
-                                <tr>
-                                    <td>5545</td>
-                                    <td>ggyu5745fdg5t43t</td>
-                                </tr>
-                                <tr>
-                                    <td>5545</td>
-                                    <td>ggyu5745fdg5t43t</td>
-                                </tr>
-                                <tr>
-                                    <td>5545</td>
-                                    <td>ggyu5745fdg5t43t</td>
-                                </tr>
-                                <tr>
-                                    <td>5545</td>
-                                    <td>ggyu5745fdg5t43t</td>
-                                </tr>
-                                <tr>
-                                    <td>5545</td>
-                                    <td>ggyu5745fdg5t43t</td>
-                                </tr>
-                                <tr>
-                                    <td>5545</td>
-                                    <td>ggyu5745fdg5t43t</td>
-                                </tr>
-                                <tr>
-                                    <td>5545</td>
-                                    <td>ggyu5745fdg5t43t</td>
-                                </tr>
-                                <tr>
-                                    <td>5545</td>
-                                    <td>ggyu5745fdg5t43t</td>
-                                </tr>
-                                <tr>
-                                    <td>5545</td>
-                                    <td>ggyu5745fdg5t43t</td>
-                                </tr>
-                                <tr>
-                                    <td>5545</td>
-                                    <td>ggyu5745fdg5t43t</td>
-                                </tr>
-                                </tbody>
-                            </table>
+                    <div class="card border-info-subtle mb-3">
+                        <div class="card-header bg-info-subtle">Statistics</div>
+                        <div class="card-header bg-dark-subtle" id="inInterval">Interval: </div>
+                        <div class="card-body"></div>
+                        <div class="container container-fluid">
+                            <div class="mb-3">
+                                <div class="input-group">
+                                    <span class="input-group-text statLabel">Packets IN</span>
+                                    <div type="text" class="form-control" id="inPackets"
+                                         aria-describedby="basic-addon3 basic-addon4"></div>
+                                    <span class="input-group-text statLabel">Bits IN</span>
+                                    <div type="text" class="form-control" id="inBits"
+                                         aria-describedby="basic-addon3 basic-addon4"></div>
+                                    <span class="input-group-text statLabel">Usage IN</span>
+                                    <div type="text" class="form-control far-right" id="inUsage"
+                                         aria-describedby="basic-addon3 basic-addon4"></div>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="input-group">
+                                    <span class="input-group-text statLabel">Packets OUT</span>
+                                    <div type="text" class="form-control" id="outPackets"
+                                         aria-describedby="basic-addon3 basic-addon4"></div>
+                                    <span class="input-group-text statLabel">Bits OUT</span>
+                                    <div type="text" class="form-control" id="outBits"
+                                         aria-describedby="basic-addon3 basic-addon4"></div>
+                                    <span class="input-group-text statLabel">Usage OUT</span>
+                                    <div type="text" class="form-control far-right" id="outUsage"
+                                         aria-describedby="basic-addon3 basic-addon4"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card border-info-subtle mb-3">
+                        <div class="card-header bg-info-subtle">Suppression</div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <div class="input-group">
+                                    <span class="input-group-text">Broadcast</span>
+                                    <input type="text" class="form-control" id="broadcastValue"
+                                           aria-describedby="basic-addon3 basic-addon4">
+                                    <span class="input-group-text">Multicast</span>
+                                    <input type="text" class="form-control" id="multicastValue"
+                                           aria-describedby="basic-addon3 basic-addon4">
+                                    <span class="input-group-text">Unicast</span>
+                                    <input type="text" class="form-control" id="unicastValue"
+                                           aria-describedby="basic-addon3 basic-addon4">
+                                    <span class="input-group-text">Unit</span>
+                                    <select type="text" class="form-select far-right" id="broadcastUnit"
+                                            aria-describedby="basic-addon3 basic-addon4"></select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="input-group">
+                                        <div class="form-check form-switch">
+                                            <label class="form-check-label" for="flexSwitchCheckChecked">BPDU drop any</label>
+                                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card border-info-subtle mb-3">
+                        <div class="card-header bg-info-subtle" style="margin-bottom: 0">ACL</div>
+                        <div class="card-header bg-dark-subtle">Inbound</div>
+                        <div class="card-body">
+                            <div class="input-group far-right">
+                                <table class="table table-striped far-right">
+                                    <tbody>
+                                    <tr>
+                                        <td class="aclTd">IPv4</td>
+                                        <td id="inboundIpv4"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="aclTd">IPv6</td>
+                                        <td id="inboundIpv6"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="aclTd">MAC</td>
+                                        <td id="inboundMac"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="card-header bg-dark-subtle">Outbound</div>
+                        <div class="card-body">
+                            <div class="input-group far-right">
+                                <table class="table table-striped far-right">
+                                    <tbody>
+                                    <tr>
+                                        <td class="aclTd">IPv4</td>
+                                        <td id="outboundIpv4"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="aclTd">IPv6</td>
+                                        <td id="outboundIpv6"></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="aclTd">MAC</td>
+                                        <td id="outboundMac"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="card border-info-subtle mb-3">
+                <div class="card-header bg-info-subtle">ARP filter sources</div>
+                <div class="card-body">
+                    <div class="input-group far-bottom">
+                        <span class="input-group-text">IP</span>
+                        <input type="text" class="form-control far-right arpIp" id="arpSource-0"
+                               data-inputmask="'alias': 'ip'"/>
+                    </div>
+                    <div class="input-group far-bottom">
+                        <span class="input-group-text">IP</span>
+                        <input type="text" class="form-control far-right arpIp" id="arpSource-1"
+                               data-inputmask="'alias': 'ip'"/>
+                    </div>
+                    <div class="input-group far-bottom">
+                        <span class="input-group-text">IP</span>
+                        <input type="text" class="form-control far-right arpIp" id="arpSource-2"
+                               data-inputmask="'alias': 'ip'"/>
+                    </div>
+                    <div class="input-group far-bottom">
+                        <span class="input-group-text">IP</span>
+                        <input type="text" class="form-control far-right arpIp" id="arpSource-3"
+                               data-inputmask="'alias': 'ip'"/>
+                    </div>
+                    <div class="input-group far-bottom">
+                        <span class="input-group-text">IP</span>
+                        <input type="text" class="form-control far-right arpIp" id="arpSource-4"
+                               data-inputmask="'alias': 'ip'"/>
+                    </div>
+                    <div class="input-group far-bottom">
+                        <span class="input-group-text">IP</span>
+                        <input type="text" class="form-control far-right arpIp" id="arpSource-5"
+                               data-inputmask="'alias': 'ip'"/>
+                    </div>
+                    <div class="input-group far-bottom">
+                        <span class="input-group-text">IP</span>
+                        <input type="text" class="form-control far-right arpIp" id="arpSource-6"
+                               data-inputmask="'alias': 'ip'"/>
+                    </div>
+                    <div class="input-group far-bottom">
+                        <span class="input-group-text">IP</span>
+                        <input type="text" class="form-control far-right arpIp" id="arpSource-7"
+                               data-inputmask="'alias': 'ip'"/>
+                    </div>
+                </div>
+            </div>
+            <div class="card border-info-subtle mb-3">
+                <div class="card-header bg-info-subtle bg-info-subtle">MAC table</div>
+                <div class="card-body">
+                    <div class="overflow-y-scroll" style="height: 30em">
+                        <table class='table table-striped'>
+                            <thead>
+                            <tr>
+                                <th scope="col">VLAN</th>
+                                <th scope="col">MAC</th>
+                            </tr>
+                            </thead>
+                            <tbody id="mac-row">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="d-grid gap-2">
+                <button class="btn btn-secondary" type="button" onclick="restoreFormData()">Undo</button>
+                <button class="btn btn-primary" type="button" id="saveButton">Save</button>
+                <button class="prank" type="button" id="prankButton">Click me</button>
             </div>
         </div>
     </div>
@@ -347,7 +342,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
-<!--<script src="js/prank.js"></script>-->
+<script src="js/prank.js"></script>
 <script src="js/listeners.js"></script>
 <script src="js/sizeAdjust.js"></script>
 <script src="js/getPortInfoFull.js"></script>
