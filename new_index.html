@@ -121,44 +121,138 @@
                         <div class="card-header bg-info-subtle">VLAN config</div>
                         <div class="container container-fluid">
                             <div class="card-body">
-                                <div class="mb-3">
-                                    <div class="input-group">
-                                        <span class="input-group-text vlanLabel">Link type</span>
-                                        <select type="text" class="form-select" id="linkType"
-                                                aria-describedby="basic-addon3 basic-addon4"></select>
-                                        <span class="input-group-text vlanLabel">PVID</span>
-                                        <input type="text" class="form-control far-right" id="pvid"
-                                               aria-describedby="basic-addon3 basic-addon4">
+                                <div class="col">
+                                    <div class="row">
+                                        <div class="d-flex align-items-start">
+                                            <div class="nav flex-column nav-pills me-3"
+                                                 id="vlan-tab"
+                                                 role="tablist"
+                                                 aria-orientation="vertical">
+                                                <button class="nav-link active"
+                                                        id="v-pills-access-tab"
+                                                        data-bs-toggle="pill"
+                                                        data-bs-target="#v-pills-access"
+                                                        type="button"
+                                                        role="tab"
+                                                        aria-controls="v-pills-access"
+                                                        aria-selected="false">Access
+                                                </button>
+                                                <button class="nav-link"
+                                                        id="v-pills-trunk-tab"
+                                                        data-bs-toggle="pill"
+                                                        data-bs-target="#v-pills-trunk"
+                                                        type="button"
+                                                        role="tab"
+                                                        aria-controls="v-pills-trunk"
+                                                        aria-selected="false">Trunk
+                                                </button>
+                                                <button class="nav-link"
+                                                        id="v-pills-hybrid-tab"
+                                                        data-bs-toggle="pill"
+                                                        data-bs-target="#v-pills-hybrid"
+                                                        type="button"
+                                                        role="tab"
+                                                        aria-controls="v-pills-hybrid"
+                                                        aria-selected="false">Hybrid
+                                                </button>
+                                            </div>
+                                            <div class="tab-content" id="vlan-tab-content">
+                                                <div class="tab-pane fade show active"
+                                                     id="v-pills-access"
+                                                     role="tabpanel"
+                                                     aria-labelledby="v-pills-access-tab"
+                                                     tabindex="0">
+                                                    <div class="input-group mb-3">
+                                                        <span class="input-group-text vlanLabel">PVID (Native VLAN)</span>
+                                                        <input type="text"
+                                                               id="access-PVID"
+                                                               class="form-control"
+                                                               aria-describedby="access-PVID"/>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade"
+                                                     id="v-pills-trunk"
+                                                     role="tabpanel"
+                                                     aria-labelledby="v-pills-trunk-tab"
+                                                     tabindex="0">
+                                                    <div class="input-group mb-3">
+                                                        <span class="input-group-text vlanLabel">PVID (Native VLAN)</span>
+                                                        <input type="text"
+                                                               id="trunk-PVID"
+                                                               class="form-control"
+                                                               aria-describedby="trunk-PVID"/>
+                                                    </div>
+                                                    <div class="input-group mb-3" id="taggedTrunkVlanGroup">
+                                                        <span class="input-group-text vlanLabel">Tagged VLANs</span>
+                                                        <button class="btn btn-outline-secondary" type="button"
+                                                                onclick="addTaggedVlanHandler('taggedTrunkVlanGroup')">Add
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane fade"
+                                                     id="v-pills-hybrid"
+                                                     role="tabpanel"
+                                                     aria-labelledby="v-pills-hybrid-tab"
+                                                     tabindex="0">
+                                                    <div class="input-group mb-3">
+                                                        <span class="input-group-text vlanLabel">PVID (Native VLAN)</span>
+                                                        <input type="text"
+                                                               id="hybrid-PVID"
+                                                               class="form-control"
+                                                               aria-describedby="hybrid-PVID"/>
+                                                        <span class="input-group-text vlanLabel">Untagged VLANs</span>
+                                                        <input type="text" class="form-control far-right" id="untaggedVlans"
+                                                               aria-describedby="basic-addon3 basic-addon4">
+                                                    </div>
+                                                    <div class="input-group mb-3" id="taggedHybridVlanGroup">
+                                                        <span class="input-group-text vlanLabel">Tagged VLANs</span>
+                                                        <button class="btn btn-outline-secondary" type="button"
+                                                                onclick="addTaggedVlanHandler('taggedHybridVlanGroup')">Add
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="mb-3">
-                                    <div class="input-group" id="permitVlanGroup">
-                                        <span class="input-group-text vlanLabel">Permitted VLANs</span>
-                                        <div type="text" class="form-control far-right" id="permitVlanList"
-                                             aria-describedby="basic-addon3 basic-addon4"></div>
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <div class="input-group" id="untaggedVlanGroup">
-                                        <span class="input-group-text vlanLabel">Untagged VLANs</span>
-                                        <input type="text" class="form-control far-right" id="untaggedVlans"
-                                               aria-describedby="basic-addon3 basic-addon4">
-                                    </div>
-                                </div>
-                                <div class="mb-3">
-                                    <div class="input-group" id="taggedVlanGroup">
-                                        <span class="input-group-text vlanLabel">Tagged VLANs</span>
-                                        <button class="btn btn-outline-secondary" type="button"
-                                                onclick="addTaggedVlanHandler()">Add
-                                        </button>
-                                    </div>
-                                </div>
+<!--                                                                <div class="mb-3">-->
+<!--                                                                    <div class="input-group">-->
+<!--                                                                        <span class="input-group-text vlanLabel">Link type</span>-->
+<!--                                                                        <select type="text" class="form-select" id="linkType"-->
+<!--                                                                                aria-describedby="basic-addon3 basic-addon4"></select>-->
+<!--                                                                        <span class="input-group-text vlanLabel">PVID</span>-->
+<!--                                                                        <input type="text" class="form-control far-right" id="pvid"-->
+<!--                                                                               aria-describedby="basic-addon3 basic-addon4">-->
+<!--                                                                    </div>-->
+<!--                                                                </div>-->
+<!--                                                                <div class="mb-3">-->
+<!--                                                                    <div class="input-group" id="permitVlanGroup">-->
+<!--                                                                        <span class="input-group-text vlanLabel">Permitted VLANs</span>-->
+<!--                                                                        <div type="text" class="form-control far-right" id="permitVlanList"-->
+<!--                                                                             aria-describedby="basic-addon3 basic-addon4"></div>-->
+<!--                                                                    </div>-->
+<!--                                                                </div>-->
+<!--                                                                <div class="mb-3">-->
+<!--                                                                    <div class="input-group" id="untaggedVlanGroup">-->
+<!--                                                                        <span class="input-group-text vlanLabel">Untagged VLANs</span>-->
+<!--                                                                        <input type="text" class="form-control far-right" id="untaggedVlans"-->
+<!--                                                                               aria-describedby="basic-addon3 basic-addon4">-->
+<!--                                                                    </div>-->
+<!--                                                                </div>-->
+<!--                                                                <div class="mb-3">-->
+<!--                                                                    <div class="input-group" id="taggedVlanGroup">-->
+<!--                                                                        <span class="input-group-text vlanLabel">Tagged VLANs</span>-->
+<!--                                                                        <button class="btn btn-outline-secondary" type="button"-->
+<!--                                                                                onclick="addTaggedVlanHandler()">Add-->
+<!--                                                                        </button>-->
+<!--                                                                    </div>-->
+<!--                                                                </div>-->
                             </div>
                         </div>
                     </div>
                     <div class="card border-info-subtle mb-3">
                         <div class="card-header bg-info-subtle">Statistics</div>
-                        <div class="card-header bg-dark-subtle" id="inInterval">Interval: </div>
+                        <div class="card-header bg-dark-subtle" id="inInterval">Interval:</div>
                         <div class="card-body"></div>
                         <div class="container container-fluid">
                             <div class="mb-3">
@@ -210,9 +304,10 @@
                             </div>
                             <div class="mb-3">
                                 <div class="input-group">
-                                        <div class="form-check form-switch">
-                                            <label class="form-check-label" for="flexSwitchCheckChecked">BPDU drop any</label>
-                                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckChecked" checked>
+                                    <div class="form-check form-switch">
+                                        <label class="form-check-label" for="flexSwitchCheckChecked">BPDU drop
+                                            any</label>
+                                        <input class="form-check-input" type="checkbox" role="switch" id="bpduSwitch">
                                     </div>
                                 </div>
                             </div>
@@ -224,19 +319,7 @@
                         <div class="card-body">
                             <div class="input-group far-right">
                                 <table class="table table-striped far-right">
-                                    <tbody>
-                                    <tr>
-                                        <td class="aclTd">IPv4</td>
-                                        <td id="inboundIpv4"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="aclTd">IPv6</td>
-                                        <td id="inboundIpv6"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="aclTd">MAC</td>
-                                        <td id="inboundMac"></td>
-                                    </tr>
+                                    <tbody id="inboundACL">
                                     </tbody>
                                 </table>
                             </div>
@@ -245,19 +328,7 @@
                         <div class="card-body">
                             <div class="input-group far-right">
                                 <table class="table table-striped far-right">
-                                    <tbody>
-                                    <tr>
-                                        <td class="aclTd">IPv4</td>
-                                        <td id="outboundIpv4"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="aclTd">IPv6</td>
-                                        <td id="outboundIpv6"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="aclTd">MAC</td>
-                                        <td id="outboundMac"></td>
-                                    </tr>
+                                    <tbody id="outboundACL">
                                     </tbody>
                                 </table>
                             </div>
@@ -337,6 +408,28 @@
         </div>
     </div>
 </div>
+
+<ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <a class="nav-link active"
+           aria-current="page"
+           href="#accessTab"
+           role="tab"
+           aria-controls="ex1-tabs-1"
+           aria-selected="true"
+           data-mdb-toggle="tab">Access
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+    </li>
+</ul>
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"

@@ -79,12 +79,11 @@ async function getPortInfoFull(ip, username, password, port) {
         currentAdmStatus.style.color = 'black'
 
         if (currentAdmStatus.value === 'AdmUp') {
+            adminStatus.style.color = 'green'
             adminStatus.style.borderColor = 'green'
-            adminStatus.style.backgroundColor = 'green'
-            adminStatus.style.color = 'white'
         } else {
+            adminStatus.style.color = 'red'
             adminStatus.style.borderColor = 'red'
-            adminStatus.style.backgroundColor = 'red'
         }
         adminStatus.appendChild(currentAdmStatus)
 
@@ -110,6 +109,13 @@ async function getPortInfoFull(ip, username, password, port) {
         let actualDuplex = document.getElementById('actualDuplex')
         actualDuplex.textContent = ''
         actualDuplex.textContent = parsedData.actualDuplex
+        if (actualDuplex.textContent === 'Full') {
+            actualDuplex.style.color = 'green'
+            actualDuplex.style.borderColor = 'green'
+        } else {
+            actualDuplex.style.color = 'red'
+            actualDuplex.style.borderColor = 'red'
+        }
         let bpduDropAny = document.getElementById('bpduDropAny')
         let bpduOption = document.createElement('option')
         let notBpduOption = document.createElement('option')
@@ -202,84 +208,7 @@ async function getPortInfoFull(ip, username, password, port) {
         outUsage.textContent = (parseInt(outBits.textContent) / parseInt(inInterval.value) / (parseInt(actualSpeed.textContent) * 1000)).toFixed(3) + '%'
 
         // VLAN
-        let vlanLinkType = document.getElementById('linkType')
-        vlanLinkType.innerHTML = ''
-        let currentType = document.createElement('option')
-        currentType.value = parsedData.vlan.linkType
-        currentType.textContent = parsedData.vlan.linkType
-        vlanLinkType.appendChild(currentType)
-
-        let types = ['Trunk', 'Hybrid', 'Access']
-
-        for (let type of types) {
-            let option = document.createElement('option')
-            option.value = type
-            option.textContent = type
-
-            if (option.value !== currentType.value) {
-                vlanLinkType.appendChild(option)
-            }
-        }
-
-        let pvid = document.getElementById('pvid')
-        pvid.value = null
-        pvid.value = parsedData.vlan.pvid;
-        pvid.textContent = ''
-        pvid.textContent = parsedData.vlan.pvid;
-
-        linkTypeLayout(vlanLinkType)
-        vlanLinkType.addEventListener('change', function () {
-            linkTypeLayout(vlanLinkType)
-        })
-
-        let untaggedVlanList = document.getElementById('untaggedVlans')
-        untaggedVlanList.value = null
-        untaggedVlanList.value = parsedData.vlan.untaggedVlanList.join(', ');
-        untaggedVlanList.textContent = ''
-        untaggedVlanList.textContent = parsedData.vlan.untaggedVlanList.join(', ');
-
-        let taggedVlanList = parsedData.vlan.taggedVlanList;
-        let taggedVlansForm = document.getElementById('taggedVlanGroup')
-
-        let taggedArray = Array.from(document.getElementsByClassName('taggedVlan'))
-        for (let element of taggedArray) {
-            element.remove()
-        }
-
-        for (let tVlan of taggedVlanList) {
-            let item = document.createElement('div')
-            item.className = "form-control taggedVlan"
-            item.type = 'text'
-            // item.aria-describedby = 'basic-addon3 basic-addon4'
-            item.value = tVlan
-            item.textContent = tVlan
-            taggedVlansForm.appendChild(item)
-
-            // On mouse over, change the text to 'Remove'
-            item.addEventListener('mouseover', function () {
-                this.textContent = 'Remove';
-                this.style.backgroundColor = 'orange'
-                this.style.cursor = 'pointer'
-            });
-
-            // On mouse out, change the text back to the original value
-            item.addEventListener('mouseout', function () {
-                this.textContent = this.value;
-                this.style.backgroundColor = 'white'
-            });
-
-            // On click, remove the div
-            item.addEventListener('click', function () {
-                this.parentElement.removeChild(this);
-            });
-        }
-
-        let permitVlanList = document.getElementById('permitVlanList')
-        permitVlanList.value = null
-        permitVlanList.value = parsedData.vlan.permitVlanList.join(', ');
-        permitVlanList.textContent = ''
-        permitVlanList.textContent = parsedData.vlan.permitVlanList.join(', ');
-
+        linkTypeLayout(parsedData.vlan.linkType, parsedData)
 
         // MAC table
         const macTable = data.result.macTable;
@@ -340,6 +269,9 @@ async function getPortInfoFull(ip, username, password, port) {
             }
         }
 
+        let bpduSwitch = document.getElementById('bpduSwitch')
+        bpduSwitch.setAttribute('checked', parsedData.bpduDropAny)
+
         // ARP filter sources
         let sourcesList = parsedData.arpFilter.sources
 
@@ -356,49 +288,86 @@ async function getPortInfoFull(ip, username, password, port) {
 
         // ACL
         if (parsedData.acl.inbound.length > 0) {
-            let inboundIpv4 = document.getElementById('inboundIpv4')
-            inboundIpv4.textContent = ''
-            let inboundIpv6 = document.getElementById('inboundIpv6')
-            inboundIpv6.textContent = ''
-            let inboundMac = document.getElementById('inboundMac')
-            inboundMac.textContent = ''
+            let inboundACL = document.getElementById('inboundACL')
+            inboundACL.innerHTML = ''
 
             for (let inbound of parsedData.acl.inbound) {
                 if (inbound.type === 'IPv4') {
-                    inboundIpv4.textContent = inbound.name
+                    let row = document.createElement('tr')
+                    let inboundIpv4Header = document.createElement('td')
+                    inboundIpv4Header.textContent = 'IPv4'
+                    let inboundIpv4Value = document.createElement('td')
+                    inboundIpv4Value.textContent = inbound.name
+                    row.appendChild(inboundIpv4Header)
+                    row.appendChild(inboundIpv4Value)
+                    inboundACL.appendChild(row)
                 }
                 if (inbound.type === 'IPv6') {
-                    inboundIpv6.textContent = inbound.name
+                    let row = document.createElement('tr')
+                    let inboundIpv6Header = document.createElement('td')
+                    inboundIpv6Header.textContent = 'IPv6'
+                    let inboundIpv6Value = document.createElement('td')
+                    inboundIpv6Value.textContent = inbound.name
+                    row.appendChild(inboundIpv6Header)
+                    row.appendChild(inboundIpv6Value)
+                    inboundACL.appendChild(row)
                 }
                 if (inbound.type === 'MAC') {
-                    inboundMac.textContent = inbound.name
+                    let row = document.createElement('tr')
+                    let inboundMacHeader = document.createElement('td')
+                    inboundMacHeader.textContent = 'MAC'
+                    let inboundMacValue = document.createElement('td')
+                    inboundMacValue.textContent = inbound.name
+                    row.appendChild(inboundMacHeader)
+                    row.appendChild(inboundMacValue)
+                    inboundACL.appendChild(row)
                 }
             }
         }
 
         if (parsedData.acl.outbound.length > 0) {
-            let outboundIpv4 = document.getElementById('outboundIpv4')
-            outboundIpv4.textContent = ''
-            let outboundIpv6 = document.getElementById('outboundIpv6')
-            outboundIpv6.textContent = ''
-            let outboundMac = document.getElementById('outboundMac')
-            outboundMac.textContent = ''
+            let outboundACL = document.getElementById('outboundACL')
+            outboundACL.innerHTML = ''
 
             for (let outbound of parsedData.acl.outbound) {
                 if (outbound.type === 'IPv4') {
-                    outboundIpv4.textContent = outbound.name
+                    let row = document.createElement('tr')
+                    let outboundIpv4Header = document.createElement('td')
+                    outboundIpv4Header.textContent = 'IPv4'
+                    let outboundIpv4Value = document.createElement('td')
+                    outboundIpv4Value.textContent = outbound.name
+                    row.appendChild(outboundIpv4Header)
+                    row.appendChild(outboundIpv4Value)
+                    outboundACL.appendChild(row)
                 }
                 if (outbound.type === 'IPv6') {
-                    outboundIpv6.textContent = outbound.name
+                    let row = document.createElement('tr')
+                    let outboundIpv6Header = document.createElement('td')
+                    outboundIpv6Header.textContent = 'IPv6'
+                    let outboundIpv6Value = document.createElement('td')
+                    outboundIpv6Value.textContent = outbound.name
+                    row.appendChild(outboundIpv6Header)
+                    row.appendChild(outboundIpv6Value)
+                    outboundACL.appendChild(row)
                 }
                 if (outbound.type === 'MAC') {
-                    outboundMac.textContent = outbound.name
+                    let row = document.createElement('tr')
+                    let outboundMacHeader = document.createElement('td')
+                    outboundMacHeader.textContent = 'MAC'
+                    let outboundMacValue = document.createElement('td')
+                    outboundMacValue.textContent = outbound.name
+                    row.appendChild(outboundMacHeader)
+                    row.appendChild(outboundMacValue)
+                    outboundACL.appendChild(row)
                 }
             }
         }
-        backupData = backupFormData()
     }
+    backupData = backupFormData()
+
 }
+
+//setPortConfig
 
 async function setPortConfig(ip, username, password, port) {
     // General info
@@ -420,7 +389,7 @@ async function setPortConfig(ip, username, password, port) {
             if (vlan.value) {
                 taggedVlanList.push(parseInt(vlan.value))
             }
-    }
+        }
     }
 
 
@@ -440,6 +409,7 @@ async function setPortConfig(ip, username, password, port) {
     if (!suppressionRange(unicastUnit, unicastValue, 'Unicast')) {
         return
     }
+    let bpduSwitch = document.getElementById('bpduSwitch')
 
 
 // ARP filter
@@ -501,7 +471,7 @@ async function setPortConfig(ip, username, password, port) {
                             "value": unicastValue
                         }
                     },
-                    "bpduDropAny": true,
+                    "bpduDropAny": bpduSwitch.checked,
                     "arpFilter": {
                         "sources": sources
                     }
@@ -520,7 +490,7 @@ async function setPortConfig(ip, username, password, port) {
 
     if (data) {
         if (data.error) {
-            window.alert('Please set the link type of the port to access first.')
+            window.alert(data.error)
         }
     }
     await getPortInfoFull(connectIp.value, connectUsername.value, connectPassword.value, connectPort.value)
@@ -559,8 +529,8 @@ function suppressionRange(unit, value, type) {
     return true
 }
 
-function addTaggedVlanHandler() {
-    let parentElement = document.getElementById('taggedVlanGroup');
+function addTaggedVlanHandler(type) {
+    let parentElement = document.getElementById(type);
     let taggedVlanItem = document.createElement('input');
     taggedVlanItem.className = 'form-control taggedVlan';
     taggedVlanItem.type = 'text'
@@ -608,34 +578,91 @@ function restoreFormData() {
     document.getElementById('arpSource-7').value = backupData.sourcesEight
 }
 
-function linkTypeLayout(type) {
+function linkTypeLayout(type, data) {
     switch (type.value) {
         case 'Hybrid': {
-            let untaggedVlans = document.getElementById('untaggedVlanGroup')
-            untaggedVlans.style.display = 'flex'
-            let taggedVlans = document.getElementById('taggedVlanGroup')
-            taggedVlans.style.display = 'flex'
-            let permitVlanList = document.getElementById('permitVlanGroup')
-            permitVlanList.style.display = 'flex'
+            let hybridTab = document.getElementById('v-pills-hybrid-tab')
+            hybridTab.setAttribute('aria-selected', 'true')
+            let untaggedVlanList = document.getElementById('untaggedVlans')
+            untaggedVlanList.value = null
+            untaggedVlanList.value = data.vlan.untaggedVlanList.join(', ');
+            untaggedVlanList.textContent = ''
+            untaggedVlanList.textContent = data.vlan.untaggedVlanList.join(', ');
+            let hybridPvid = document.getElementById('hybrid-PVID')
+            hybridPvid.value = data.vlan.pvid
+            hybridPvid.textContent = data.vlan.pvid.toString()
+            let taggedVlanList = data.vlan.taggedVlanList;
+            let taggedVlansForm = document.getElementById('taggedHybridVlanGroup')
+
+            let taggedArray = Array.from(taggedVlanList)
+            for (let element of taggedArray) {
+                element.remove()
+            }
+
+            for (let tVlan of taggedVlanList) {
+                let item = document.createElement('div')
+                item.className = "form-control taggedVlan"
+                item.type = 'text'
+                // item.aria-describedby = 'basic-addon3 basic-addon4'
+                item.value = tVlan
+                item.textContent = tVlan
+                item.style.display = 'flex'
+                item.style.justifyContent = 'space-between'
+
+                let closeButton = document.createElement('button')
+                closeButton.className = 'btn-close'
+                item.appendChild(closeButton)
+                taggedVlansForm.appendChild(item)
+
+                // On click, remove the div
+                closeButton.addEventListener('click', function () {
+                    this.parentElement.remove();
+                });
+            }
             break;
         }
         case 'Trunk': {
-            let untaggedVlans = document.getElementById('untaggedVlanGroup')
-            untaggedVlans.style.display = 'None'
-            let taggedVlans = document.getElementById('taggedVlanGroup')
-            taggedVlans.style.display = 'flex'
-            let permitVlanList = document.getElementById('permitVlanGroup')
-            permitVlanList.style.display = 'flex'
-            console.log(flexSwitchCheckChecked.value)
+            let trunkTab = document.getElementById('v-pills-trunk-tab')
+            trunkTab.setAttribute('aria-selected', 'true')
+            let trunkPvid = document.getElementById('trunk-PVID')
+            trunkPvid.value = data.vlan.pvid
+            trunkPvid.textContent = data.vlan.pvid.toString()
+            let taggedVlanList = data.vlan.taggedVlanList;
+            let taggedVlansForm = document.getElementById('taggedTrunkVlanGroup')
+
+            let taggedArray = Array.from(taggedVlanList)
+            for (let element of taggedArray) {
+                element.remove()
+            }
+
+            for (let tVlan of taggedVlanList) {
+                let item = document.createElement('div')
+                item.className = "form-control taggedVlan"
+                item.type = 'text'
+                // item.aria-describedby = 'basic-addon3 basic-addon4'
+                item.value = tVlan
+                item.textContent = tVlan
+                item.style.display = 'flex'
+                item.style.justifyContent = 'space-between'
+
+                let closeButton = document.createElement('button')
+                closeButton.className = 'btn-close'
+                item.appendChild(closeButton)
+                taggedVlansForm.appendChild(item)
+
+                // On click, remove the div
+                closeButton.addEventListener('click', function () {
+                    this.parentElement.remove();
+                });
+            }
             break;
         }
         case 'Access': {
-            let untaggedVlans = document.getElementById('untaggedVlanGroup')
-            untaggedVlans.style.display = 'None'
-            let taggedVlans = document.getElementById('taggedVlanGroup')
-            taggedVlans.style.display = 'None'
-            let permitVlanList = document.getElementById('permitVlanGroup')
-            permitVlanList.style.display = 'None'
+            let accessTab = document.getElementById('v-pills-access-tab')
+            accessTab.setAttribute('aria-selected', 'true')
+            let accessPvid = document.getElementById('access-PVID')
+            accessPvid.value = data.vlan.pvid
+            accessPvid.textContent = data.vlan.pvid.toString()
             break;
         }
     }
