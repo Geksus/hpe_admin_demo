@@ -1,5 +1,3 @@
-let bpduSwitch = document.getElementById('bpduSwitch')
-
 connectButton.addEventListener('click', function () {
     getPortInfoFull(connectIp.value, connectUsername.value, connectPassword.value, connectPort.value)
         .then(() => {
@@ -25,7 +23,3 @@ connectPort.addEventListener('keyup', function (event) {
             })
     }
 });
-
-bpduSwitch.addEventListener('click', function () {
-    bpduSwitch.setAttribute('checked', !bpduSwitch.checked)
-})

@@ -4,35 +4,9 @@
 }
 
 /*Content*/
-.header {
-    font-weight: bolder;
-    font-size: larger;
-    background-color: #32a1ce;
-    color: floralwhite;
-    margin-bottom: 0.5em;
-}
-
-.header-yellow {
-    font-weight: bolder;
-    font-size: larger;
-    background-color: gold;
-    color: #32a1ce;
-    margin-bottom: 0.5em;
-}
-
 .input-group {
     margin-left: 0.5em;
     margin-right: 0.5em;
-}
-
-.content-row {
-    padding-bottom: 1em;
-    border: #32a1ce thin solid;
-    border-bottom-right-radius: 5px;
-    border-bottom-left-radius: 5px;
-    margin-bottom: 1em;
-    /*margin-right: 0.5em;*/
-    /*margin-left: 0.5em;*/
 }
 
 .statLabel {
@@ -71,21 +45,6 @@
     width: max-content;
 }
 
-.aclTd {
-    margin-left: 1em;
-    border-right: #32a1ce thin solid;
-    width: 20%;
-}
-
-td {
-    width: min-content;
-}
-
-.arpRow {
-    display: flex;
-    justify-content: space-evenly;
-}
-
 /*Rest*/
 body {
     width: 30%;
@@ -102,4 +61,21 @@ body {
 
 .prank:hover {
     box-shadow: 10px 10px 5px lightpink;
+}
+
+.card-body {
+    position: relative;
+    /*overflow: hidden;*/
+}
+
+.spinner-border {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 2;
+    visibility: hidden;
+}
+
+.card-body .mb-3, .input-group, table, .nav-link{
+    visibility: visible;
 }

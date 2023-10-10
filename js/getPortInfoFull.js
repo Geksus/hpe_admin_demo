@@ -7,9 +7,7 @@ let connectPort = document.getElementById('connectPort');
 let backupData = {}
 
 async function getPortInfoFull(ip, username, password, port) {
-    // const loader = document.getElementById('loader-holder')
-    // loader.style.display = 'flex'
-
+    nowYouSeeMe()
     const response = await fetch('http://5.149.127.105',
         {
             method: 'POST',
@@ -40,7 +38,7 @@ async function getPortInfoFull(ip, username, password, port) {
 
     let data = await response.json();
     if (data) {
-        // loader.style.display = 'none'
+        nowYouDont()
     }
 
     const parsedData = data.result;
@@ -54,7 +52,6 @@ async function getPortInfoFull(ip, username, password, port) {
         newDiv.className = 'invisibleDiv'
         newDiv.setAttribute('id', key);
         newDiv.innerHTML = ''
-        // newDiv.textContent = `${key}: ${JSON.stringify(parsedData[key], null, 2)}`;
         document.body.appendChild(newDiv);
     }
 
@@ -116,20 +113,6 @@ async function getPortInfoFull(ip, username, password, port) {
             actualDuplex.style.color = 'red'
             actualDuplex.style.borderColor = 'red'
         }
-        let bpduDropAny = document.getElementById('bpduDropAny')
-        let bpduOption = document.createElement('option')
-        let notBpduOption = document.createElement('option')
-        bpduOption.textContent = null
-        bpduOption.textContent = parsedData.bpduDropAny
-
-        if (bpduOption.textContent === 'true') {
-            notBpduOption.textContent = 'false'
-        } else {
-            notBpduOption.textContent = 'true'
-        }
-
-        bpduDropAny.appendChild(bpduOption)
-        bpduDropAny.appendChild(notBpduOption)
 
         // Speed
         let actualSpeed = document.getElementById('actualSpeed')
@@ -179,18 +162,12 @@ async function getPortInfoFull(ip, username, password, port) {
         inInterval.textContent = ''
         inInterval.textContent = 'Interval: ' + parsedData.statistics.interval + ' seconds'
         inInterval.value = parsedData.statistics.interval
-        // let outInterval = document.getElementById('outInterval')
-        // outInterval.textContent = ''
-        // outInterval.textContent = parsedData.statistics.interval
         let inPackets = document.getElementById('inPackets')
         inPackets.textContent = ''
         inPackets.textContent = parsedData.statistics.inPackets
         let outPackets = document.getElementById('outPackets')
         outPackets.textContent = ''
         outPackets.textContent = parsedData.statistics.outPackets
-        // let inOctets = document.getElementById('inOctets')
-        // inOctets.textContent = ''
-        // inOctets.textContent = parsedData.statistics.inOctets
         let inBits = document.getElementById('inBits')
         inBits.textContent = ''
         inBits.textContent = parsedData.statistics.inBits
@@ -208,7 +185,78 @@ async function getPortInfoFull(ip, username, password, port) {
         outUsage.textContent = (parseInt(outBits.textContent) / parseInt(inInterval.value) / (parseInt(actualSpeed.textContent) * 1000)).toFixed(3) + '%'
 
         // VLAN
-        linkTypeLayout(parsedData.vlan.linkType, parsedData)
+        let linkType = parsedData.vlan.linkType
+        let pvid = parsedData.vlan.pvid
+        let existingTaggedVlans = document.getElementsByClassName('taggedVlan');
+        for (let i=existingTaggedVlans.length-1; i >= 0; i--) {
+            existingTaggedVlans[i].remove();
+        }
+        let taggedVlanList = parsedData.vlan.taggedVlanList
+        let untaggedVlanList = parsedData.vlan.untaggedVlanList
+        let accessTab = document.getElementById('v-pills-access-tab')
+        accessTab.className = 'nav-link'
+        let trunkTab = document.getElementById('v-pills-trunk-tab')
+        trunkTab.className = 'nav-link'
+        let hybridTab = document.getElementById('v-pills-hybrid-tab')
+        hybridTab.className = 'nav-link'
+
+        let accessTabContent = document.getElementById('v-pills-access')
+        accessTabContent.className = 'tab-pane fade'
+        let trunkTabContent = document.getElementById('v-pills-trunk')
+        trunkTabContent.className = 'tab-pane fade'
+        let hybridTabContent = document.getElementById('v-pills-hybrid')
+        hybridTabContent.className = 'tab-pane fade'
+        switch (linkType) {
+            case 'Access':
+                accessTab.className = 'nav-link active'
+                accessTabContent.className = 'tab-pane fade show active'
+                let accessPvid = document.getElementById('access-PVID')
+                accessPvid.value = null
+                accessPvid.value = pvid
+                break;
+
+            case 'Trunk':
+                trunkTab.className = 'nav-link active'
+                trunkTabContent.className = 'tab-pane fade show active'
+                let trunkPvid = document.getElementById('trunk-PVID')
+                trunkPvid.value = null
+                trunkPvid.value = pvid
+                let trunkTaggedVlans = document.getElementById('taggedTrunkVlanGroup')
+                for (let taggedVlan of taggedVlanList) {
+                    let vlan = document.createElement('div')
+                    vlan.className = 'form-control taggedVlan'
+                    vlan.value = taggedVlan
+                    vlan.textContent = taggedVlan
+                    vlan.style.display = 'flex'
+                    vlan.style.justifyContent = 'space-between'
+                    let closeButton = document.createElement('button')
+                    closeButton.className = 'btn-close'
+                    closeButton.addEventListener('click', function() {
+                        vlan.remove()
+                    })
+                    vlan.appendChild(closeButton)
+                    trunkTaggedVlans.appendChild(vlan)
+                }
+                break;
+
+            case 'Hybrid':
+                hybridTab.className = 'nav-link active'
+                hybridTabContent.className = 'tab-pane fade show active'
+                let hybridPvid = document.getElementById('hybrid-PVID')
+                hybridPvid.value = null
+                hybridPvid.value = pvid
+                let hybridTaggedVlans = document.getElementById('taggedHybridVlanGroup')
+                for (let taggedVlan of taggedVlanList) {
+                    let vlan = document.createElement('div')
+                    vlan.className = 'form-control taggedVlan'
+                    vlan.value = taggedVlan
+                    vlan.textContent = taggedVlan
+                    hybridTaggedVlans.appendChild(vlan)
+                }
+                let hybridUntaggedVlans = document.getElementById('untaggedVlans')
+                hybridUntaggedVlans.textContent = untaggedVlanList.join(', ')
+                break;
+        }
 
         // MAC table
         const macTable = data.result.macTable;
@@ -269,8 +317,30 @@ async function getPortInfoFull(ip, username, password, port) {
             }
         }
 
-        let bpduSwitch = document.getElementById('bpduSwitch')
-        bpduSwitch.setAttribute('checked', parsedData.bpduDropAny)
+        let bpduSwitchForm = document.getElementById('bpduSwitchForm')
+        bpduSwitchForm.innerHTML = ''
+        let bpduSwitchLabel = document.createElement('label')
+        bpduSwitchLabel.className = 'form-check-label'
+        bpduSwitchLabel.for = 'bpduSwitch'
+        bpduSwitchLabel.textContent = 'BPDU drop any'
+        let bpduSwitch = document.createElement('input')
+        bpduSwitch.className = 'form-check-input'
+        bpduSwitch.type = 'checkbox'
+        bpduSwitch.role = 'switch'
+        bpduSwitch.id = 'bpduSwitch'
+        bpduSwitch.addEventListener('click', function () {
+            if (bpduSwitch.hasAttribute('checked')) {
+                bpduSwitch.removeAttribute('checked')
+            } else {
+                bpduSwitch.setAttribute('checked', '')
+            }
+        })
+        let bpduValue = parsedData.bpduDropAny
+        if (bpduValue === true) {
+            bpduSwitch.setAttribute('checked', '')
+        }
+        bpduSwitchForm.appendChild(bpduSwitchLabel)
+        bpduSwitchForm.appendChild(bpduSwitch)
 
         // ARP filter sources
         let sourcesList = parsedData.arpFilter.sources
@@ -287,10 +357,12 @@ async function getPortInfoFull(ip, username, password, port) {
         }
 
         // ACL
-        if (parsedData.acl.inbound.length > 0) {
-            let inboundACL = document.getElementById('inboundACL')
-            inboundACL.innerHTML = ''
+        let inboundACL = document.getElementById('inboundACL')
+        inboundACL.innerHTML = ''
+        let outboundACL = document.getElementById('outboundACL')
+        outboundACL.innerHTML = ''
 
+        if (parsedData.acl.inbound.length > 0) {
             for (let inbound of parsedData.acl.inbound) {
                 if (inbound.type === 'IPv4') {
                     let row = document.createElement('tr')
@@ -326,9 +398,6 @@ async function getPortInfoFull(ip, username, password, port) {
         }
 
         if (parsedData.acl.outbound.length > 0) {
-            let outboundACL = document.getElementById('outboundACL')
-            outboundACL.innerHTML = ''
-
             for (let outbound of parsedData.acl.outbound) {
                 if (outbound.type === 'IPv4') {
                     let row = document.createElement('tr')
@@ -370,6 +439,7 @@ async function getPortInfoFull(ip, username, password, port) {
 //setPortConfig
 
 async function setPortConfig(ip, username, password, port) {
+
     // General info
     let description = document.getElementById('description').textContent;
     let adminStatus = document.getElementById('adminStatus').value;
@@ -378,20 +448,34 @@ async function setPortConfig(ip, username, password, port) {
     let configSpeed = parseInt(document.getElementById('configSpeed').value);
 
 // VLAN
-    let linkType = document.getElementById('linkType').value
-    let pvid = parseInt(document.getElementById('pvid').value)
+    let linkType = document.getElementsByClassName('nav-link active')[0].textContent.trim()
+    let pvid = null
     let taggedVlanList = []
-    if (linkType === 'Access') {
-        taggedVlanList = null
-    } else {
-        let taggedVlanItems = document.getElementsByClassName('taggedVlan')
-        for (let vlan of taggedVlanItems) {
-            if (vlan.value) {
-                taggedVlanList.push(parseInt(vlan.value))
+    let taggedVlanItems = null
+    switch (linkType) {
+        case 'Access':
+            pvid = parseInt(document.getElementById('access-PVID').value)
+            taggedVlanList = null
+            break;
+        case 'Trunk':
+            pvid = parseInt(document.getElementById('trunk-PVID').value)
+            taggedVlanItems = document.getElementsByClassName('taggedVlan')
+            for (let vlan of taggedVlanItems) {
+                if (vlan.value) {
+                    taggedVlanList.push(parseInt(vlan.value))
+                }
             }
-        }
+            break;
+        case 'Hybrid':
+            pvid = parseInt(document.getElementById('hybrid-PVID').value)
+            taggedVlanItems = document.getElementsByClassName('taggedVlan')
+            for (let vlan of taggedVlanItems) {
+                if (vlan.value) {
+                    taggedVlanList.push(parseInt(vlan.value))
+                }
+            }
+            break;
     }
-
 
 // Suppression
     let broadcastUnit = document.getElementById('broadcastUnit').value
@@ -409,7 +493,11 @@ async function setPortConfig(ip, username, password, port) {
     if (!suppressionRange(unicastUnit, unicastValue, 'Unicast')) {
         return
     }
-    let bpduSwitch = document.getElementById('bpduSwitch')
+    let bpduSwitchElement = document.getElementById('bpduSwitch')
+    let bpduSwitch = false
+    if (bpduSwitchElement.hasAttribute('checked')) {
+        bpduSwitch = true
+    }
 
 
 // ARP filter
@@ -430,8 +518,7 @@ async function setPortConfig(ip, username, password, port) {
 
     }
 
-    // const loader = document.getElementById('loader-holder')
-    // loader.style.display = 'flex'
+    nowYouSeeMe()
     const response = await fetch('http://5.149.127.105', {
         method: 'POST',
         headers: {
@@ -471,7 +558,7 @@ async function setPortConfig(ip, username, password, port) {
                             "value": unicastValue
                         }
                     },
-                    "bpduDropAny": bpduSwitch.checked,
+                    "bpduDropAny": bpduSwitch,
                     "arpFilter": {
                         "sources": sources
                     }
@@ -490,7 +577,7 @@ async function setPortConfig(ip, username, password, port) {
 
     if (data) {
         if (data.error) {
-            window.alert(data.error)
+            window.alert(data.error.data.message)
         }
     }
     await getPortInfoFull(connectIp.value, connectUsername.value, connectPassword.value, connectPort.value)
@@ -578,93 +665,31 @@ function restoreFormData() {
     document.getElementById('arpSource-7').value = backupData.sourcesEight
 }
 
-function linkTypeLayout(type, data) {
-    switch (type.value) {
-        case 'Hybrid': {
-            let hybridTab = document.getElementById('v-pills-hybrid-tab')
-            hybridTab.setAttribute('aria-selected', 'true')
-            let untaggedVlanList = document.getElementById('untaggedVlans')
-            untaggedVlanList.value = null
-            untaggedVlanList.value = data.vlan.untaggedVlanList.join(', ');
-            untaggedVlanList.textContent = ''
-            untaggedVlanList.textContent = data.vlan.untaggedVlanList.join(', ');
-            let hybridPvid = document.getElementById('hybrid-PVID')
-            hybridPvid.value = data.vlan.pvid
-            hybridPvid.textContent = data.vlan.pvid.toString()
-            let taggedVlanList = data.vlan.taggedVlanList;
-            let taggedVlansForm = document.getElementById('taggedHybridVlanGroup')
-
-            let taggedArray = Array.from(taggedVlanList)
-            for (let element of taggedArray) {
-                element.remove()
-            }
-
-            for (let tVlan of taggedVlanList) {
-                let item = document.createElement('div')
-                item.className = "form-control taggedVlan"
-                item.type = 'text'
-                // item.aria-describedby = 'basic-addon3 basic-addon4'
-                item.value = tVlan
-                item.textContent = tVlan
-                item.style.display = 'flex'
-                item.style.justifyContent = 'space-between'
-
-                let closeButton = document.createElement('button')
-                closeButton.className = 'btn-close'
-                item.appendChild(closeButton)
-                taggedVlansForm.appendChild(item)
-
-                // On click, remove the div
-                closeButton.addEventListener('click', function () {
-                    this.parentElement.remove();
-                });
-            }
-            break;
+function nowYouSeeMe() {
+    const loaders = document.getElementsByClassName('spinner-border')
+    const classes = ['mb-3', 'input-group', 'table', 'nav-link', 'btn']
+    for (let group of classes) {
+        let classGroup = document.getElementsByClassName(group)
+        for (let element of classGroup) {
+            element.style.visibility = 'hidden'
         }
-        case 'Trunk': {
-            let trunkTab = document.getElementById('v-pills-trunk-tab')
-            trunkTab.setAttribute('aria-selected', 'true')
-            let trunkPvid = document.getElementById('trunk-PVID')
-            trunkPvid.value = data.vlan.pvid
-            trunkPvid.textContent = data.vlan.pvid.toString()
-            let taggedVlanList = data.vlan.taggedVlanList;
-            let taggedVlansForm = document.getElementById('taggedTrunkVlanGroup')
+    }
+    for (let loader of loaders) {
+        loader.style.visibility = 'visible'
+    }
+}
 
-            let taggedArray = Array.from(taggedVlanList)
-            for (let element of taggedArray) {
-                element.remove()
-            }
-
-            for (let tVlan of taggedVlanList) {
-                let item = document.createElement('div')
-                item.className = "form-control taggedVlan"
-                item.type = 'text'
-                // item.aria-describedby = 'basic-addon3 basic-addon4'
-                item.value = tVlan
-                item.textContent = tVlan
-                item.style.display = 'flex'
-                item.style.justifyContent = 'space-between'
-
-                let closeButton = document.createElement('button')
-                closeButton.className = 'btn-close'
-                item.appendChild(closeButton)
-                taggedVlansForm.appendChild(item)
-
-                // On click, remove the div
-                closeButton.addEventListener('click', function () {
-                    this.parentElement.remove();
-                });
-            }
-            break;
+function nowYouDont() {
+    const loaders = document.getElementsByClassName('spinner-border')
+    const classes = ['mb-3', 'input-group', 'table', 'nav-link', 'btn']
+    for (let group of classes) {
+        let classGroup = document.getElementsByClassName(group)
+        for (let element of classGroup) {
+            element.style.visibility = 'visible'
         }
-        case 'Access': {
-            let accessTab = document.getElementById('v-pills-access-tab')
-            accessTab.setAttribute('aria-selected', 'true')
-            let accessPvid = document.getElementById('access-PVID')
-            accessPvid.value = data.vlan.pvid
-            accessPvid.textContent = data.vlan.pvid.toString()
-            break;
-        }
+    }
+    for (let loader of loaders) {
+        loader.style.visibility = 'hidden'
     }
 }
 

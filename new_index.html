@@ -64,6 +64,9 @@
 <!-- /.navbar -->
 
 <div class="container container-fluid">
+    <div class="spinner-border text-warning" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
     <div class="row" style="display: flex; justify-content: space-between">
         <div class="col-sm far-right">
             <div class="card border-info-subtle mb-3">
@@ -73,7 +76,7 @@
                         <div class="input-group">
                             <span class="input-group-text generalLabel">Interface</span>
                             <div type="text" class="form-control" id="ifName"
-                                 aria-describedby="basic-addon3 basic-addon4"></div>
+                                 aria-describedby="basic-addon3 basic-addon4" style="width: fit-content"></div>
                             <div type="text" class="form-control" id="ifAbbreviatedName"
                                  aria-describedby="basic-addon3 basic-addon4"></div>
                             <span class="input-group-text generalLabel">Duplex</span>
@@ -128,7 +131,7 @@
                                                  id="vlan-tab"
                                                  role="tablist"
                                                  aria-orientation="vertical">
-                                                <button class="nav-link active"
+                                                <button class="nav-link"
                                                         id="v-pills-access-tab"
                                                         data-bs-toggle="pill"
                                                         data-bs-target="#v-pills-access"
@@ -201,8 +204,8 @@
                                                                class="form-control"
                                                                aria-describedby="hybrid-PVID"/>
                                                         <span class="input-group-text vlanLabel">Untagged VLANs</span>
-                                                        <input type="text" class="form-control far-right" id="untaggedVlans"
-                                                               aria-describedby="basic-addon3 basic-addon4">
+                                                        <div type="text" class="form-control" id="untaggedVlans"
+                                                             aria-describedby="basic-addon3 basic-addon4"></div>
                                                     </div>
                                                     <div class="input-group mb-3" id="taggedHybridVlanGroup">
                                                         <span class="input-group-text vlanLabel">Tagged VLANs</span>
@@ -215,45 +218,14 @@
                                         </div>
                                     </div>
                                 </div>
-<!--                                                                <div class="mb-3">-->
-<!--                                                                    <div class="input-group">-->
-<!--                                                                        <span class="input-group-text vlanLabel">Link type</span>-->
-<!--                                                                        <select type="text" class="form-select" id="linkType"-->
-<!--                                                                                aria-describedby="basic-addon3 basic-addon4"></select>-->
-<!--                                                                        <span class="input-group-text vlanLabel">PVID</span>-->
-<!--                                                                        <input type="text" class="form-control far-right" id="pvid"-->
-<!--                                                                               aria-describedby="basic-addon3 basic-addon4">-->
-<!--                                                                    </div>-->
-<!--                                                                </div>-->
-<!--                                                                <div class="mb-3">-->
-<!--                                                                    <div class="input-group" id="permitVlanGroup">-->
-<!--                                                                        <span class="input-group-text vlanLabel">Permitted VLANs</span>-->
-<!--                                                                        <div type="text" class="form-control far-right" id="permitVlanList"-->
-<!--                                                                             aria-describedby="basic-addon3 basic-addon4"></div>-->
-<!--                                                                    </div>-->
-<!--                                                                </div>-->
-<!--                                                                <div class="mb-3">-->
-<!--                                                                    <div class="input-group" id="untaggedVlanGroup">-->
-<!--                                                                        <span class="input-group-text vlanLabel">Untagged VLANs</span>-->
-<!--                                                                        <input type="text" class="form-control far-right" id="untaggedVlans"-->
-<!--                                                                               aria-describedby="basic-addon3 basic-addon4">-->
-<!--                                                                    </div>-->
-<!--                                                                </div>-->
-<!--                                                                <div class="mb-3">-->
-<!--                                                                    <div class="input-group" id="taggedVlanGroup">-->
-<!--                                                                        <span class="input-group-text vlanLabel">Tagged VLANs</span>-->
-<!--                                                                        <button class="btn btn-outline-secondary" type="button"-->
-<!--                                                                                onclick="addTaggedVlanHandler()">Add-->
-<!--                                                                        </button>-->
-<!--                                                                    </div>-->
-<!--                                                                </div>-->
                             </div>
                         </div>
                     </div>
                     <div class="card border-info-subtle mb-3">
                         <div class="card-header bg-info-subtle">Statistics</div>
                         <div class="card-header bg-dark-subtle" id="inInterval">Interval:</div>
-                        <div class="card-body"></div>
+                        <div class="card-body">
+                        </div>
                         <div class="container container-fluid">
                             <div class="mb-3">
                                 <div class="input-group">
@@ -304,9 +276,8 @@
                             </div>
                             <div class="mb-3">
                                 <div class="input-group">
-                                    <div class="form-check form-switch">
-                                        <label class="form-check-label" for="flexSwitchCheckChecked">BPDU drop
-                                            any</label>
+                                    <div class="form-check form-switch" id="bpduSwitchForm">
+                                        <label class="form-check-label" for="bpduSwitch">BPDU drop any</label>
                                         <input class="form-check-input" type="checkbox" role="switch" id="bpduSwitch">
                                     </div>
                                 </div>
@@ -324,7 +295,7 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="card-header bg-dark-subtle">Outbound</div>
+                        <div class="card-header bg-dark-subtle" style="margin-bottom: 0">Outbound</div>
                         <div class="card-body">
                             <div class="input-group far-right">
                                 <table class="table table-striped far-right">
@@ -408,28 +379,6 @@
         </div>
     </div>
 </div>
-
-<ul class="nav nav-tabs" role="tablist">
-    <li class="nav-item" role="presentation">
-        <a class="nav-link active"
-           aria-current="page"
-           href="#accessTab"
-           role="tab"
-           aria-controls="ex1-tabs-1"
-           aria-selected="true"
-           data-mdb-toggle="tab">Access
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-    </li>
-</ul>
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
