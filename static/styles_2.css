@@ -4,31 +4,21 @@
 }
 
 /*Content*/
-.header {
-    font-weight: bolder;
-    font-size: larger;
-    background-color: #32a1ce;
-    color: floralwhite;
-    margin-bottom: 0.5em;
-}
-
 .input-group {
     margin-left: 0.5em;
     margin-right: 0.5em;
 }
 
-.content-row {
-    padding-bottom: 1em;
-    border: #32a1ce thin solid;
-    border-bottom-right-radius: 5px;
-    border-bottom-left-radius: 5px;
-    margin-bottom: 1em;
-    /*margin-right: 0.5em;*/
-    /*margin-left: 0.5em;*/
+.statLabel {
+    width: auto;
 }
 
 .far-right {
     margin-right: 1em;
+}
+
+.far-bottom {
+    margin-bottom: 0.1em;
 }
 
 /*Tables*/
@@ -55,24 +45,37 @@
     width: max-content;
 }
 
-td {
-    width: min-content;
-}
-
-/*ARP config*/
-.ip-address {
-    width: auto;
-}
-
-.arpRow {
-    display: flex;
-    justify-content: space-evenly;
-}
-
 /*Rest*/
 body {
     width: 30%;
     padding-left: 1em;
     display: inline;
     justify-content: center;
+}
+
+.prank {
+    background-color: white;
+    color: white;
+    border: none;
+}
+
+.prank:hover {
+    box-shadow: 10px 10px 5px lightpink;
+}
+
+.card-body {
+    position: relative;
+    /*overflow: hidden;*/
+}
+
+.spinner-border {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 2;
+    visibility: hidden;
+}
+
+.card-body .mb-3, .input-group, table, .nav-link{
+    visibility: visible;
 }
