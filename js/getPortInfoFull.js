@@ -385,6 +385,11 @@ async function getPortInfoFull(ip, username, password, port) {
                     inboundIpv4Header.textContent = 'IPv4'
                     let inboundIpv4Value = document.createElement('td')
                     inboundIpv4Value.textContent = inbound.name
+                    inboundIpv4Value.style.cursor = 'pointer'
+                    inboundIpv4Value.onclick = function() {
+                        let modal = new bootstrap.Modal(document.getElementById('aclInfoModalWindow'))
+                        aclInfoFull(connectIp.value, connectUsername.value, connectPassword.value, inboundIpv4Value.textContent, modal)
+                    };
                     row.appendChild(inboundIpv4Header)
                     row.appendChild(inboundIpv4Value)
                     inboundACL.appendChild(row)
@@ -395,6 +400,11 @@ async function getPortInfoFull(ip, username, password, port) {
                     inboundIpv6Header.textContent = 'IPv6'
                     let inboundIpv6Value = document.createElement('td')
                     inboundIpv6Value.textContent = inbound.name
+                    inboundIpv6Value.style.cursor = 'pointer'
+                    inboundIpv6Value.onclick = function() {
+                        let modal = new bootstrap.Modal(document.getElementById('aclInfoModalWindow'))
+                        aclInfoFull(connectIp.value, connectUsername.value, connectPassword.value, inboundIpv6Value.textContent, modal)
+                    };
                     row.appendChild(inboundIpv6Header)
                     row.appendChild(inboundIpv6Value)
                     inboundACL.appendChild(row)
@@ -405,6 +415,11 @@ async function getPortInfoFull(ip, username, password, port) {
                     inboundMacHeader.textContent = 'MAC'
                     let inboundMacValue = document.createElement('td')
                     inboundMacValue.textContent = inbound.name
+                    inboundMacValue.style.cursor = 'pointer'
+                    inboundMacValue.onclick = function() {
+                        let modal = new bootstrap.Modal(document.getElementById('aclInfoModalWindow'))
+                        aclInfoFull(connectIp.value, connectUsername.value, connectPassword.value, inboundMacValue.textContent, modal)
+                    };
                     row.appendChild(inboundMacHeader)
                     row.appendChild(inboundMacValue)
                     inboundACL.appendChild(row)
@@ -420,6 +435,11 @@ async function getPortInfoFull(ip, username, password, port) {
                     outboundIpv4Header.textContent = 'IPv4'
                     let outboundIpv4Value = document.createElement('td')
                     outboundIpv4Value.textContent = outbound.name
+                    outboundIpv4Value.style.cursor = 'pointer'
+                    outboundIpv4Value.onclick = function() {
+                        let modal = new bootstrap.Modal(document.getElementById('aclInfoModalWindow'))
+                        modal.show();
+                    };
                     row.appendChild(outboundIpv4Header)
                     row.appendChild(outboundIpv4Value)
                     outboundACL.appendChild(row)
@@ -430,6 +450,11 @@ async function getPortInfoFull(ip, username, password, port) {
                     outboundIpv6Header.textContent = 'IPv6'
                     let outboundIpv6Value = document.createElement('td')
                     outboundIpv6Value.textContent = outbound.name
+                    outboundIpv6Value.style.cursor = 'pointer'
+                    outboundIpv6Value.onclick = function() {
+                        let modal = new bootstrap.Modal(document.getElementById('aclInfoModalWindow'))
+                        modal.show();
+                    };
                     row.appendChild(outboundIpv6Header)
                     row.appendChild(outboundIpv6Value)
                     outboundACL.appendChild(row)
@@ -440,6 +465,11 @@ async function getPortInfoFull(ip, username, password, port) {
                     outboundMacHeader.textContent = 'MAC'
                     let outboundMacValue = document.createElement('td')
                     outboundMacValue.textContent = outbound.name
+                    outboundMacValue.style.cursor = 'pointer'
+                    outboundMacValue.onclick = function() {
+                        let modal = new bootstrap.Modal(document.getElementById('aclInfoModalWindow'))
+                        modal.show();
+                    };
                     row.appendChild(outboundMacHeader)
                     row.appendChild(outboundMacValue)
                     outboundACL.appendChild(row)
