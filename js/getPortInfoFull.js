@@ -103,6 +103,13 @@ async function getPortInfoFull(ip, username, password, port) {
         operStatus.textContent = ''
         operStatus.textContent = parsedData.operStatus
         operStatus.value = parsedData.operStatus
+        if (operStatus.textContent === 'Up') {
+            operStatus.style.color = 'green'
+            operStatus.style.borderColor = 'green'
+        } else {
+            operStatus.style.color = 'red'
+            operStatus.style.borderColor = 'red'
+        }
         let actualDuplex = document.getElementById('actualDuplex')
         actualDuplex.textContent = ''
         actualDuplex.textContent = parsedData.actualDuplex
@@ -206,19 +213,26 @@ async function getPortInfoFull(ip, username, password, port) {
         trunkTabContent.className = 'tab-pane fade'
         let hybridTabContent = document.getElementById('v-pills-hybrid')
         hybridTabContent.className = 'tab-pane fade'
+
+        let accessPvid = document.getElementById('access-PVID')
+        let trunkPvid = document.getElementById('trunk-PVID')
+        let hybridPvid = document.getElementById('hybrid-PVID')
+
         switch (linkType) {
             case 'Access':
                 accessTab.className = 'nav-link active'
                 accessTabContent.className = 'tab-pane fade show active'
-                let accessPvid = document.getElementById('access-PVID')
                 accessPvid.value = null
+                hybridPvid.value = null
+                trunkPvid.value = null
                 accessPvid.value = pvid
                 break;
 
             case 'Trunk':
                 trunkTab.className = 'nav-link active'
                 trunkTabContent.className = 'tab-pane fade show active'
-                let trunkPvid = document.getElementById('trunk-PVID')
+                accessPvid.value = null
+                hybridPvid.value = null
                 trunkPvid.value = null
                 trunkPvid.value = pvid
                 let trunkTaggedVlans = document.getElementById('taggedTrunkVlanGroup')
@@ -242,8 +256,9 @@ async function getPortInfoFull(ip, username, password, port) {
             case 'Hybrid':
                 hybridTab.className = 'nav-link active'
                 hybridTabContent.className = 'tab-pane fade show active'
-                let hybridPvid = document.getElementById('hybrid-PVID')
+                accessPvid.value = null
                 hybridPvid.value = null
+                trunkPvid.value = null
                 hybridPvid.value = pvid
                 let hybridTaggedVlans = document.getElementById('taggedHybridVlanGroup')
                 for (let taggedVlan of taggedVlanList) {
