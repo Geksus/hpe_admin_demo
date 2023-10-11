@@ -36,13 +36,16 @@
     display: inline-table;
 }
 
-.table-scroll thead > tr {
-    border-left: #32a1ce thin solid;
-}
-
 .table-scroll thead > tr > th{
     padding-left: 1em;
     width: max-content;
+}
+
+.table-select {
+    margin-left: 0;
+    margin-right: 0;
+    max-width: 12em;
+    min-width: 7em;
 }
 
 /*Rest*/
@@ -50,6 +53,11 @@ body {
     width: 30%;
     padding-left: 1em;
     display: inline;
+    justify-content: center;
+}
+
+.modal-body {
+    display: flex;
     justify-content: center;
 }
 

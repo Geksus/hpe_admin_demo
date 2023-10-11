@@ -108,6 +108,40 @@ function nowYouDont() {
     }
 }
 
+function addRuleListeners() {
+    let addButtons = document.getElementsByClassName('btn-success');  // replace 'addButton' with your actual button's class
+    for (let i = 0; i < addButtons.length; i++) {
+        addButtons[i].addEventListener('click', addRow);
+    }
+}
+
+function removeRuleListeners() {
+    let removeButtons = document.getElementsByClassName('btn-danger')
+    for (let i = 0; i < removeButtons.length; i++) {
+        removeButtons[i].addEventListener('click', removeRow)
+    }
+}
+
+function removeRow(event) {
+    let target = event.target;
+    let currentRow = target.parentElement.parentElement.parentElement;  // assuming the structure is button -> td -> tr
+
+    currentRow.remove()
+}
+
+function addRow(event) {
+    let target = event.target;
+    let currentRow = target.parentElement.parentElement.parentElement;  // assuming the structure is button -> td -> tr
+
+    // Clone the row
+    let newRow = currentRow.cloneNode(true);
+
+    // Insert the cloned row after the current row
+    currentRow.parentNode.insertBefore(newRow, currentRow.nextSibling);
+    addRuleListeners()
+    removeRuleListeners()
+}
+
 window.onload = function () {
     adjustWidth()
 }

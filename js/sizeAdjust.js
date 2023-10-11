@@ -2,7 +2,8 @@ function adjustWidth() {
     let classes = [
         'statLabel',
         'vlanLabel',
-        'generalLabel'
+        'generalLabel',
+        'tableLeft',
     ]
 
     for (let className of classes) {

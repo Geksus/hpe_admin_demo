@@ -245,9 +245,6 @@ async function getPortInfoFull(ip, username, password, port) {
                     vlan.style.justifyContent = 'space-between'
                     let closeButton = document.createElement('button')
                     closeButton.className = 'btn-close'
-                    closeButton.addEventListener('click', function() {
-                        vlan.remove()
-                    })
                     vlan.appendChild(closeButton)
                     trunkTaggedVlans.appendChild(vlan)
                 }
@@ -383,6 +380,7 @@ async function getPortInfoFull(ip, username, password, port) {
                     let row = document.createElement('tr')
                     let inboundIpv4Header = document.createElement('td')
                     inboundIpv4Header.textContent = 'IPv4'
+                    inboundIpv4Header.className = 'tableLeft'
                     let inboundIpv4Value = document.createElement('td')
                     inboundIpv4Value.textContent = inbound.name
                     inboundIpv4Value.style.cursor = 'pointer'
@@ -398,6 +396,7 @@ async function getPortInfoFull(ip, username, password, port) {
                     let row = document.createElement('tr')
                     let inboundIpv6Header = document.createElement('td')
                     inboundIpv6Header.textContent = 'IPv6'
+                    inboundIpv6Header.className = 'tableLeft'
                     let inboundIpv6Value = document.createElement('td')
                     inboundIpv6Value.textContent = inbound.name
                     inboundIpv6Value.style.cursor = 'pointer'
@@ -413,6 +412,7 @@ async function getPortInfoFull(ip, username, password, port) {
                     let row = document.createElement('tr')
                     let inboundMacHeader = document.createElement('td')
                     inboundMacHeader.textContent = 'MAC'
+                    inboundMacHeader.className = 'tableLeft'
                     let inboundMacValue = document.createElement('td')
                     inboundMacValue.textContent = inbound.name
                     inboundMacValue.style.cursor = 'pointer'
@@ -433,12 +433,13 @@ async function getPortInfoFull(ip, username, password, port) {
                     let row = document.createElement('tr')
                     let outboundIpv4Header = document.createElement('td')
                     outboundIpv4Header.textContent = 'IPv4'
+                    outboundIpv4Header.className = 'tableLeft'
                     let outboundIpv4Value = document.createElement('td')
                     outboundIpv4Value.textContent = outbound.name
                     outboundIpv4Value.style.cursor = 'pointer'
                     outboundIpv4Value.onclick = function() {
                         let modal = new bootstrap.Modal(document.getElementById('aclInfoModalWindow'))
-                        modal.show();
+                        aclInfoFull(connectIp.value, connectUsername.value, connectPassword.value, outboundIpv4Value.textContent, modal)
                     };
                     row.appendChild(outboundIpv4Header)
                     row.appendChild(outboundIpv4Value)
@@ -448,12 +449,13 @@ async function getPortInfoFull(ip, username, password, port) {
                     let row = document.createElement('tr')
                     let outboundIpv6Header = document.createElement('td')
                     outboundIpv6Header.textContent = 'IPv6'
+                    outboundIpv6Header.className = 'tableLeft'
                     let outboundIpv6Value = document.createElement('td')
                     outboundIpv6Value.textContent = outbound.name
                     outboundIpv6Value.style.cursor = 'pointer'
                     outboundIpv6Value.onclick = function() {
                         let modal = new bootstrap.Modal(document.getElementById('aclInfoModalWindow'))
-                        modal.show();
+                        aclInfoFull(connectIp.value, connectUsername.value, connectPassword.value, outboundIpv6Value.textContent, modal)
                     };
                     row.appendChild(outboundIpv6Header)
                     row.appendChild(outboundIpv6Value)
@@ -463,12 +465,13 @@ async function getPortInfoFull(ip, username, password, port) {
                     let row = document.createElement('tr')
                     let outboundMacHeader = document.createElement('td')
                     outboundMacHeader.textContent = 'MAC'
+                    outboundMacHeader.className = 'tableLeft'
                     let outboundMacValue = document.createElement('td')
                     outboundMacValue.textContent = outbound.name
                     outboundMacValue.style.cursor = 'pointer'
                     outboundMacValue.onclick = function() {
                         let modal = new bootstrap.Modal(document.getElementById('aclInfoModalWindow'))
-                        modal.show();
+                        aclInfoFull(connectIp.value, connectUsername.value, connectPassword.value, outboundMacValue.textContent, modal)
                     };
                     row.appendChild(outboundMacHeader)
                     row.appendChild(outboundMacValue)
@@ -478,6 +481,7 @@ async function getPortInfoFull(ip, username, password, port) {
         }
     }
     backupData = backupFormData()
+    adjustWidth()
 
 }
 
