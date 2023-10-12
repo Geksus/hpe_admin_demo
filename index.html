@@ -42,14 +42,17 @@
                             <th scope="col">#</th>
                             <th scope="col">Action</th>
                             <th scope="col">Protocol</th>
-                            <th scope="col">Source<br>IP</th>
-                            <th scope="col">Source<br>port<br> operation</th>
-                            <th scope="col">Source<br>port<br>value 1</th>
-                            <th scope="col">Source<br>port<br>value 2</th>
-                            <th scope="col">Dest.<br>IP</th>
-                            <th scope="col">Dest.<br>port<br>operation</th>
-                            <th scope="col">Dest.<br>port<br>value 1</th>
-                            <th scope="col">Dest.<br>port<br>value 2</th>
+                            <th scope="col">Source IP</th>
+                            <th scope="col">Src prt op</th>
+                            <th scope="col">Src prt val 1</th>
+                            <th scope="col">Src prt val 2</th>
+                            <th scope="col">Dest. IP</th>
+                            <th scope="col">Dst prt op</th>
+                            <th scope="col">Dst prt val 1</th>
+                            <th scope="col">Dst prt val 2</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
                         </tr>
                         </thead>
                         <tbody id="aclRuleTable">
@@ -82,7 +85,9 @@
                 <input id="connectIp"
                        class="form-control far-right ip-address form-control far-right ip-address-navbar" type="text"
                        placeholder="IP"
-                       aria-label="IP">
+                       aria-label="IP"
+                       value="10.10.10.10"
+                >
             </li>
             <li class="nav-item d-none d-sm-inline-block">
                 <div class="nav-link">Username</div>
@@ -110,7 +115,9 @@
                 <input type="text" id="connectPort"
                        class="form-control far-right ip-address form-control far-right ip-address-navbar"
                        placeholder="Port"
-                       aria-label="Port">
+                       aria-label="Port"
+                       value="24"
+                >
             </li>
             <li>
                 <button id="connectButton" class="btn btn-outline-primary" style="margin-left: 20px">Connect</button>

@@ -245,6 +245,9 @@ async function getPortInfoFull(ip, username, password, port) {
                     vlan.style.justifyContent = 'space-between'
                     let closeButton = document.createElement('button')
                     closeButton.className = 'btn-close'
+                    closeButton.addEventListener('click', function() {
+                        vlan.remove()
+                    })
                     vlan.appendChild(closeButton)
                     trunkTaggedVlans.appendChild(vlan)
                 }
@@ -263,6 +266,14 @@ async function getPortInfoFull(ip, username, password, port) {
                     vlan.className = 'form-control taggedVlan'
                     vlan.value = taggedVlan
                     vlan.textContent = taggedVlan
+                    vlan.style.display = 'flex'
+                    vlan.style.justifyContent = 'space-between'
+                    let closeButton = document.createElement('button')
+                    closeButton.className = 'btn-close'
+                    closeButton.addEventListener('click', function() {
+                        vlan.remove()
+                    })
+                    vlan.appendChild(closeButton)
                     hybridTaggedVlans.appendChild(vlan)
                 }
                 let hybridUntaggedVlans = document.getElementById('untaggedVlans')

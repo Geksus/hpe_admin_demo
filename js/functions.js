@@ -108,10 +108,17 @@ function nowYouDont() {
     }
 }
 
-function addRuleListeners() {
-    let addButtons = document.getElementsByClassName('btn-success');  // replace 'addButton' with your actual button's class
+function addRuleAfterListeners() {
+    let addButtons = document.getElementsByClassName('after');  // replace 'addButton' with your actual button's class
     for (let i = 0; i < addButtons.length; i++) {
-        addButtons[i].addEventListener('click', addRow);
+        addButtons[i].addEventListener('click', addRuleAfterFunction);
+    }
+}
+
+function addRuleBeforeListeners() {
+    let addButtons = document.getElementsByClassName('before');  // replace 'addButton' with your actual button's class
+    for (let i = 0; i < addButtons.length; i++) {
+        addButtons[i].addEventListener('click', addRuleBeforeFunction);
     }
 }
 
@@ -129,17 +136,121 @@ function removeRow(event) {
     currentRow.remove()
 }
 
-function addRow(event) {
+function addRuleAfterFunction(event) {
     let target = event.target;
     let currentRow = target.parentElement.parentElement.parentElement;  // assuming the structure is button -> td -> tr
 
     // Clone the row
     let newRow = currentRow.cloneNode(true);
+    aclDefaultRule(newRow)
 
     // Insert the cloned row after the current row
     currentRow.parentNode.insertBefore(newRow, currentRow.nextSibling);
-    addRuleListeners()
+    addRuleAfterListeners()
+    addRuleBeforeListeners()
     removeRuleListeners()
+}
+
+function addRuleBeforeFunction(event) {
+    let target = event.target;
+    let currentRow = target.parentElement.parentElement.parentElement;  // assuming the structure is button -> td -> tr
+
+    // Clone the row
+    let newRow = currentRow.cloneNode(true);
+    aclDefaultRule(newRow)
+
+    // Insert the cloned row after the current row
+    currentRow.parentNode.insertBefore(newRow, currentRow);
+    addRuleAfterListeners()
+    addRuleBeforeListeners()
+    removeRuleListeners()
+}
+
+function aclDefaultRule(row) {
+    let aclRuleNumber = row.getElementsByClassName('acRuleNumber')
+    aclRuleNumber[0].value = ''
+    let aclRuleAction = row.getElementsByClassName('aclRuleAction')
+    aclRuleAction[0].innerHTML = ''
+    for (let option of ['Permit', 'Deny']) {
+        let action = document.createElement('option')
+        action.textContent = option
+        aclRuleAction[0].appendChild(action)
+    }
+    let aclRuleProtocol = row.getElementsByClassName('aclRuleProtocol')
+    aclRuleProtocol[0].innerHTML = ''
+    for (let option of ["Any", "ICMP", "IGMP", "IP", "TCP", "UDP", "GRE", "IPv6esp", "ICMPv6"]) {
+        let prot = document.createElement('option')
+        prot.textContent = option
+        aclRuleProtocol[0].appendChild(prot)
+    }
+    let aclRuleSrcIp = row.getElementsByClassName('aclRuleSrcIp')
+    aclRuleSrcIp[0].value = '0.0.0.0/0'
+    let aclRuleSrcPortOp = row.getElementsByClassName('aclRuleSrcPortOp')
+    aclRuleSrcPortOp[0].innerHTML = ''
+    for (let option of ['Range', '-------', 'Equal', 'Less', 'Greater', 'NotEqual']) {
+        let oper = document.createElement('option')
+        oper.textContent = option
+        aclRuleSrcPortOp[0].appendChild(oper)
+    }
+    aclRuleSrcPortOp[0].addEventListener('change', function(event) {
+        if (event.target.value !== 'Range') {
+            ruleSrcPortValue2[0].style.visibility = 'hidden'
+        } else {
+            ruleSrcPortValue2[0].style.visibility = 'visible'
+        }
+    })
+    aclRuleSrcPortOp[0].style.visibility = 'hidden'
+    let ruleSrcPortValue1 = row.getElementsByClassName('ruleSrcPortValue1')
+    ruleSrcPortValue1[0].value = '1'
+    ruleSrcPortValue1[0].style.visibility = 'hidden'
+    let ruleSrcPortValue2 = row.getElementsByClassName('ruleSrcPortValue2')
+    ruleSrcPortValue2[0].value = '65535'
+    ruleSrcPortValue2[0].style.visibility = 'hidden'
+    let aclRuleDstIp = row.getElementsByClassName('aclRuleDstIp')
+    aclRuleDstIp[0].value = '0.0.0.0/0'
+    let aclRuleDstPortOp = row.getElementsByClassName('aclRuleDstPortOp')
+    aclRuleDstPortOp[0].innerHTML = ''
+    for (let option of ['Range', '-------', 'Equal', 'Less', 'Greater', 'NotEqual']) {
+        let oper = document.createElement('option')
+        oper.textContent = option
+        aclRuleDstPortOp[0].appendChild(oper)
+    }
+    aclRuleDstPortOp[0].addEventListener('change', function(event) {
+        if (event.target.value !== 'Range') {
+            ruleDstPortValue2[0].style.visibility = 'hidden'
+        } else {
+            ruleDstPortValue2[0].style.visibility = 'visible'
+        }
+    })
+    aclRuleDstPortOp[0].style.visibility = 'hidden'
+    let ruleDstPortValue1 = row.getElementsByClassName('ruleDstPortValue1')
+    ruleDstPortValue1[0].value = '1'
+    ruleDstPortValue1[0].style.visibility = 'hidden'
+    let ruleDstPortValue2 = row.getElementsByClassName('ruleDstPortValue2')
+    ruleDstPortValue2[0].value = '65535'
+    ruleDstPortValue2[0].style.visibility = 'hidden'
+
+    aclRuleProtocol[0].addEventListener('change', function (event) {
+        if (event.target.value === 'TCP' || event.target.value === 'UDP') {
+            aclRuleSrcPortOp[0].style.visibility = 'visible'
+            ruleSrcPortValue1[0].style.visibility = 'visible'
+            if (aclRuleSrcPortOp[0].value === 'Range') {
+                ruleSrcPortValue2[0].style.visibility = 'visible'
+            }
+            aclRuleDstPortOp[0].style.visibility = 'visible'
+            ruleDstPortValue1[0].style.visibility = 'visible'
+            if (aclRuleDstPortOp[0].value === 'Range') {
+                ruleDstPortValue2[0].style.visibility = 'visible'
+            }
+        } else {
+            aclRuleSrcPortOp[0].style.visibility = 'hidden'
+            ruleSrcPortValue1[0].style.visibility = 'hidden'
+            ruleSrcPortValue2[0].style.visibility = 'hidden'
+            aclRuleDstPortOp[0].style.visibility = 'hidden'
+            ruleDstPortValue1[0].style.visibility = 'hidden'
+            ruleDstPortValue2[0].style.visibility = 'hidden'
+        }
+    })
 }
 
 window.onload = function () {
