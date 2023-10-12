@@ -65,16 +65,22 @@ async function aclInfoFull(ip, username, password, name, modal) {
     //ACL full info
     let aclRuleTable = document.getElementById('aclRuleTable')
     aclRuleTable.innerHTML = ''
+    aclRuleTable.id = 'aclRuleTable'
     let rules = parsedData.rules
 
     // Iterating over rules
     if (rules.length > 0) {
         for (let i = 0; i < rules.length; i++) {
             let row = document.createElement('tr')
+            row.id = i.toString()
+            row.className = 'ruleRow'
+
+
             let ruleNumber = document.createElement('td')
             ruleNumber.style.width = '5em'
             let ruleNumberDiv = document.createElement('div')
             let ruleNumberInput = document.createElement('input')
+            ruleNumberInput.id = row.id + 'ruleNumberInput'
             ruleNumberInput.className = 'form-control acRuleNumber'
             ruleNumberInput.type = 'text'
             ruleNumberInput.value = rules[i].ruleID
@@ -87,6 +93,7 @@ async function aclInfoFull(ip, username, password, name, modal) {
             let ruleActionDiv = document.createElement('div')
             let ruleActionSelect = document.createElement('select')
             ruleActionSelect.className = 'form-select table-select aclRuleAction'
+            ruleActionSelect.id = row.id + 'ruleActionSelect'
             let ruleActionCurrent = document.createElement('option')
             ruleActionCurrent.textContent = rules[i].action
             ruleActionSelect.appendChild(ruleActionCurrent)
@@ -106,6 +113,7 @@ async function aclInfoFull(ip, username, password, name, modal) {
             let ruleProtocolDiv = document.createElement('div')
             let ruleProtocolSelect = document.createElement('select')
             ruleProtocolSelect.className = 'form-select table-select aclRuleProtocol'
+            ruleProtocolSelect.id = row.id + 'ruleProtocolSelect'
             let ruleProtocolCurrent = document.createElement('option')
             ruleProtocolCurrent.textContent = rules[i].protocol
             for (let key of Object.keys(protocols)) {
@@ -125,20 +133,24 @@ async function aclInfoFull(ip, username, password, name, modal) {
             ruleProtocolDiv.appendChild(ruleProtocolSelect)
             ruleProtocol.appendChild(ruleProtocolDiv)
 
+
             let ruleSrcIP = document.createElement('td')
             ruleSrcIP.style.width = '12em'
             let ruleSrcIPDiv = document.createElement('div')
             let ruleSrcIPInput = document.createElement('input')
+            ruleSrcIPInput.id = row.id + 'ruleSrcIPInput'
             ruleSrcIPInput.className = 'form-control aclRuleSrcIp'
             ruleSrcIPInput.type = 'text'
             ruleSrcIPInput.value = rules[i].srcIP
             ruleSrcIPDiv.appendChild(ruleSrcIPInput)
             ruleSrcIP.appendChild(ruleSrcIPDiv)
 
+
             let ruleSrcPortOperation = document.createElement('td')
             ruleSrcPortOperation.style.width = '8em'
             let ruleSrcPortOperationDiv = document.createElement('div')
             let ruleSrcPortOperationSelect = document.createElement('select')
+            ruleSrcPortOperationSelect.id = row.id + 'ruleSrcPortOperationSelect'
             ruleSrcPortOperationSelect.className = 'form-select table-select aclRuleSrcPortOp'
             let ruleSrcOperationCurrent = document.createElement('option')
             ruleSrcOperationCurrent.textContent = ''
@@ -161,6 +173,7 @@ async function aclInfoFull(ip, username, password, name, modal) {
             ruleSrcPortValue1.style.width = '6em'
             let ruleSrcPortValue1Div = document.createElement('div')
             let ruleSrcPortValue1Input = document.createElement('input')
+            ruleSrcPortValue1Input.id = row.id + 'ruleSrcPortValue1Input'
             ruleSrcPortValue1Input.className = 'form-control ruleSrcPortValue1'
             ruleSrcPortValue1Input.type = 'text'
             if (rules[i].srcPort !== null) {
@@ -174,6 +187,7 @@ async function aclInfoFull(ip, username, password, name, modal) {
             ruleSrcPortValue2.style.width = '6em'
             let ruleSrcPortValue2Div = document.createElement('div')
             let ruleSrcPortValue2Input = document.createElement('input')
+            ruleSrcPortValue2Input.id = row.id + 'ruleSrcPortValue2Input'
             ruleSrcPortValue2Input.className = 'form-control ruleSrcPortValue2'
             ruleSrcPortValue2Input.type = 'text'
             if (ruleSrcOperationCurrent.textContent === 'Range') {
@@ -187,6 +201,7 @@ async function aclInfoFull(ip, username, password, name, modal) {
             ruleDstIP.style.width = '12em'
             let ruleDstIPDiv = document.createElement('div')
             let ruleDstIPInput = document.createElement('input')
+            ruleDstIPInput.id = row.id + 'ruleDstIPInput'
             ruleDstIPInput.className = 'form-control aclRuleDstIp'
             ruleDstIPInput.type = 'text'
             ruleDstIPInput.value = rules[i].dstIP
@@ -198,6 +213,7 @@ async function aclInfoFull(ip, username, password, name, modal) {
             ruleDstPortOperation.style.width = '8em'
             let ruleDstPortOperationDiv = document.createElement('div')
             let ruleDstPortOperationSelect = document.createElement('select')
+            ruleDstPortOperationSelect.id = row.id + 'ruleDstPortOperationSelect'
             ruleDstPortOperationSelect.className = 'form-select table-select aclRuleDstPortOp'
             let ruleDstOperationCurrent = document.createElement('option')
             ruleDstOperationCurrent.textContent = ''
@@ -220,6 +236,7 @@ async function aclInfoFull(ip, username, password, name, modal) {
             ruleDstPortValue1.style.width = '6em'
             let ruleDstPortValue1Div = document.createElement('div')
             let ruleDstPortValue1Input = document.createElement('input')
+            ruleDstPortValue1Input.id = row.id + 'ruleDstPortValue1Input'
             ruleDstPortValue1Input.className = 'form-control ruleDstPortValue1'
             ruleDstPortValue1Input.type = 'text'
             if (rules[i].dstPort !== null) {
@@ -233,6 +250,7 @@ async function aclInfoFull(ip, username, password, name, modal) {
             ruleDstPortValue2.style.width = '6em'
             let ruleDstPortValue2Div = document.createElement('div')
             let ruleDstPortValue2Input = document.createElement('input')
+            ruleDstPortValue2Input.id = row.id + 'ruleDstPortValue2Input'
             ruleDstPortValue2Input.className = 'form-control ruleDstPortValue2'
             ruleDstPortValue2Input.type = 'text'
             if (ruleDstOperationCurrent.textContent === 'Range') {
