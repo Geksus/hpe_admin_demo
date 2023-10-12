@@ -9,6 +9,66 @@
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 </head>
 <body>
+<!-- ACL info modal window -->
+<div class="modal fade" id="aclInfoModalWindow" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="container container-xxl">
+                    <div class="mb-3">
+                        <div class="input-group">
+                            <span class="input-group-text generalLabel">Type/Name</span>
+                            <div type="text" class="form-control" id="aclType"
+                                 aria-describedby="basic-addon3 basic-addon4" style="width: fit-content"></div>
+                            <div type="text" class="form-control" id="aclName"
+                                 aria-describedby="basic-addon3 basic-addon4"></div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <div class="input-group">
+                            <span class="input-group-text generalLabel">Description</span>
+                            <div type="text" class="form-control" id="aclDescription"
+                                 aria-describedby="basic-addon3 basic-addon4"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="col col-10">
+                    <table class="table table-striped aclTable">
+                        <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Action</th>
+                            <th scope="col">Protocol</th>
+                            <th scope="col">Source IP</th>
+                            <th scope="col">Src prt op</th>
+                            <th scope="col">Src prt val 1</th>
+                            <th scope="col">Src prt val 2</th>
+                            <th scope="col">Dest. IP</th>
+                            <th scope="col">Dst prt op</th>
+                            <th scope="col">Dst prt val 1</th>
+                            <th scope="col">Dst prt val 2</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tbody id="aclRuleTable">
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary disabled">Understood</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Navbar -->
 <nav class="main-header navbar navbar-expand navbar-light navbar-white">
     <div class="container">
@@ -25,7 +85,9 @@
                 <input id="connectIp"
                        class="form-control far-right ip-address form-control far-right ip-address-navbar" type="text"
                        placeholder="IP"
-                       aria-label="IP">
+                       aria-label="IP"
+                       value="10.10.10.10"
+                >
             </li>
             <li class="nav-item d-none d-sm-inline-block">
                 <div class="nav-link">Username</div>
@@ -41,7 +103,7 @@
             </li>
             <li>
                 <input id="connectPassword"
-                       class="form-control far-right ip-address form-control far-right ip-address-navbar"
+                       class="form-control far-right ip-address ip-address-navbar"
                        type="password"
                        placeholder="Password"
                        aria-label="Password">
@@ -53,7 +115,9 @@
                 <input type="text" id="connectPort"
                        class="form-control far-right ip-address form-control far-right ip-address-navbar"
                        placeholder="Port"
-                       aria-label="Port">
+                       aria-label="Port"
+                       value="24"
+                >
             </li>
             <li>
                 <button id="connectButton" class="btn btn-outline-primary" style="margin-left: 20px">Connect</button>
@@ -188,7 +252,8 @@
                                                     <div class="input-group mb-3" id="taggedTrunkVlanGroup">
                                                         <span class="input-group-text vlanLabel">Tagged VLANs</span>
                                                         <button class="btn btn-outline-secondary" type="button"
-                                                                onclick="addTaggedVlanHandler('taggedTrunkVlanGroup')">Add
+                                                                onclick="addTaggedVlanHandler('taggedTrunkVlanGroup')">
+                                                            Add
                                                         </button>
                                                     </div>
                                                 </div>
@@ -210,7 +275,8 @@
                                                     <div class="input-group mb-3" id="taggedHybridVlanGroup">
                                                         <span class="input-group-text vlanLabel">Tagged VLANs</span>
                                                         <button class="btn btn-outline-secondary" type="button"
-                                                                onclick="addTaggedVlanHandler('taggedHybridVlanGroup')">Add
+                                                                onclick="addTaggedVlanHandler('taggedHybridVlanGroup')">
+                                                            Add
                                                         </button>
                                                     </div>
                                                 </div>
@@ -385,6 +451,8 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
 <script src="js/prank.js"></script>
+<script src="js/functions.js"></script>
+<script src="js/aclInfoFull.js"></script>
 <script src="js/listeners.js"></script>
 <script src="js/sizeAdjust.js"></script>
 <script src="js/getPortInfoFull.js"></script>

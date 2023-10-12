@@ -103,6 +103,13 @@ async function getPortInfoFull(ip, username, password, port) {
         operStatus.textContent = ''
         operStatus.textContent = parsedData.operStatus
         operStatus.value = parsedData.operStatus
+        if (operStatus.textContent === 'Up') {
+            operStatus.style.color = 'green'
+            operStatus.style.borderColor = 'green'
+        } else {
+            operStatus.style.color = 'red'
+            operStatus.style.borderColor = 'red'
+        }
         let actualDuplex = document.getElementById('actualDuplex')
         actualDuplex.textContent = ''
         actualDuplex.textContent = parsedData.actualDuplex
@@ -206,19 +213,26 @@ async function getPortInfoFull(ip, username, password, port) {
         trunkTabContent.className = 'tab-pane fade'
         let hybridTabContent = document.getElementById('v-pills-hybrid')
         hybridTabContent.className = 'tab-pane fade'
+
+        let accessPvid = document.getElementById('access-PVID')
+        let trunkPvid = document.getElementById('trunk-PVID')
+        let hybridPvid = document.getElementById('hybrid-PVID')
+
         switch (linkType) {
             case 'Access':
                 accessTab.className = 'nav-link active'
                 accessTabContent.className = 'tab-pane fade show active'
-                let accessPvid = document.getElementById('access-PVID')
                 accessPvid.value = null
+                hybridPvid.value = null
+                trunkPvid.value = null
                 accessPvid.value = pvid
                 break;
 
             case 'Trunk':
                 trunkTab.className = 'nav-link active'
                 trunkTabContent.className = 'tab-pane fade show active'
-                let trunkPvid = document.getElementById('trunk-PVID')
+                accessPvid.value = null
+                hybridPvid.value = null
                 trunkPvid.value = null
                 trunkPvid.value = pvid
                 let trunkTaggedVlans = document.getElementById('taggedTrunkVlanGroup')
@@ -242,8 +256,9 @@ async function getPortInfoFull(ip, username, password, port) {
             case 'Hybrid':
                 hybridTab.className = 'nav-link active'
                 hybridTabContent.className = 'tab-pane fade show active'
-                let hybridPvid = document.getElementById('hybrid-PVID')
+                accessPvid.value = null
                 hybridPvid.value = null
+                trunkPvid.value = null
                 hybridPvid.value = pvid
                 let hybridTaggedVlans = document.getElementById('taggedHybridVlanGroup')
                 for (let taggedVlan of taggedVlanList) {
@@ -251,6 +266,14 @@ async function getPortInfoFull(ip, username, password, port) {
                     vlan.className = 'form-control taggedVlan'
                     vlan.value = taggedVlan
                     vlan.textContent = taggedVlan
+                    vlan.style.display = 'flex'
+                    vlan.style.justifyContent = 'space-between'
+                    let closeButton = document.createElement('button')
+                    closeButton.className = 'btn-close'
+                    closeButton.addEventListener('click', function() {
+                        vlan.remove()
+                    })
+                    vlan.appendChild(closeButton)
                     hybridTaggedVlans.appendChild(vlan)
                 }
                 let hybridUntaggedVlans = document.getElementById('untaggedVlans')
@@ -368,8 +391,14 @@ async function getPortInfoFull(ip, username, password, port) {
                     let row = document.createElement('tr')
                     let inboundIpv4Header = document.createElement('td')
                     inboundIpv4Header.textContent = 'IPv4'
+                    inboundIpv4Header.className = 'tableLeft'
                     let inboundIpv4Value = document.createElement('td')
                     inboundIpv4Value.textContent = inbound.name
+                    inboundIpv4Value.style.cursor = 'pointer'
+                    inboundIpv4Value.onclick = function() {
+                        let modal = new bootstrap.Modal(document.getElementById('aclInfoModalWindow'))
+                        aclInfoFull(connectIp.value, connectUsername.value, connectPassword.value, inboundIpv4Value.textContent, modal)
+                    };
                     row.appendChild(inboundIpv4Header)
                     row.appendChild(inboundIpv4Value)
                     inboundACL.appendChild(row)
@@ -378,8 +407,14 @@ async function getPortInfoFull(ip, username, password, port) {
                     let row = document.createElement('tr')
                     let inboundIpv6Header = document.createElement('td')
                     inboundIpv6Header.textContent = 'IPv6'
+                    inboundIpv6Header.className = 'tableLeft'
                     let inboundIpv6Value = document.createElement('td')
                     inboundIpv6Value.textContent = inbound.name
+                    inboundIpv6Value.style.cursor = 'pointer'
+                    inboundIpv6Value.onclick = function() {
+                        let modal = new bootstrap.Modal(document.getElementById('aclInfoModalWindow'))
+                        aclInfoFull(connectIp.value, connectUsername.value, connectPassword.value, inboundIpv6Value.textContent, modal)
+                    };
                     row.appendChild(inboundIpv6Header)
                     row.appendChild(inboundIpv6Value)
                     inboundACL.appendChild(row)
@@ -388,8 +423,14 @@ async function getPortInfoFull(ip, username, password, port) {
                     let row = document.createElement('tr')
                     let inboundMacHeader = document.createElement('td')
                     inboundMacHeader.textContent = 'MAC'
+                    inboundMacHeader.className = 'tableLeft'
                     let inboundMacValue = document.createElement('td')
                     inboundMacValue.textContent = inbound.name
+                    inboundMacValue.style.cursor = 'pointer'
+                    inboundMacValue.onclick = function() {
+                        let modal = new bootstrap.Modal(document.getElementById('aclInfoModalWindow'))
+                        aclInfoFull(connectIp.value, connectUsername.value, connectPassword.value, inboundMacValue.textContent, modal)
+                    };
                     row.appendChild(inboundMacHeader)
                     row.appendChild(inboundMacValue)
                     inboundACL.appendChild(row)
@@ -403,8 +444,14 @@ async function getPortInfoFull(ip, username, password, port) {
                     let row = document.createElement('tr')
                     let outboundIpv4Header = document.createElement('td')
                     outboundIpv4Header.textContent = 'IPv4'
+                    outboundIpv4Header.className = 'tableLeft'
                     let outboundIpv4Value = document.createElement('td')
                     outboundIpv4Value.textContent = outbound.name
+                    outboundIpv4Value.style.cursor = 'pointer'
+                    outboundIpv4Value.onclick = function() {
+                        let modal = new bootstrap.Modal(document.getElementById('aclInfoModalWindow'))
+                        aclInfoFull(connectIp.value, connectUsername.value, connectPassword.value, outboundIpv4Value.textContent, modal)
+                    };
                     row.appendChild(outboundIpv4Header)
                     row.appendChild(outboundIpv4Value)
                     outboundACL.appendChild(row)
@@ -413,8 +460,14 @@ async function getPortInfoFull(ip, username, password, port) {
                     let row = document.createElement('tr')
                     let outboundIpv6Header = document.createElement('td')
                     outboundIpv6Header.textContent = 'IPv6'
+                    outboundIpv6Header.className = 'tableLeft'
                     let outboundIpv6Value = document.createElement('td')
                     outboundIpv6Value.textContent = outbound.name
+                    outboundIpv6Value.style.cursor = 'pointer'
+                    outboundIpv6Value.onclick = function() {
+                        let modal = new bootstrap.Modal(document.getElementById('aclInfoModalWindow'))
+                        aclInfoFull(connectIp.value, connectUsername.value, connectPassword.value, outboundIpv6Value.textContent, modal)
+                    };
                     row.appendChild(outboundIpv6Header)
                     row.appendChild(outboundIpv6Value)
                     outboundACL.appendChild(row)
@@ -423,8 +476,14 @@ async function getPortInfoFull(ip, username, password, port) {
                     let row = document.createElement('tr')
                     let outboundMacHeader = document.createElement('td')
                     outboundMacHeader.textContent = 'MAC'
+                    outboundMacHeader.className = 'tableLeft'
                     let outboundMacValue = document.createElement('td')
                     outboundMacValue.textContent = outbound.name
+                    outboundMacValue.style.cursor = 'pointer'
+                    outboundMacValue.onclick = function() {
+                        let modal = new bootstrap.Modal(document.getElementById('aclInfoModalWindow'))
+                        aclInfoFull(connectIp.value, connectUsername.value, connectPassword.value, outboundMacValue.textContent, modal)
+                    };
                     row.appendChild(outboundMacHeader)
                     row.appendChild(outboundMacValue)
                     outboundACL.appendChild(row)
@@ -433,6 +492,7 @@ async function getPortInfoFull(ip, username, password, port) {
         }
     }
     backupData = backupFormData()
+    adjustWidth()
 
 }
 
@@ -583,116 +643,3 @@ async function setPortConfig(ip, username, password, port) {
     await getPortInfoFull(connectIp.value, connectUsername.value, connectPassword.value, connectPort.value)
 }
 
-function isValidIP(ipaddress) {
-    // Regular expression for IP validation
-    let ipformat = /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
-
-    return !!ipaddress.match(ipformat);
-
-
-}
-
-function suppressionRange(unit, value, type) {
-    switch (unit) {
-        case 'Pps':
-            if (value < 0 || value > 14881000) {
-                window.alert(type + " value must be in 0 - 14881000 range inclusive")
-                return false;
-            }
-            break;
-        case 'Kbps':
-            if (value < 0 || value > 10000000) {
-                window.alert(type + " value must be in 0 - 10000000 range inclusive")
-                return false;
-            }
-            break;
-        case 'Ratio':
-            if (value < 0 || value > 100) {
-                window.alert(type + " value must be in 0 - 100 range inclusive")
-                return false;
-            }
-            break;
-    }
-    return true
-}
-
-function addTaggedVlanHandler(type) {
-    let parentElement = document.getElementById(type);
-    let taggedVlanItem = document.createElement('input');
-    taggedVlanItem.className = 'form-control taggedVlan';
-    taggedVlanItem.type = 'text'
-
-    // insert new element right before the add button
-    parentElement.appendChild(taggedVlanItem);
-}
-
-function backupFormData() {
-    let data = {};
-    data.adminStatus = document.getElementById('adminStatus').value
-    data.bpduDropAny = document.getElementById('bpduDropAny').value
-    data.configSpeed = document.getElementById('configSpeed').value
-    data.broadcastUnit = document.getElementById('broadcastUnit').value
-    data.broadcastValue = document.getElementById('broadcastValue').value
-    data.multicastValue = document.getElementById('multicastValue').value
-    data.unicastValue = document.getElementById('unicastValue').value
-    data.sourcesOne = document.getElementById('arpSource-0').value
-    data.sourcesTwo = document.getElementById('arpSource-1').value
-    data.sourcesThree = document.getElementById('arpSource-2').value
-    data.sourcesFour = document.getElementById('arpSource-3').value
-    data.sourcesFive = document.getElementById('arpSource-4').value
-    data.sourcesSix = document.getElementById('arpSource-5').value
-    data.sourcesSeven = document.getElementById('arpSource-6').value
-    data.sourcesEight = document.getElementById('arpSource-7').value
-
-    return data;
-}
-
-function restoreFormData() {
-    document.getElementById('adminStatus').value = backupData.adminStatus
-    document.getElementById('bpduDropAny').value = backupData.bpduDropAny
-    document.getElementById('configSpeed').value = backupData.configSpeed
-    document.getElementById('broadcastUnit').value = backupData.broadcastUnit
-    document.getElementById('broadcastValue').value = backupData.broadcastValue
-    document.getElementById('multicastValue').value = backupData.multicastValue
-    document.getElementById('unicastValue').value = backupData.unicastValue
-    document.getElementById('arpSource-0').value = backupData.sourcesOne
-    document.getElementById('arpSource-1').value = backupData.sourcesTwo
-    document.getElementById('arpSource-2').value = backupData.sourcesThree
-    document.getElementById('arpSource-3').value = backupData.sourcesFour
-    document.getElementById('arpSource-4').value = backupData.sourcesFive
-    document.getElementById('arpSource-5').value = backupData.sourcesSix
-    document.getElementById('arpSource-6').value = backupData.sourcesSeven
-    document.getElementById('arpSource-7').value = backupData.sourcesEight
-}
-
-function nowYouSeeMe() {
-    const loaders = document.getElementsByClassName('spinner-border')
-    const classes = ['mb-3', 'input-group', 'table', 'nav-link', 'btn']
-    for (let group of classes) {
-        let classGroup = document.getElementsByClassName(group)
-        for (let element of classGroup) {
-            element.style.visibility = 'hidden'
-        }
-    }
-    for (let loader of loaders) {
-        loader.style.visibility = 'visible'
-    }
-}
-
-function nowYouDont() {
-    const loaders = document.getElementsByClassName('spinner-border')
-    const classes = ['mb-3', 'input-group', 'table', 'nav-link', 'btn']
-    for (let group of classes) {
-        let classGroup = document.getElementsByClassName(group)
-        for (let element of classGroup) {
-            element.style.visibility = 'visible'
-        }
-    }
-    for (let loader of loaders) {
-        loader.style.visibility = 'hidden'
-    }
-}
-
-window.onload = function () {
-    adjustWidth()
-}
