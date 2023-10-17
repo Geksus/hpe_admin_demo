@@ -130,21 +130,17 @@ function removeRuleListeners() {
 function removeRow(event) {
     let target = event.target;
     let currentRow = target.parentElement.parentElement.parentElement;  // assuming the structure is button -> td -> tr
-    let lastId = document.getElementsByClassName('ruleRow').length
 
     currentRow.remove()
-    lastId--
 }
 
 function addRuleAfterFunction(event) {
     let target = event.target;
     let currentRow = target.parentElement.parentElement.parentElement;  // assuming the structure is button -> td -> tr
-    let lastId = document.getElementsByClassName('ruleRow').length
-    console.log(lastId)
 
     // Clone the row
     let newRow = currentRow.cloneNode(true);
-    newRow.id = ++lastId
+    newRow.id = rowIdCreator() + 1
     aclDefaultRule(newRow)
 
     // Insert the cloned row after the current row
@@ -157,12 +153,10 @@ function addRuleAfterFunction(event) {
 function addRuleBeforeFunction(event) {
     let target = event.target;
     let currentRow = target.parentElement.parentElement.parentElement;  // assuming the structure is button -> td -> tr
-    let lastId = document.getElementsByClassName('ruleRow').length
-    console.log(lastId)
 
     // Clone the row
     let newRow = currentRow.cloneNode(true);
-    newRow.id = ++lastId
+    newRow.id = rowIdCreator() + 1
     aclDefaultRule(newRow)
 
     // Insert the cloned row after the current row
@@ -188,9 +182,9 @@ function aclDefaultRule(row) {
     aclRuleProtocol[0].innerHTML = ''
     aclRuleProtocol[0].id = row.id + 'ruleProtocolSelect'
     for (let option of ["Any", "ICMP", "IGMP", "IP", "TCP", "UDP", "GRE", "IPv6esp", "ICMPv6"]) {
-        let prot = document.createElement('option')
-        prot.textContent = option
-        aclRuleProtocol[0].appendChild(prot)
+        let protocol = document.createElement('option')
+        protocol.textContent = option
+        aclRuleProtocol[0].appendChild(protocol)
     }
     let aclRuleSrcIp = row.getElementsByClassName('aclRuleSrcIp')
     aclRuleSrcIp[0].id = row.id + 'ruleSrcIPInput'
@@ -198,10 +192,10 @@ function aclDefaultRule(row) {
     let aclRuleSrcPortOp = row.getElementsByClassName('aclRuleSrcPortOp')
     aclRuleSrcPortOp[0].innerHTML = ''
     aclRuleSrcPortOp[0].id = row.id + 'ruleSrcPortOperationSelect'
-    for (let option of ['Range', '-------', 'Equal', 'Less', 'Greater', 'NotEqual']) {
-        let oper = document.createElement('option')
-        oper.textContent = option
-        aclRuleSrcPortOp[0].appendChild(oper)
+    for (let option of ['Range', 'Equal', 'Less', 'Greater', 'NotEqual']) {
+        let operation = document.createElement('option')
+        operation.textContent = option
+        aclRuleSrcPortOp[0].appendChild(operation)
     }
     aclRuleSrcPortOp[0].addEventListener('change', function(event) {
         if (event.target.value !== 'Range') {
@@ -216,7 +210,7 @@ function aclDefaultRule(row) {
     ruleSrcPortValue1[0].value = '1'
     ruleSrcPortValue1[0].style.visibility = 'hidden'
     let ruleSrcPortValue2 = row.getElementsByClassName('ruleSrcPortValue2')
-    ruleSrcPortValue2[0].id = row.id + 'ruleSrcPortValue2'
+    ruleSrcPortValue2[0].id = row.id + 'ruleSrcPortValue2Input'
     ruleSrcPortValue2[0].value = '65535'
     ruleSrcPortValue2[0].style.visibility = 'hidden'
     let aclRuleDstIp = row.getElementsByClassName('aclRuleDstIp')
@@ -225,10 +219,10 @@ function aclDefaultRule(row) {
     let aclRuleDstPortOp = row.getElementsByClassName('aclRuleDstPortOp')
     aclRuleDstPortOp[0].innerHTML = ''
     aclRuleDstPortOp[0].id = row.id + 'ruleDstPortOperationSelect'
-    for (let option of ['Range', '-------', 'Equal', 'Less', 'Greater', 'NotEqual']) {
-        let oper = document.createElement('option')
-        oper.textContent = option
-        aclRuleDstPortOp[0].appendChild(oper)
+    for (let option of ['Range', 'Equal', 'Less', 'Greater', 'NotEqual']) {
+        let operation = document.createElement('option')
+        operation.textContent = option
+        aclRuleDstPortOp[0].appendChild(operation)
     }
     aclRuleDstPortOp[0].addEventListener('change', function(event) {
         if (event.target.value !== 'Range') {
@@ -268,6 +262,15 @@ function aclDefaultRule(row) {
             ruleDstPortValue2[0].style.visibility = 'hidden'
         }
     })
+}
+
+function rowIdCreator() {
+    let rows = document.getElementsByClassName('ruleRow')
+    let ids = []
+    for (let row of rows) {
+        ids.push(row.id)
+    }
+    return Math.max(...ids)
 }
 
 window.onload = function () {

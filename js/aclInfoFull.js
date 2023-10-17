@@ -10,7 +10,7 @@ const protocols = {
     256: 'Any'
 };
 
-const operations = ['Equal', 'Less', 'Greater', 'NotEqual', 'Range', '-------']
+const operations = ['Equal', 'Less', 'Greater', 'NotEqual', 'Range']
 
 async function aclInfoFull(ip, username, password, name, modal) {
     nowYouSeeMe()
@@ -71,6 +71,7 @@ async function aclInfoFull(ip, username, password, name, modal) {
     // Iterating over rules
     if (rules.length > 0) {
         for (let i = 0; i < rules.length; i++) {
+            console.log(rules[i])
             let row = document.createElement('tr')
             row.id = i.toString()
             row.className = 'ruleRow'
@@ -130,6 +131,27 @@ async function aclInfoFull(ip, username, password, name, modal) {
                     ruleProtocolSelect.appendChild(option)
                 }
             }
+            ruleProtocolSelect.addEventListener('change', function (event) {
+                if (event.target.value === 'TCP' || event.target.value === 'UDP') {
+                    ruleSrcPortOperationSelect.style.visibility = 'visible'
+                    ruleSrcPortValue1Input.style.visibility = 'visible'
+                    if (ruleSrcPortOperationSelect.value === 'Range') {
+                        ruleSrcPortValue2Input.style.visibility = 'visible'
+                    }
+                    ruleDstPortOperationSelect.style.visibility = 'visible'
+                    ruleDstPortValue1Input.style.visibility = 'visible'
+                    if (ruleDstPortOperationSelect.value === 'Range') {
+                        ruleDstPortValue2Input.style.visibility = 'visible'
+                    }
+                } else {
+                    ruleSrcPortOperationSelect.style.visibility = 'hidden'
+                    ruleSrcPortValue1Input.style.visibility = 'hidden'
+                    ruleSrcPortValue2Input.style.visibility = 'hidden'
+                    ruleDstPortOperationSelect.style.visibility = 'hidden'
+                    ruleDstPortValue1Input.style.visibility = 'hidden'
+                    ruleDstPortValue2Input.style.visibility = 'hidden'
+                }
+            })
             ruleProtocolDiv.appendChild(ruleProtocolSelect)
             ruleProtocol.appendChild(ruleProtocolDiv)
 
@@ -153,7 +175,7 @@ async function aclInfoFull(ip, username, password, name, modal) {
             ruleSrcPortOperationSelect.id = row.id + 'ruleSrcPortOperationSelect'
             ruleSrcPortOperationSelect.className = 'form-select table-select aclRuleSrcPortOp'
             let ruleSrcOperationCurrent = document.createElement('option')
-            ruleSrcOperationCurrent.textContent = ''
+            ruleSrcOperationCurrent.textContent = 'Range'
             if (rules[i].srcPort !== null) {
                 ruleSrcOperationCurrent.textContent = rules[i].srcPort.operation
             }
@@ -165,6 +187,13 @@ async function aclInfoFull(ip, username, password, name, modal) {
                     ruleSrcPortOperationSelect.appendChild(option)
                 }
             }
+            ruleSrcPortOperationSelect.addEventListener('change', function(event) {
+                if (event.target.value !== 'Range') {
+                    ruleSrcPortValue2Input.style.visibility = 'hidden'
+                } else {
+                    ruleSrcPortValue2Input.style.visibility = 'visible'
+                }
+            })
             ruleSrcPortOperationDiv.appendChild(ruleSrcPortOperationSelect)
             ruleSrcPortOperation.appendChild(ruleSrcPortOperationDiv)
 
@@ -178,6 +207,8 @@ async function aclInfoFull(ip, username, password, name, modal) {
             ruleSrcPortValue1Input.type = 'text'
             if (rules[i].srcPort !== null) {
                 ruleSrcPortValue1Input.value = rules[i].srcPort.value1
+            } else {
+                ruleSrcPortValue1Input.value = '1'
             }
             ruleSrcPortValue1Div.appendChild(ruleSrcPortValue1Input)
             ruleSrcPortValue1.appendChild(ruleSrcPortValue1Div)
@@ -190,8 +221,14 @@ async function aclInfoFull(ip, username, password, name, modal) {
             ruleSrcPortValue2Input.id = row.id + 'ruleSrcPortValue2Input'
             ruleSrcPortValue2Input.className = 'form-control ruleSrcPortValue2'
             ruleSrcPortValue2Input.type = 'text'
-            if (ruleSrcOperationCurrent.textContent === 'Range') {
-                ruleSrcPortValue1Input.value = rules[i].srcPort.value2
+            if (rules[i].srcPort !== null && ruleSrcOperationCurrent.textContent !== 'Range') {
+                ruleSrcPortValue2Input.style.visibility = 'hidden'
+            }
+            if (rules[i].srcPort !== null && ruleSrcOperationCurrent.textContent === 'Range') {
+                ruleSrcPortValue2Input.value = rules[i].srcPort.value2
+            }
+            if (rules[i].srcPort === null && ruleSrcOperationCurrent.textContent === 'Range') {
+                ruleSrcPortValue2Input.value = '65535'
             }
             ruleSrcPortValue2Div.appendChild(ruleSrcPortValue2Input)
             ruleSrcPortValue2.appendChild(ruleSrcPortValue2Div)
@@ -216,7 +253,7 @@ async function aclInfoFull(ip, username, password, name, modal) {
             ruleDstPortOperationSelect.id = row.id + 'ruleDstPortOperationSelect'
             ruleDstPortOperationSelect.className = 'form-select table-select aclRuleDstPortOp'
             let ruleDstOperationCurrent = document.createElement('option')
-            ruleDstOperationCurrent.textContent = ''
+            ruleDstOperationCurrent.textContent = 'Range'
             if (rules[i].dstPort !== null) {
                 ruleDstOperationCurrent.textContent = rules[i].dstPort.operation
             }
@@ -228,6 +265,13 @@ async function aclInfoFull(ip, username, password, name, modal) {
                     ruleDstPortOperationSelect.appendChild(option)
                 }
             }
+            ruleDstPortOperationSelect.addEventListener('change', function(event) {
+                if (event.target.value !== 'Range') {
+                    ruleDstPortValue2Input.style.visibility = 'hidden'
+                } else {
+                    ruleDstPortValue2Input.style.visibility = 'visible'
+                }
+            })
             ruleDstPortOperationDiv.appendChild(ruleDstPortOperationSelect)
             ruleDstPortOperation.appendChild(ruleDstPortOperationDiv)
 
@@ -241,6 +285,8 @@ async function aclInfoFull(ip, username, password, name, modal) {
             ruleDstPortValue1Input.type = 'text'
             if (rules[i].dstPort !== null) {
                 ruleDstPortValue1Input.value = rules[i].dstPort.value1
+            } else {
+                ruleDstPortValue1Input.value = '1'
             }
             ruleDstPortValue1Div.appendChild(ruleDstPortValue1Input)
             ruleDstPortValue1.appendChild(ruleDstPortValue1Div)
@@ -253,8 +299,14 @@ async function aclInfoFull(ip, username, password, name, modal) {
             ruleDstPortValue2Input.id = row.id + 'ruleDstPortValue2Input'
             ruleDstPortValue2Input.className = 'form-control ruleDstPortValue2'
             ruleDstPortValue2Input.type = 'text'
-            if (ruleDstOperationCurrent.textContent === 'Range') {
-                ruleDstPortValue1Input.value = rules[i].dstPort.value2
+            if (rules[i].dstPort !== null && ruleDstOperationCurrent.textContent !== 'Range') {
+                ruleDstPortValue2Input.style.visibility = 'hidden'
+            }
+            if (rules[i].dstPort !== null && ruleDstOperationCurrent.textContent === 'Range') {
+                ruleDstPortValue2Input.value = rules[i].dstPort.value2
+            }
+            if (rules[i].dstPort === null && ruleDstOperationCurrent.textContent === 'Range') {
+                ruleDstPortValue2Input.value = '65535'
             }
             ruleDstPortValue2Div.appendChild(ruleDstPortValue2Input)
             ruleDstPortValue2.appendChild(ruleDstPortValue2Div)

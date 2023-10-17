@@ -63,7 +63,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary disabled">Understood</button>
+                <button type="button" class="btn btn-primary" id="editAcl">Save</button>
             </div>
         </div>
     </div>
@@ -96,7 +96,9 @@
                 <input id="connectUsername"
                        class="form-control far-right ip-address form-control far-right ip-address-navbar" type="text"
                        placeholder="Username"
-                       aria-label="Username">
+                       aria-label="Username"
+                       value="alex"
+                >
             </li>
             <li class="nav-item d-none d-sm-inline-block">
                 <div class="nav-link">Password</div>
@@ -106,6 +108,7 @@
                        class="form-control far-right ip-address ip-address-navbar"
                        type="password"
                        placeholder="Password"
+                       value="netconf-password"
                        aria-label="Password">
             </li>
             <li class="nav-item d-none d-sm-inline-block">
