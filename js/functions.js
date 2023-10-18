@@ -5,6 +5,13 @@ function isValidIP(ipaddress) {
     return !!ipaddress.match(ipformat);
 }
 
+function isValidCIDR(cidr) {
+    // Regular expression for CIDR validation
+    let cidrFormat = /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\/([0-9]|[1-2][0-9]|3[0-2])$/;
+
+    return !!cidr.match(cidrFormat);
+}
+
 function suppressionRange(unit, value, type) {
     switch (unit) {
         case 'Pps':

@@ -1,6 +1,4 @@
 const saveAcl = document.getElementById('editAcl')
-// const aclType = document.getElementById('aclType').textContent
-// const aclName = document.getElementById('aclName').textContent
 
 const antiProtocol = {
     'ICMP': 1,
@@ -14,15 +12,30 @@ const antiProtocol = {
     'Any': 256
 }
 
-async function addAclRules(ip, username, password, name, type) {
+async function addAclRules(ip, username, password) {
     nowYouSeeMe()
+    let ruleNums = []
+    let aclName = document.getElementById('aclName').textContent
+    let aclType = document.getElementById('aclType').textContent
     let aclRules = []
     let rows = document.getElementsByClassName('ruleRow')
     for (let row of rows) {
         let ruleID = parseInt(document.getElementById(row.id.toString() + 'ruleNumberInput').value)
+        if (ruleNums.includes(ruleID)) {
+            window.alert('Duplicate rule number: ' + ruleID.toString())
+            nowYouDont()
+            return
+        } else {
+            ruleNums.push(ruleID)
+        }
         let action = document.getElementById(row.id.toString() + 'ruleActionSelect').value
         let protocol = antiProtocol[document.getElementById(row.id.toString() + 'ruleProtocolSelect').value]
         let srcIP = document.getElementById(row.id.toString() + 'ruleSrcIPInput').value
+        if (!isValidCIDR(srcIP)) {
+            window.alert("Invalid IP address: " + srcIP)
+            nowYouDont()
+            return;
+        }
         let srcPort = null
         if (protocol === 17 || protocol === 6) {
             srcPort = {}
@@ -34,6 +47,10 @@ async function addAclRules(ip, username, password, name, type) {
             }
         }
         let dstIP = document.getElementById(row.id.toString() + 'ruleDstIPInput').value
+        if (!isValidCIDR(dstIP)) {
+            window.alert("Invalid IP address: " + dstIP)
+            return;
+        }
         let dstPort = null
         if (protocol === 17 || protocol === 6) {
             dstPort = {}
@@ -46,17 +63,19 @@ async function addAclRules(ip, username, password, name, type) {
         }
         let newRule = {
             'ruleID': ruleID,
-            'comment': 'This is the description',
             'action': action,
             'protocol': protocol,
             'srcIP': srcIP,
             'srcPort': srcPort,
             'dstIP': dstIP,
-            'dstPort': dstPort
+            'dstPort': dstPort,
         }
 
         aclRules.push(newRule)
     }
+
+    await removeAclRules(connectIp, connectUsername, connectPassword, aclName, aclType, aclRulesIds)
+
     const response = await fetch(
         'http://5.149.127.105',
         {
@@ -76,8 +95,8 @@ async function addAclRules(ip, username, password, name, type) {
                             password: password
                         },
                         acl: {
-                            name: document.getElementById('aclName').textContent,
-                            type: document.getElementById('aclType').textContent,
+                            name: aclName,
+                            type: aclType,
                             rules: aclRules
                         }
                     },
@@ -86,8 +105,6 @@ async function addAclRules(ip, username, password, name, type) {
             )
         }
     )
-    console.log(aclRules)
-
 
     if (!response.ok) {
         const message = `An error has occurred: ${response.status}`;
@@ -102,6 +119,6 @@ async function addAclRules(ip, username, password, name, type) {
     }
 
     let modal = new bootstrap.Modal(document.getElementById('aclInfoModalWindow'))
-    await aclInfoFull(connectIp.value, connectUsername.value, connectPassword.value, aclName, modal)
+    await aclInfoFull(connectIp, connectUsername, connectPassword, aclName, modal)
 
 }

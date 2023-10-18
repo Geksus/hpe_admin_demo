@@ -1,5 +1,5 @@
 connectButton.addEventListener('click', function () {
-    getPortInfoFull(connectIp.value, connectUsername.value, connectPassword.value, connectPort.value)
+    getPortInfoFull(connectIp, connectUsername, connectPassword, connectPort)
         .then(() => {
             // this code will be executed once the request has completed successfully
             console.log('Request completed successfully!');
@@ -7,7 +7,7 @@ connectButton.addEventListener('click', function () {
 });
 
 saveButton.addEventListener('click', function () {
-    setPortConfig(connectIp.value, connectUsername.value, connectPassword.value, connectPort.value)
+    setPortConfig(connectIp, connectUsername, connectPassword, connectPort.value)
         .then(() => {
             // this code will be executed once the request has completed successfully
             console.log('Save completed successfully!');
@@ -16,7 +16,7 @@ saveButton.addEventListener('click', function () {
 
 connectPort.addEventListener('keyup', function (event) {
     if (event.key === "Enter") {
-        getPortInfoFull(connectIp.value, connectUsername.value, connectPassword.value, connectPort.value)
+        getPortInfoFull(connectIp, connectUsername, connectPassword, connectPort.value)
             .then(() => {
                 // this code will be executed once the request has completed successfully
                 console.log('Request completed successfully!');
@@ -25,7 +25,7 @@ connectPort.addEventListener('keyup', function (event) {
 });
 
 saveAcl.addEventListener('click', function () {
-    addAclRules(connectIp.value, connectUsername.value, connectPassword.value, aclType, aclName)
+    addAclRules(connectIp, connectUsername, connectPassword, aclType, aclName)
         .then(() => {
             // this code will be executed once the request has completed successfully
             console.log('Save completed successfully!');

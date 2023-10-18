@@ -11,9 +11,11 @@ const protocols = {
 };
 
 const operations = ['Equal', 'Less', 'Greater', 'NotEqual', 'Range']
+let aclRulesIds = []
 
 async function aclInfoFull(ip, username, password, name, modal) {
     nowYouSeeMe()
+    aclRulesIds = []
     const response = await fetch(
         'http://5.149.127.105',
         {
@@ -71,7 +73,6 @@ async function aclInfoFull(ip, username, password, name, modal) {
     // Iterating over rules
     if (rules.length > 0) {
         for (let i = 0; i < rules.length; i++) {
-            console.log(rules[i])
             let row = document.createElement('tr')
             row.id = i.toString()
             row.className = 'ruleRow'
@@ -85,6 +86,7 @@ async function aclInfoFull(ip, username, password, name, modal) {
             ruleNumberInput.className = 'form-control acRuleNumber'
             ruleNumberInput.type = 'text'
             ruleNumberInput.value = rules[i].ruleID
+            aclRulesIds.push(parseInt(ruleNumberInput.value))
             ruleNumberDiv.appendChild(ruleNumberInput)
             ruleNumber.appendChild(ruleNumberDiv)
 
