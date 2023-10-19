@@ -1,6 +1,9 @@
 /*Header*/
 .main-header {
-    margin-bottom: 2em;
+    margin-bottom: 0;
+    position: fixed;
+    top: -24px;
+    background-color: lightgrey;
 }
 
 /*Content*/
@@ -78,12 +81,18 @@ body {
 
 .spinner-border {
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 40%;
+    left: 45%;
     z-index: 2;
     visibility: hidden;
 }
 
 .card-body .mb-3, .input-group, table, .nav-link{
     visibility: visible;
+}
+
+.box {
+    position: relative;
+    width: auto;
+    height: auto;
 }

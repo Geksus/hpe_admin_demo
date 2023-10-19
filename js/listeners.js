@@ -7,7 +7,7 @@ connectButton.addEventListener('click', function () {
 });
 
 saveButton.addEventListener('click', function () {
-    setPortConfig(connectIp, connectUsername, connectPassword, connectPort.value)
+    setPortConfig(connectIp, connectUsername, connectPassword, connectPort)
         .then(() => {
             // this code will be executed once the request has completed successfully
             console.log('Save completed successfully!');

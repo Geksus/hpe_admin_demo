@@ -64,7 +64,7 @@ async function getPortInfoFull(ip, username, password, port) {
         let ifAbbreviatedName = document.getElementById('ifAbbreviatedName')
         ifAbbreviatedName.textContent = parsedData.ifAbbreviatedName
         let description = document.getElementById('description')
-        description.textContent = parsedData.description
+        description.value = parsedData.description
 
         let adminStatus = document.getElementById('adminStatus');
         adminStatus.innerHTML = ''
@@ -113,6 +113,9 @@ async function getPortInfoFull(ip, username, password, port) {
         let actualDuplex = document.getElementById('actualDuplex')
         actualDuplex.textContent = ''
         actualDuplex.textContent = parsedData.actualDuplex
+        if (operStatus.textContent === 'Down') {
+            actualDuplex.textContent = 'Unknown'
+        }
         if (actualDuplex.textContent === 'Full') {
             actualDuplex.style.color = 'green'
             actualDuplex.style.borderColor = 'green'
@@ -125,6 +128,11 @@ async function getPortInfoFull(ip, username, password, port) {
         let actualSpeed = document.getElementById('actualSpeed')
         actualSpeed.textContent = null
         actualSpeed.textContent = parsedData.actualSpeed
+        if (operStatus.textContent === 'Down') {
+            actualSpeed.textContent = 'Unknown'
+            actualSpeed.style.borderColor = 'red'
+            actualSpeed.style.color = 'red'
+        }
 
         const speedList = data.result.supportedIfSpeed;
         let configSpeedSelect = document.getElementById('configSpeed');
@@ -501,7 +509,7 @@ async function getPortInfoFull(ip, username, password, port) {
 async function setPortConfig(ip, username, password, port) {
 
     // General info
-    let description = document.getElementById('description').textContent;
+    let description = document.getElementById('description').value;
     let adminStatus = document.getElementById('adminStatus').value;
 
 // Speed

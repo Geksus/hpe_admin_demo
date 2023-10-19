@@ -173,6 +173,220 @@ function addRuleBeforeFunction(event) {
     removeRuleListeners()
 }
 
+function addNewRule() {
+    let aclRuleTable = document.getElementById('aclRuleTable')
+    let row = document.createElement('tr')
+    row.id = '0'
+    if (aclRulesIds.length > 0) {
+        row.id = rowIdCreator() + 1
+    }
+    row.className = 'ruleRow'
+
+
+    let ruleNumber = document.createElement('td')
+    ruleNumber.style.width = '5em'
+    let ruleNumberDiv = document.createElement('div')
+    let ruleNumberInput = document.createElement('input')
+    ruleNumberInput.id = row.id + 'ruleNumberInput'
+    ruleNumberInput.className = 'form-control acRuleNumber'
+    ruleNumberInput.type = 'text'
+    aclRulesIds.push(parseInt(ruleNumberInput.value))
+    ruleNumberDiv.appendChild(ruleNumberInput)
+    ruleNumber.appendChild(ruleNumberDiv)
+
+
+    let ruleAction = document.createElement('td')
+    ruleAction.style.width = '8em'
+    let ruleActionDiv = document.createElement('div')
+    let ruleActionSelect = document.createElement('select')
+    ruleActionSelect.className = 'form-select table-select aclRuleAction'
+    ruleActionSelect.id = row.id + 'ruleActionSelect'
+    let ruleActionCurrent = document.createElement('option')
+    ruleActionSelect.appendChild(ruleActionCurrent)
+    for (let action of ['Permit', 'Deny']) {
+        let option = document.createElement('option')
+        option.textContent = action
+        if (option.textContent !== ruleActionCurrent.textContent) {
+            ruleActionSelect.appendChild(option)
+        }
+    }
+    ruleActionDiv.appendChild(ruleActionSelect)
+    ruleAction.appendChild(ruleActionDiv)
+
+
+    let ruleProtocol = document.createElement('td')
+    ruleProtocol.style.width = '6em'
+    let ruleProtocolDiv = document.createElement('div')
+    let ruleProtocolSelect = document.createElement('select')
+    ruleProtocolSelect.className = 'form-select table-select aclRuleProtocol'
+    ruleProtocolSelect.id = row.id + 'ruleProtocolSelect'
+    ruleProtocolDiv.appendChild(ruleProtocolSelect)
+    ruleProtocol.appendChild(ruleProtocolDiv)
+
+
+    let ruleSrcIP = document.createElement('td')
+    ruleSrcIP.style.width = '12em'
+    let ruleSrcIPDiv = document.createElement('div')
+    let ruleSrcIPInput = document.createElement('input')
+    ruleSrcIPInput.id = row.id + 'ruleSrcIPInput'
+    ruleSrcIPInput.className = 'form-control aclRuleSrcIp'
+    ruleSrcIPInput.type = 'text'
+    ruleSrcIPDiv.appendChild(ruleSrcIPInput)
+    ruleSrcIP.appendChild(ruleSrcIPDiv)
+
+
+    let ruleSrcPortOperation = document.createElement('td')
+    ruleSrcPortOperation.style.width = '8em'
+    let ruleSrcPortOperationDiv = document.createElement('div')
+    let ruleSrcPortOperationSelect = document.createElement('select')
+    ruleSrcPortOperationSelect.id = row.id + 'ruleSrcPortOperationSelect'
+    ruleSrcPortOperationSelect.className = 'form-select table-select aclRuleSrcPortOp'
+    let ruleSrcOperationCurrent = document.createElement('option')
+    ruleSrcOperationCurrent.textContent = 'Range'
+
+    ruleSrcPortOperationDiv.appendChild(ruleSrcPortOperationSelect)
+    ruleSrcPortOperation.appendChild(ruleSrcPortOperationDiv)
+
+
+    let ruleSrcPortValue1 = document.createElement('td')
+    ruleSrcPortValue1.style.width = '6em'
+    let ruleSrcPortValue1Div = document.createElement('div')
+    let ruleSrcPortValue1Input = document.createElement('input')
+    ruleSrcPortValue1Input.id = row.id + 'ruleSrcPortValue1Input'
+    ruleSrcPortValue1Input.className = 'form-control ruleSrcPortValue1'
+    ruleSrcPortValue1Input.type = 'text'
+
+    ruleSrcPortValue1Div.appendChild(ruleSrcPortValue1Input)
+    ruleSrcPortValue1.appendChild(ruleSrcPortValue1Div)
+
+
+    let ruleSrcPortValue2 = document.createElement('td')
+    ruleSrcPortValue2.style.width = '6em'
+    let ruleSrcPortValue2Div = document.createElement('div')
+    let ruleSrcPortValue2Input = document.createElement('input')
+    ruleSrcPortValue2Input.id = row.id + 'ruleSrcPortValue2Input'
+    ruleSrcPortValue2Input.className = 'form-control ruleSrcPortValue2'
+    ruleSrcPortValue2Input.type = 'text'
+
+    ruleSrcPortValue2Div.appendChild(ruleSrcPortValue2Input)
+    ruleSrcPortValue2.appendChild(ruleSrcPortValue2Div)
+
+
+    let ruleDstIP = document.createElement('td')
+    ruleDstIP.style.width = '12em'
+    let ruleDstIPDiv = document.createElement('div')
+    let ruleDstIPInput = document.createElement('input')
+    ruleDstIPInput.id = row.id + 'ruleDstIPInput'
+    ruleDstIPInput.className = 'form-control aclRuleDstIp'
+    ruleDstIPInput.type = 'text'
+    ruleDstIPDiv.appendChild(ruleDstIPInput)
+    ruleDstIP.appendChild(ruleDstIPDiv)
+
+
+    let ruleDstPortOperation = document.createElement('td')
+    ruleDstPortOperation.style.width = '8em'
+    let ruleDstPortOperationDiv = document.createElement('div')
+    let ruleDstPortOperationSelect = document.createElement('select')
+    ruleDstPortOperationSelect.id = row.id + 'ruleDstPortOperationSelect'
+    ruleDstPortOperationSelect.className = 'form-select table-select aclRuleDstPortOp'
+    let ruleDstOperationCurrent = document.createElement('option')
+    ruleDstOperationCurrent.textContent = 'Range'
+    ruleDstPortOperationSelect.appendChild(ruleDstOperationCurrent)
+    for (let operation of operations) {
+        let option = document.createElement('option')
+        option.textContent = operation
+        if (option.textContent !== ruleDstOperationCurrent.textContent) {
+            ruleDstPortOperationSelect.appendChild(option)
+        }
+    }
+    ruleDstPortOperationSelect.addEventListener('change', function(event) {
+        if (event.target.value !== 'Range') {
+            ruleDstPortValue2Input.style.visibility = 'hidden'
+        } else {
+            ruleDstPortValue2Input.style.visibility = 'visible'
+        }
+    })
+    ruleDstPortOperationDiv.appendChild(ruleDstPortOperationSelect)
+    ruleDstPortOperation.appendChild(ruleDstPortOperationDiv)
+
+
+    let ruleDstPortValue1 = document.createElement('td')
+    ruleDstPortValue1.style.width = '6em'
+    let ruleDstPortValue1Div = document.createElement('div')
+    let ruleDstPortValue1Input = document.createElement('input')
+    ruleDstPortValue1Input.id = row.id + 'ruleDstPortValue1Input'
+    ruleDstPortValue1Input.className = 'form-control ruleDstPortValue1'
+    ruleDstPortValue1Input.type = 'text'
+    ruleDstPortValue1Div.appendChild(ruleDstPortValue1Input)
+    ruleDstPortValue1.appendChild(ruleDstPortValue1Div)
+
+
+    let ruleDstPortValue2 = document.createElement('td')
+    ruleDstPortValue2.style.width = '6em'
+    let ruleDstPortValue2Div = document.createElement('div')
+    let ruleDstPortValue2Input = document.createElement('input')
+    ruleDstPortValue2Input.id = row.id + 'ruleDstPortValue2Input'
+    ruleDstPortValue2Input.className = 'form-control ruleDstPortValue2'
+    ruleDstPortValue2Input.type = 'text'
+    ruleDstPortValue2Div.appendChild(ruleDstPortValue2Input)
+    ruleDstPortValue2.appendChild(ruleDstPortValue2Div)
+
+    let addRuleBefore = document.createElement('td')
+    addRuleBefore.style.width = ' 7em'
+    let addRuleBeforeDiv = document.createElement('div')
+    let  addRuleBeforeButton = document.createElement('button')
+    addRuleBeforeButton.textContent = 'Add before'
+    addRuleBeforeButton.className = 'btn btn-success before'
+    addRuleBeforeButton.style.width = ' 7em'
+    addRuleBeforeButton.addEventListener('click', addRuleBeforeFunction)
+    addRuleBeforeDiv.appendChild(addRuleBeforeButton)
+    addRuleBefore.appendChild(addRuleBeforeDiv)
+
+    let addRuleAfter = document.createElement('td')
+    addRuleAfter.style.width = ' 7em'
+    let addRuleAfterDiv = document.createElement('div')
+    let addRuleAfterButton = document.createElement('button')
+    addRuleAfterButton.textContent = 'Add after'
+    addRuleAfterButton.className = 'btn btn-success after'
+    addRuleAfterButton.style.width = ' 7em'
+    addRuleAfterButton.addEventListener('click', addRuleAfterFunction)
+    addRuleAfterDiv.appendChild(addRuleAfterButton)
+    addRuleAfter.appendChild(addRuleAfterDiv)
+
+    let removeRule = document.createElement('td')
+    removeRule.style.width = ' 7em'
+    let removeRuleDiv = document.createElement('div')
+    let removeRuleButton = document.createElement('button')
+    removeRuleButton.className = 'btn btn-danger'
+    removeRuleButton.style.width = ' 7em'
+    removeRuleButton.textContent = 'Delete rule'
+    removeRuleButton.addEventListener('click', function() {
+        row.remove()
+    })
+    removeRuleDiv.appendChild(removeRuleButton)
+    removeRule.appendChild(removeRuleDiv)
+
+
+
+    row.appendChild(ruleNumber)
+    row.appendChild(ruleAction)
+    row.appendChild(ruleProtocol)
+    row.appendChild(ruleSrcIP)
+    row.appendChild(ruleSrcPortOperation)
+    row.appendChild(ruleSrcPortValue1)
+    row.appendChild(ruleSrcPortValue2)
+    row.appendChild(ruleDstIP)
+    row.appendChild(ruleDstPortOperation)
+    row.appendChild(ruleDstPortValue1)
+    row.appendChild(ruleDstPortValue2)
+    row.appendChild(addRuleBefore)
+    row.appendChild(addRuleAfter)
+    row.appendChild(removeRule)
+    aclRuleTable.appendChild(row)
+
+    aclDefaultRule(row)
+}
+
 function aclDefaultRule(row) {
     let aclRuleNumber = row.getElementsByClassName('acRuleNumber')
     aclRuleNumber[0].value = ''

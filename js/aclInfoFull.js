@@ -367,5 +367,10 @@ async function aclInfoFull(ip, username, password, name, modal) {
             aclRuleTable.appendChild(row)
         }
     }
+    let modalClose = document.getElementById('closeModal')
+    modalClose.addEventListener('click', function () {
+        modal.innerHTML = ''
+        modal.hide()
+    })
 
 }
