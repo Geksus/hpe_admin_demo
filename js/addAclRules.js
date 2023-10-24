@@ -13,12 +13,16 @@ const antiProtocol = {
 }
 
 async function addAclRules(ip, username, password) {
-    nowYouSeeMe()
     let ruleNums = []
     let aclName = document.getElementById('aclName').textContent
     let aclType = document.getElementById('aclType').textContent
     let aclRules = []
     let rows = document.getElementsByClassName('ruleRow')
+    if (rows.length === 0) {
+        window.alert('Please add at least one rule')
+        return;
+    }
+    nowYouSeeMe()
     for (let row of rows) {
         let ruleID = parseInt(document.getElementById(row.id.toString() + 'ruleNumberInput').value)
         if (ruleNums.includes(ruleID)) {

@@ -382,15 +382,16 @@ function addNewRule() {
     row.appendChild(addRuleBefore)
     row.appendChild(addRuleAfter)
     row.appendChild(removeRule)
-    aclRuleTable.appendChild(row)
-
     aclDefaultRule(row)
+
+    aclRuleTable.appendChild(row)
 }
 
 function aclDefaultRule(row) {
     let aclRuleNumber = row.getElementsByClassName('acRuleNumber')
-    aclRuleNumber[0].value = ''
+    aclRuleNumber[0].value = ruleIdCreator() + 5
     aclRuleNumber[0].id = row.id + 'ruleNumberInput'
+
     let aclRuleAction = row.getElementsByClassName('aclRuleAction')
     aclRuleAction[0].innerHTML = ''
     aclRuleAction[0].id = row.id + 'ruleActionSelect'
@@ -492,6 +493,26 @@ function rowIdCreator() {
         ids.push(row.id)
     }
     return Math.max(...ids)
+}
+
+function ruleIdCreator() {
+    let rules = document.getElementsByClassName('acRuleNumber')
+    let numbers = []
+    for (let rule of rules) {
+        numbers.push(parseInt(rule.value))
+    }
+    if (document.getElementsByClassName('acRuleNumber').length === 0) {
+        return -5
+    }
+    return Math.max(...numbers)
+}
+
+function removeAllRules() {
+    let table = document.getElementById('aclRuleTable');
+    let userConfirm = window.confirm("Are you sure you want to remove all rules?");
+    if(userConfirm){
+        table.innerHTML = '';
+    }
 }
 
 window.onload = function () {
