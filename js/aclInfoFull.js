@@ -11,11 +11,9 @@ const protocols = {
 };
 
 const operations = ['Equal', 'Less', 'Greater', 'NotEqual', 'Range']
-let aclRulesIds = []
 
 async function aclInfoFull(ip, username, password, name, modal) {
     nowYouSeeMe()
-    aclRulesIds = []
     const response = await fetch(
         'http://5.149.127.105',
         {
@@ -86,7 +84,6 @@ async function aclInfoFull(ip, username, password, name, modal) {
             ruleNumberInput.className = 'form-control acRuleNumber'
             ruleNumberInput.type = 'text'
             ruleNumberInput.value = rules[i].ruleID
-            aclRulesIds.push(parseInt(ruleNumberInput.value))
             ruleNumberDiv.appendChild(ruleNumberInput)
             ruleNumber.appendChild(ruleNumberDiv)
 
@@ -313,40 +310,52 @@ async function aclInfoFull(ip, username, password, name, modal) {
             ruleDstPortValue2Div.appendChild(ruleDstPortValue2Input)
             ruleDstPortValue2.appendChild(ruleDstPortValue2Div)
 
-            let addRuleBefore = document.createElement('td')
-            addRuleBefore.style.width = ' 7em'
-            let addRuleBeforeDiv = document.createElement('div')
+            let buttonGroup = document.createElement('td')
+            buttonGroup.style.width = '18em'
+            let btnGroup = document.createElement('div')
+            btnGroup.className = 'btn-group'
+            btnGroup.role = 'group'
+
+            // let addRuleBefore = document.createElement('td')
+            // addRuleBefore.style.width = '7em'
+            // let addRuleBeforeDiv = document.createElement('div')
             let  addRuleBeforeButton = document.createElement('button')
-             addRuleBeforeButton.textContent = 'Add before'
+             addRuleBeforeButton.textContent = 'Add before ↑'
              addRuleBeforeButton.className = 'btn btn-success before'
-             addRuleBeforeButton.style.width = ' 7em'
+             // addRuleBeforeButton.style.width = ' 7em'
              addRuleBeforeButton.addEventListener('click', addRuleBeforeFunction)
-            addRuleBeforeDiv.appendChild(addRuleBeforeButton)
-            addRuleBefore.appendChild(addRuleBeforeDiv)
+            btnGroup.appendChild(addRuleBeforeButton)
+            // addRuleBefore.appendChild(addRuleBeforeDiv)
 
-            let addRuleAfter = document.createElement('td')
-            addRuleAfter.style.width = ' 7em'
-            let addRuleAfterDiv = document.createElement('div')
+            // let addRuleAfter = document.createElement('td')
+            // addRuleAfter.style.width = ' 7em'
+            // let addRuleAfterDiv = document.createElement('div')
             let addRuleAfterButton = document.createElement('button')
-            addRuleAfterButton.textContent = 'Add after'
+            addRuleAfterButton.textContent = 'Add after ↓'
             addRuleAfterButton.className = 'btn btn-success after'
-            addRuleAfterButton.style.width = ' 7em'
+            addRuleAfterButton.style.borderLeftColor = 'wheat'
+            addRuleAfterButton.style.borderLeftWidth = '1px'
+            // addRuleAfterButton.style.width = ' 7em'
             addRuleAfterButton.addEventListener('click', addRuleAfterFunction)
-            addRuleAfterDiv.appendChild(addRuleAfterButton)
-            addRuleAfter.appendChild(addRuleAfterDiv)
+            btnGroup.appendChild(addRuleAfterButton)
+            // addRuleAfter.appendChild(addRuleAfterDiv)
 
-            let removeRule = document.createElement('td')
-            removeRule.style.width = ' 7em'
-            let removeRuleDiv = document.createElement('div')
+            // let removeRule = document.createElement('td')
+            // removeRule.style.width = ' 7em'
+            // let removeRuleDiv = document.createElement('div')
             let removeRuleButton = document.createElement('button')
             removeRuleButton.className = 'btn btn-danger'
-            removeRuleButton.style.width = ' 7em'
+            removeRuleButton.style.borderLeftColor = 'wheat'
+            removeRuleButton.style.borderLeftWidth = '1px'
+            // removeRuleButton.style.width = ' 7em'
             removeRuleButton.textContent = 'Delete rule'
             removeRuleButton.addEventListener('click', function() {
                 row.remove()
             })
-            removeRuleDiv.appendChild(removeRuleButton)
-            removeRule.appendChild(removeRuleDiv)
+            btnGroup.appendChild(removeRuleButton)
+            // removeRule.appendChild(removeRuleDiv)
+
+            buttonGroup.appendChild(btnGroup)
 
 
 
@@ -361,12 +370,16 @@ async function aclInfoFull(ip, username, password, name, modal) {
             row.appendChild(ruleDstPortOperation)
             row.appendChild(ruleDstPortValue1)
             row.appendChild(ruleDstPortValue2)
-            row.appendChild(addRuleBefore)
-            row.appendChild(addRuleAfter)
-            row.appendChild(removeRule)
+            // row.appendChild(addRuleBefore)
+            // row.appendChild(addRuleAfter)
+            // row.appendChild(removeRule)
+            row.appendChild(buttonGroup)
             aclRuleTable.appendChild(row)
         }
     }
+
+    ruleCounter()
+
     let modalClose = document.getElementById('closeModal')
     modalClose.addEventListener('click', function () {
         modal.innerHTML = ''

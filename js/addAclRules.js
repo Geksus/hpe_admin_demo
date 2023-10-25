@@ -12,11 +12,14 @@ const antiProtocol = {
     'Any': 256
 }
 
+let direction = 'Inbound'
+
 async function addAclRules(ip, username, password) {
-    let ruleNums = []
     let aclName = document.getElementById('aclName').textContent
     let aclType = document.getElementById('aclType').textContent
+    let aclDescription = document.getElementById('aclDescription').textContent
     let aclRules = []
+    let ruleNums = []
     let rows = document.getElementsByClassName('ruleRow')
     if (rows.length === 0) {
         window.alert('Please add at least one rule')
@@ -32,6 +35,7 @@ async function addAclRules(ip, username, password) {
         } else {
             ruleNums.push(ruleID)
         }
+
         let action = document.getElementById(row.id.toString() + 'ruleActionSelect').value
         let protocol = antiProtocol[document.getElementById(row.id.toString() + 'ruleProtocolSelect').value]
         let srcIP = document.getElementById(row.id.toString() + 'ruleSrcIPInput').value
@@ -41,7 +45,7 @@ async function addAclRules(ip, username, password) {
             return;
         }
         let srcPort = null
-        if (protocol === 17 || protocol === 6) {
+        if ((protocol === 17 || protocol === 6) && document.getElementById(row.id.toString() + 'ruleSrcPortOperationSelect').style.visibility === 'visible') {
             srcPort = {}
             srcPort['operation'] = document.getElementById(row.id.toString() + 'ruleSrcPortOperationSelect').value
             srcPort['value1'] = parseInt(document.getElementById(row.id.toString() + 'ruleSrcPortValue1Input').value)
@@ -56,7 +60,7 @@ async function addAclRules(ip, username, password) {
             return;
         }
         let dstPort = null
-        if (protocol === 17 || protocol === 6) {
+        if ((protocol === 17 || protocol === 6) && document.getElementById(row.id.toString() + 'ruleDstPortOperationSelect').style.visibility === 'visible') {
             dstPort = {}
             dstPort['operation'] = document.getElementById(row.id.toString() + 'ruleDstPortOperationSelect').value
             dstPort['value1'] = parseInt(document.getElementById(row.id.toString() + 'ruleDstPortValue1Input').value)
@@ -78,7 +82,17 @@ async function addAclRules(ip, username, password) {
         aclRules.push(newRule)
     }
 
-    await removeAclRules(connectIp, connectUsername, connectPassword, aclName, aclType, aclRulesIds)
+    let pfilters = []
+    let newPfilter = {
+        ifIndex: parseInt(connectPort),
+        direction: direction,
+        aclType: aclType,
+        aclName: aclName
+    }
+
+    pfilters.push(newPfilter)
+
+    await removeAcl(connectIp, connectUsername, connectPassword, aclName)
 
     const response = await fetch(
         'http://5.149.127.105',
@@ -91,7 +105,7 @@ async function addAclRules(ip, username, password) {
             body: JSON.stringify(
                 {
                     jsonrpc: '2.0',
-                    method: 'comware.AddACLRules',
+                    method: 'comware.CreateACL',
                     params: {
                         target: {
                             ip: ip,
@@ -101,6 +115,7 @@ async function addAclRules(ip, username, password) {
                         acl: {
                             name: aclName,
                             type: aclType,
+                            description: aclDescription,
                             rules: aclRules
                         }
                     },
@@ -122,7 +137,8 @@ async function addAclRules(ip, username, password) {
         }
     }
 
+    await setPortAcl(connectIp, connectUsername, connectPassword, pfilters)
+
     let modal = new bootstrap.Modal(document.getElementById('aclInfoModalWindow'))
     await aclInfoFull(connectIp, connectUsername, connectPassword, aclName, modal)
-
 }

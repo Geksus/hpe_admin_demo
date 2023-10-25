@@ -405,6 +405,7 @@ async function getPortInfoFull(ip, username, password, port) {
                     inboundIpv4Value.style.cursor = 'pointer'
                     inboundIpv4Value.onclick = function() {
                         let modal = new bootstrap.Modal(document.getElementById('aclInfoModalWindow'))
+                        direction = 'Inbound'
                         aclInfoFull(connectIp, connectUsername, connectPassword, inboundIpv4Value.textContent, modal)
                     };
                     row.appendChild(inboundIpv4Header)
@@ -421,6 +422,7 @@ async function getPortInfoFull(ip, username, password, port) {
                     inboundIpv6Value.style.cursor = 'pointer'
                     inboundIpv6Value.onclick = function() {
                         let modal = new bootstrap.Modal(document.getElementById('aclInfoModalWindow'))
+                        direction = 'Inbound'
                         aclInfoFull(connectIp, connectUsername, connectPassword, inboundIpv6Value.textContent, modal)
                     };
                     row.appendChild(inboundIpv6Header)
@@ -437,6 +439,7 @@ async function getPortInfoFull(ip, username, password, port) {
                     inboundMacValue.style.cursor = 'pointer'
                     inboundMacValue.onclick = function() {
                         let modal = new bootstrap.Modal(document.getElementById('aclInfoModalWindow'))
+                        direction = 'Inbound'
                         aclInfoFull(connectIp, connectUsername, connectPassword, inboundMacValue.textContent, modal)
                     };
                     row.appendChild(inboundMacHeader)
@@ -458,6 +461,7 @@ async function getPortInfoFull(ip, username, password, port) {
                     outboundIpv4Value.style.cursor = 'pointer'
                     outboundIpv4Value.onclick = function() {
                         let modal = new bootstrap.Modal(document.getElementById('aclInfoModalWindow'))
+                        direction = 'Outbound'
                         aclInfoFull(connectIp, connectUsername, connectPassword, outboundIpv4Value.textContent, modal)
                     };
                     row.appendChild(outboundIpv4Header)
@@ -474,6 +478,7 @@ async function getPortInfoFull(ip, username, password, port) {
                     outboundIpv6Value.style.cursor = 'pointer'
                     outboundIpv6Value.onclick = function() {
                         let modal = new bootstrap.Modal(document.getElementById('aclInfoModalWindow'))
+                        direction = 'Outbound'
                         aclInfoFull(connectIp, connectUsername, connectPassword, outboundIpv6Value.textContent, modal)
                     };
                     row.appendChild(outboundIpv6Header)
@@ -490,6 +495,7 @@ async function getPortInfoFull(ip, username, password, port) {
                     outboundMacValue.style.cursor = 'pointer'
                     outboundMacValue.onclick = function() {
                         let modal = new bootstrap.Modal(document.getElementById('aclInfoModalWindow'))
+                        direction = 'Outbound'
                         aclInfoFull(connectIp, connectUsername, connectPassword, outboundMacValue.textContent, modal)
                     };
                     row.appendChild(outboundMacHeader)

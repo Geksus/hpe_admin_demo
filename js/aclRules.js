@@ -1,6 +1,6 @@
 // ipv4BlockMail
 
-ipv4BlockMailRules = [
+const ipv4BlockMailRules = [
     {
         action: 'Deny',
         protocol: 'TCP',
@@ -72,6 +72,42 @@ ipv4BlockMailRules = [
         action: 'Permit',
         protocol: 'Any',
         srcIP: '0.0.0.0/0',
-        dstIP: '0.0.0.0/0'
+        srcPort: null,
+        dstIP: '0.0.0.0/0',
+        dstPort: null
+    }
+]
+
+const blockAllExceptHttp = [
+    {
+        action: "Permit",
+        protocol: "TCP",
+        srcIP: "0.0.0.0/0",
+        srcPort: null,
+        dstIP: "0.0.0.0/0",
+        dstPort: {
+            operation: "Equal",
+            value1: 80
+        }
+    },
+    {
+        action: "Permit",
+        protocol: "TCP",
+        srcIP: "0.0.0.0/0",
+        srcPort: null,
+        dstIP: "0.0.0.0/0",
+        dstPort: {
+            operation: "Equal",
+            value1: 443
+        }
+    },
+    {
+        ruleID: 1000,
+        action: "Deny",
+        protocol: 'Any',
+        srcIP: "0.0.0.0/0",
+        srcPort: null,
+        dstIP: "0.0.0.0/0",
+        dstPort: null
     }
 ]

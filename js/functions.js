@@ -176,10 +176,7 @@ function addRuleBeforeFunction(event) {
 function addNewRule() {
     let aclRuleTable = document.getElementById('aclRuleTable')
     let row = document.createElement('tr')
-    row.id = '0'
-    if (aclRulesIds.length > 0) {
-        row.id = rowIdCreator() + 1
-    }
+    row.id = rowIdCreator() + 1
     row.className = 'ruleRow'
 
 
@@ -190,7 +187,6 @@ function addNewRule() {
     ruleNumberInput.id = row.id + 'ruleNumberInput'
     ruleNumberInput.className = 'form-control acRuleNumber'
     ruleNumberInput.type = 'text'
-    aclRulesIds.push(parseInt(ruleNumberInput.value))
     ruleNumberDiv.appendChild(ruleNumberInput)
     ruleNumber.appendChild(ruleNumberDiv)
 
@@ -389,7 +385,7 @@ function addNewRule() {
 
 function aclDefaultRule(row) {
     let aclRuleNumber = row.getElementsByClassName('acRuleNumber')
-    aclRuleNumber[0].value = ruleIdCreator() + 5
+    aclRuleNumber[0].value = ruleIdCreator()
     aclRuleNumber[0].id = row.id + 'ruleNumberInput'
 
     let aclRuleAction = row.getElementsByClassName('aclRuleAction')
@@ -408,9 +404,11 @@ function aclDefaultRule(row) {
         protocol.textContent = option
         aclRuleProtocol[0].appendChild(protocol)
     }
+
     let aclRuleSrcIp = row.getElementsByClassName('aclRuleSrcIp')
     aclRuleSrcIp[0].id = row.id + 'ruleSrcIPInput'
     aclRuleSrcIp[0].value = '0.0.0.0/0'
+
     let aclRuleSrcPortOp = row.getElementsByClassName('aclRuleSrcPortOp')
     aclRuleSrcPortOp[0].innerHTML = ''
     aclRuleSrcPortOp[0].id = row.id + 'ruleSrcPortOperationSelect'
@@ -431,10 +429,12 @@ function aclDefaultRule(row) {
     ruleSrcPortValue1[0].id = row.id + 'ruleSrcPortValue1Input'
     ruleSrcPortValue1[0].value = '1'
     ruleSrcPortValue1[0].style.visibility = 'hidden'
+
     let ruleSrcPortValue2 = row.getElementsByClassName('ruleSrcPortValue2')
     ruleSrcPortValue2[0].id = row.id + 'ruleSrcPortValue2Input'
     ruleSrcPortValue2[0].value = '65535'
     ruleSrcPortValue2[0].style.visibility = 'hidden'
+
     let aclRuleDstIp = row.getElementsByClassName('aclRuleDstIp')
     aclRuleDstIp[0].id = row.id + 'ruleDstIPInput'
     aclRuleDstIp[0].value = '0.0.0.0/0'
@@ -486,8 +486,61 @@ function aclDefaultRule(row) {
     })
 }
 
+function addPresetRules(rules) {
+    for (let rule of rules) {
+        addNewRule()
+        // let ruleNumber = document.getElementById(rowIdCreator().toString() + 'ruleNumberInput')
+        // ruleNumber.value = ruleIdCreator()
+
+        let ruleAction = document.getElementById(rowIdCreator().toString() + 'ruleActionSelect')
+        ruleAction.value = rule.action
+
+        let ruleProtocol = document.getElementById(rowIdCreator().toString() + 'ruleProtocolSelect')
+        ruleProtocol.value = rule.protocol
+
+        let ruleSrcIp = document.getElementById(rowIdCreator().toString() + 'ruleSrcPortOperationSelect')
+        ruleSrcIp.value = rule.srcIP
+
+        if (rule.srcPort !== null) {
+            let ruleSrcPortOperation = document.getElementById(rowIdCreator().toString() + 'ruleSrcPortOperationSelect')
+            ruleSrcPortOperation.value = rule.srcPort.operation
+            ruleSrcPortOperation.style.visibility = 'visible'
+            let ruleSrcPortValue1 = document.getElementById(rowIdCreator().toString() + 'ruleSrcPortValue1Input')
+            ruleSrcPortValue1.value = rule.srcPort.value1
+            ruleSrcPortValue1.style.visibility = 'visible'
+        }
+
+        if (rule.srcPort !== null && rule.srcPort.operation === 'Range') {
+            let ruleSrcPortValue2 = document.getElementById(rowIdCreator().toString() + 'ruleSrcPortValue2Input')
+            ruleSrcPortValue2.value = rule.srcPort.value2
+            ruleSrcPortValue2.style.visibility = 'visible'
+        }
+
+        let ruleDstIp = document.getElementById(rowIdCreator().toString() + 'ruleDstPortOperationSelect')
+        ruleDstIp.value = rule.dstIP
+
+        if (rule.dstPort !== null) {
+            let ruleDstPortOperation = document.getElementById(rowIdCreator().toString() + 'ruleDstPortOperationSelect')
+            ruleDstPortOperation.value = rule.dstPort.operation
+            ruleDstPortOperation.style.visibility = 'visible'
+            let ruleDstPortValue1 = document.getElementById(rowIdCreator().toString() + 'ruleDstPortValue1Input')
+            ruleDstPortValue1.value = rule.dstPort.value1
+            ruleDstPortValue1.style.visibility = 'visible'
+        }
+
+        if (rule.dstPort !== null && rule.dstPort.operation === 'Range') {
+            let ruleDstPortValue2 = document.getElementById(rowIdCreator().toString() + 'ruleDstPortValue2Input')
+            ruleDstPortValue2.value = rule.dstPort.value2
+            ruleDstPortValue2.style.visibility = 'visible'
+        }
+    }
+}
+
 function rowIdCreator() {
     let rows = document.getElementsByClassName('ruleRow')
+    if (rows.length === 0) {
+        return 0
+    }
     let ids = []
     for (let row of rows) {
         ids.push(row.id)
@@ -502,9 +555,9 @@ function ruleIdCreator() {
         numbers.push(parseInt(rule.value))
     }
     if (document.getElementsByClassName('acRuleNumber').length === 0) {
-        return -5
+        return 0
     }
-    return Math.max(...numbers)
+    return Math.max(...numbers) + 10
 }
 
 function removeAllRules() {
@@ -513,6 +566,12 @@ function removeAllRules() {
     if(userConfirm){
         table.innerHTML = '';
     }
+    aclRulesIds = []
+}
+
+function ruleCounter() {
+    let ruleCount = document.getElementById('ruleCount')
+    ruleCount.textContent = document.getElementsByClassName('ruleRow').length.toString()
 }
 
 window.onload = function () {
