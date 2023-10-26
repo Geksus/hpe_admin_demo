@@ -10,7 +10,7 @@ const protocols = {
     256: 'Any'
 };
 
-const operations = ['Equal', 'Less', 'Greater', 'NotEqual', 'Range', '-------']
+const operations = ['Equal', 'Less', 'Greater', 'NotEqual', 'Range']
 
 async function aclInfoFull(ip, username, password, name, modal) {
     nowYouSeeMe()
@@ -65,16 +65,22 @@ async function aclInfoFull(ip, username, password, name, modal) {
     //ACL full info
     let aclRuleTable = document.getElementById('aclRuleTable')
     aclRuleTable.innerHTML = ''
+    aclRuleTable.id = 'aclRuleTable'
     let rules = parsedData.rules
 
     // Iterating over rules
     if (rules.length > 0) {
         for (let i = 0; i < rules.length; i++) {
             let row = document.createElement('tr')
+            row.id = i.toString()
+            row.className = 'ruleRow'
+
+
             let ruleNumber = document.createElement('td')
             ruleNumber.style.width = '5em'
             let ruleNumberDiv = document.createElement('div')
             let ruleNumberInput = document.createElement('input')
+            ruleNumberInput.id = row.id + 'ruleNumberInput'
             ruleNumberInput.className = 'form-control acRuleNumber'
             ruleNumberInput.type = 'text'
             ruleNumberInput.value = rules[i].ruleID
@@ -87,6 +93,7 @@ async function aclInfoFull(ip, username, password, name, modal) {
             let ruleActionDiv = document.createElement('div')
             let ruleActionSelect = document.createElement('select')
             ruleActionSelect.className = 'form-select table-select aclRuleAction'
+            ruleActionSelect.id = row.id + 'ruleActionSelect'
             let ruleActionCurrent = document.createElement('option')
             ruleActionCurrent.textContent = rules[i].action
             ruleActionSelect.appendChild(ruleActionCurrent)
@@ -106,6 +113,7 @@ async function aclInfoFull(ip, username, password, name, modal) {
             let ruleProtocolDiv = document.createElement('div')
             let ruleProtocolSelect = document.createElement('select')
             ruleProtocolSelect.className = 'form-select table-select aclRuleProtocol'
+            ruleProtocolSelect.id = row.id + 'ruleProtocolSelect'
             let ruleProtocolCurrent = document.createElement('option')
             ruleProtocolCurrent.textContent = rules[i].protocol
             for (let key of Object.keys(protocols)) {
@@ -122,26 +130,51 @@ async function aclInfoFull(ip, username, password, name, modal) {
                     ruleProtocolSelect.appendChild(option)
                 }
             }
+            ruleProtocolSelect.addEventListener('change', function (event) {
+                if (event.target.value === 'TCP' || event.target.value === 'UDP') {
+                    ruleSrcPortOperationSelect.style.visibility = 'visible'
+                    ruleSrcPortValue1Input.style.visibility = 'visible'
+                    if (ruleSrcPortOperationSelect.value === 'Range') {
+                        ruleSrcPortValue2Input.style.visibility = 'visible'
+                    }
+                    ruleDstPortOperationSelect.style.visibility = 'visible'
+                    ruleDstPortValue1Input.style.visibility = 'visible'
+                    if (ruleDstPortOperationSelect.value === 'Range') {
+                        ruleDstPortValue2Input.style.visibility = 'visible'
+                    }
+                } else {
+                    ruleSrcPortOperationSelect.style.visibility = 'hidden'
+                    ruleSrcPortValue1Input.style.visibility = 'hidden'
+                    ruleSrcPortValue2Input.style.visibility = 'hidden'
+                    ruleDstPortOperationSelect.style.visibility = 'hidden'
+                    ruleDstPortValue1Input.style.visibility = 'hidden'
+                    ruleDstPortValue2Input.style.visibility = 'hidden'
+                }
+            })
             ruleProtocolDiv.appendChild(ruleProtocolSelect)
             ruleProtocol.appendChild(ruleProtocolDiv)
+
 
             let ruleSrcIP = document.createElement('td')
             ruleSrcIP.style.width = '12em'
             let ruleSrcIPDiv = document.createElement('div')
             let ruleSrcIPInput = document.createElement('input')
+            ruleSrcIPInput.id = row.id + 'ruleSrcIPInput'
             ruleSrcIPInput.className = 'form-control aclRuleSrcIp'
             ruleSrcIPInput.type = 'text'
             ruleSrcIPInput.value = rules[i].srcIP
             ruleSrcIPDiv.appendChild(ruleSrcIPInput)
             ruleSrcIP.appendChild(ruleSrcIPDiv)
 
+
             let ruleSrcPortOperation = document.createElement('td')
             ruleSrcPortOperation.style.width = '8em'
             let ruleSrcPortOperationDiv = document.createElement('div')
             let ruleSrcPortOperationSelect = document.createElement('select')
+            ruleSrcPortOperationSelect.id = row.id + 'ruleSrcPortOperationSelect'
             ruleSrcPortOperationSelect.className = 'form-select table-select aclRuleSrcPortOp'
             let ruleSrcOperationCurrent = document.createElement('option')
-            ruleSrcOperationCurrent.textContent = ''
+            ruleSrcOperationCurrent.textContent = 'Range'
             if (rules[i].srcPort !== null) {
                 ruleSrcOperationCurrent.textContent = rules[i].srcPort.operation
             }
@@ -153,6 +186,13 @@ async function aclInfoFull(ip, username, password, name, modal) {
                     ruleSrcPortOperationSelect.appendChild(option)
                 }
             }
+            ruleSrcPortOperationSelect.addEventListener('change', function(event) {
+                if (event.target.value !== 'Range') {
+                    ruleSrcPortValue2Input.style.visibility = 'hidden'
+                } else {
+                    ruleSrcPortValue2Input.style.visibility = 'visible'
+                }
+            })
             ruleSrcPortOperationDiv.appendChild(ruleSrcPortOperationSelect)
             ruleSrcPortOperation.appendChild(ruleSrcPortOperationDiv)
 
@@ -161,10 +201,13 @@ async function aclInfoFull(ip, username, password, name, modal) {
             ruleSrcPortValue1.style.width = '6em'
             let ruleSrcPortValue1Div = document.createElement('div')
             let ruleSrcPortValue1Input = document.createElement('input')
+            ruleSrcPortValue1Input.id = row.id + 'ruleSrcPortValue1Input'
             ruleSrcPortValue1Input.className = 'form-control ruleSrcPortValue1'
             ruleSrcPortValue1Input.type = 'text'
             if (rules[i].srcPort !== null) {
                 ruleSrcPortValue1Input.value = rules[i].srcPort.value1
+            } else {
+                ruleSrcPortValue1Input.value = '1'
             }
             ruleSrcPortValue1Div.appendChild(ruleSrcPortValue1Input)
             ruleSrcPortValue1.appendChild(ruleSrcPortValue1Div)
@@ -174,10 +217,17 @@ async function aclInfoFull(ip, username, password, name, modal) {
             ruleSrcPortValue2.style.width = '6em'
             let ruleSrcPortValue2Div = document.createElement('div')
             let ruleSrcPortValue2Input = document.createElement('input')
+            ruleSrcPortValue2Input.id = row.id + 'ruleSrcPortValue2Input'
             ruleSrcPortValue2Input.className = 'form-control ruleSrcPortValue2'
             ruleSrcPortValue2Input.type = 'text'
-            if (ruleSrcOperationCurrent.textContent === 'Range') {
-                ruleSrcPortValue1Input.value = rules[i].srcPort.value2
+            if (rules[i].srcPort !== null && ruleSrcOperationCurrent.textContent !== 'Range') {
+                ruleSrcPortValue2Input.style.visibility = 'hidden'
+            }
+            if (rules[i].srcPort !== null && ruleSrcOperationCurrent.textContent === 'Range') {
+                ruleSrcPortValue2Input.value = rules[i].srcPort.value2
+            }
+            if (rules[i].srcPort === null && ruleSrcOperationCurrent.textContent === 'Range') {
+                ruleSrcPortValue2Input.value = '65535'
             }
             ruleSrcPortValue2Div.appendChild(ruleSrcPortValue2Input)
             ruleSrcPortValue2.appendChild(ruleSrcPortValue2Div)
@@ -187,6 +237,7 @@ async function aclInfoFull(ip, username, password, name, modal) {
             ruleDstIP.style.width = '12em'
             let ruleDstIPDiv = document.createElement('div')
             let ruleDstIPInput = document.createElement('input')
+            ruleDstIPInput.id = row.id + 'ruleDstIPInput'
             ruleDstIPInput.className = 'form-control aclRuleDstIp'
             ruleDstIPInput.type = 'text'
             ruleDstIPInput.value = rules[i].dstIP
@@ -198,9 +249,10 @@ async function aclInfoFull(ip, username, password, name, modal) {
             ruleDstPortOperation.style.width = '8em'
             let ruleDstPortOperationDiv = document.createElement('div')
             let ruleDstPortOperationSelect = document.createElement('select')
+            ruleDstPortOperationSelect.id = row.id + 'ruleDstPortOperationSelect'
             ruleDstPortOperationSelect.className = 'form-select table-select aclRuleDstPortOp'
             let ruleDstOperationCurrent = document.createElement('option')
-            ruleDstOperationCurrent.textContent = ''
+            ruleDstOperationCurrent.textContent = 'Range'
             if (rules[i].dstPort !== null) {
                 ruleDstOperationCurrent.textContent = rules[i].dstPort.operation
             }
@@ -212,6 +264,13 @@ async function aclInfoFull(ip, username, password, name, modal) {
                     ruleDstPortOperationSelect.appendChild(option)
                 }
             }
+            ruleDstPortOperationSelect.addEventListener('change', function(event) {
+                if (event.target.value !== 'Range') {
+                    ruleDstPortValue2Input.style.visibility = 'hidden'
+                } else {
+                    ruleDstPortValue2Input.style.visibility = 'visible'
+                }
+            })
             ruleDstPortOperationDiv.appendChild(ruleDstPortOperationSelect)
             ruleDstPortOperation.appendChild(ruleDstPortOperationDiv)
 
@@ -220,10 +279,13 @@ async function aclInfoFull(ip, username, password, name, modal) {
             ruleDstPortValue1.style.width = '6em'
             let ruleDstPortValue1Div = document.createElement('div')
             let ruleDstPortValue1Input = document.createElement('input')
+            ruleDstPortValue1Input.id = row.id + 'ruleDstPortValue1Input'
             ruleDstPortValue1Input.className = 'form-control ruleDstPortValue1'
             ruleDstPortValue1Input.type = 'text'
             if (rules[i].dstPort !== null) {
                 ruleDstPortValue1Input.value = rules[i].dstPort.value1
+            } else {
+                ruleDstPortValue1Input.value = '1'
             }
             ruleDstPortValue1Div.appendChild(ruleDstPortValue1Input)
             ruleDstPortValue1.appendChild(ruleDstPortValue1Div)
@@ -233,48 +295,53 @@ async function aclInfoFull(ip, username, password, name, modal) {
             ruleDstPortValue2.style.width = '6em'
             let ruleDstPortValue2Div = document.createElement('div')
             let ruleDstPortValue2Input = document.createElement('input')
+            ruleDstPortValue2Input.id = row.id + 'ruleDstPortValue2Input'
             ruleDstPortValue2Input.className = 'form-control ruleDstPortValue2'
             ruleDstPortValue2Input.type = 'text'
-            if (ruleDstOperationCurrent.textContent === 'Range') {
-                ruleDstPortValue1Input.value = rules[i].dstPort.value2
+            if (rules[i].dstPort !== null && ruleDstOperationCurrent.textContent !== 'Range') {
+                ruleDstPortValue2Input.style.visibility = 'hidden'
+            }
+            if (rules[i].dstPort !== null && ruleDstOperationCurrent.textContent === 'Range') {
+                ruleDstPortValue2Input.value = rules[i].dstPort.value2
+            }
+            if (rules[i].dstPort === null && ruleDstOperationCurrent.textContent === 'Range') {
+                ruleDstPortValue2Input.value = '65535'
             }
             ruleDstPortValue2Div.appendChild(ruleDstPortValue2Input)
             ruleDstPortValue2.appendChild(ruleDstPortValue2Div)
 
-            let addRuleBefore = document.createElement('td')
-            addRuleBefore.style.width = ' 7em'
-            let addRuleBeforeDiv = document.createElement('div')
+            let buttonGroup = document.createElement('td')
+            buttonGroup.style.width = '18em'
+            let btnGroup = document.createElement('div')
+            btnGroup.className = 'btn-group'
+            btnGroup.role = 'group'
+
             let  addRuleBeforeButton = document.createElement('button')
-             addRuleBeforeButton.textContent = 'Add before'
-             addRuleBeforeButton.className = 'btn btn-success before'
-             addRuleBeforeButton.style.width = ' 7em'
+             addRuleBeforeButton.textContent = 'Add before ↑'
+             addRuleBeforeButton.className = 'btn btn-outline-success before'
              addRuleBeforeButton.addEventListener('click', addRuleBeforeFunction)
-            addRuleBeforeDiv.appendChild(addRuleBeforeButton)
-            addRuleBefore.appendChild(addRuleBeforeDiv)
+            btnGroup.appendChild(addRuleBeforeButton)
 
-            let addRuleAfter = document.createElement('td')
-            addRuleAfter.style.width = ' 7em'
-            let addRuleAfterDiv = document.createElement('div')
             let addRuleAfterButton = document.createElement('button')
-            addRuleAfterButton.textContent = 'Add after'
-            addRuleAfterButton.className = 'btn btn-success after'
-            addRuleAfterButton.style.width = ' 7em'
+            addRuleAfterButton.textContent = 'Add after ↓'
+            addRuleAfterButton.className = 'btn btn-outline-success after'
+            addRuleAfterButton.style.borderLeftColor = 'wheat'
+            addRuleAfterButton.style.borderLeftWidth = '1px'
             addRuleAfterButton.addEventListener('click', addRuleAfterFunction)
-            addRuleAfterDiv.appendChild(addRuleAfterButton)
-            addRuleAfter.appendChild(addRuleAfterDiv)
+            btnGroup.appendChild(addRuleAfterButton)
 
-            let removeRule = document.createElement('td')
-            removeRule.style.width = ' 7em'
-            let removeRuleDiv = document.createElement('div')
             let removeRuleButton = document.createElement('button')
-            removeRuleButton.className = 'btn btn-danger'
-            removeRuleButton.style.width = ' 7em'
+            removeRuleButton.className = 'btn btn-outline-danger remove'
+            removeRuleButton.style.borderLeftColor = 'wheat'
+            removeRuleButton.style.borderLeftWidth = '1px'
+            // removeRuleButton.style.width = ' 7em'
             removeRuleButton.textContent = 'Delete rule'
             removeRuleButton.addEventListener('click', function() {
                 row.remove()
             })
-            removeRuleDiv.appendChild(removeRuleButton)
-            removeRule.appendChild(removeRuleDiv)
+            btnGroup.appendChild(removeRuleButton)
+
+            buttonGroup.appendChild(btnGroup)
 
 
 
@@ -289,11 +356,17 @@ async function aclInfoFull(ip, username, password, name, modal) {
             row.appendChild(ruleDstPortOperation)
             row.appendChild(ruleDstPortValue1)
             row.appendChild(ruleDstPortValue2)
-            row.appendChild(addRuleBefore)
-            row.appendChild(addRuleAfter)
-            row.appendChild(removeRule)
+            row.appendChild(buttonGroup)
             aclRuleTable.appendChild(row)
         }
     }
+
+    ruleCounter()
+
+    let modalClose = document.getElementById('closeModal')
+    modalClose.addEventListener('click', function () {
+        modal.innerHTML = ''
+        modal.hide()
+    })
 
 }

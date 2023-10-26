@@ -64,7 +64,7 @@ async function getPortInfoFull(ip, username, password, port) {
         let ifAbbreviatedName = document.getElementById('ifAbbreviatedName')
         ifAbbreviatedName.textContent = parsedData.ifAbbreviatedName
         let description = document.getElementById('description')
-        description.textContent = parsedData.description
+        description.value = parsedData.description
 
         let adminStatus = document.getElementById('adminStatus');
         adminStatus.innerHTML = ''
@@ -113,6 +113,9 @@ async function getPortInfoFull(ip, username, password, port) {
         let actualDuplex = document.getElementById('actualDuplex')
         actualDuplex.textContent = ''
         actualDuplex.textContent = parsedData.actualDuplex
+        if (operStatus.textContent === 'Down') {
+            actualDuplex.textContent = 'Unknown'
+        }
         if (actualDuplex.textContent === 'Full') {
             actualDuplex.style.color = 'green'
             actualDuplex.style.borderColor = 'green'
@@ -125,6 +128,11 @@ async function getPortInfoFull(ip, username, password, port) {
         let actualSpeed = document.getElementById('actualSpeed')
         actualSpeed.textContent = null
         actualSpeed.textContent = parsedData.actualSpeed
+        if (operStatus.textContent === 'Down') {
+            actualSpeed.textContent = 'Unknown'
+            actualSpeed.style.borderColor = 'red'
+            actualSpeed.style.color = 'red'
+        }
 
         const speedList = data.result.supportedIfSpeed;
         let configSpeedSelect = document.getElementById('configSpeed');
@@ -195,7 +203,7 @@ async function getPortInfoFull(ip, username, password, port) {
         let linkType = parsedData.vlan.linkType
         let pvid = parsedData.vlan.pvid
         let existingTaggedVlans = document.getElementsByClassName('taggedVlan');
-        for (let i=existingTaggedVlans.length-1; i >= 0; i--) {
+        for (let i = existingTaggedVlans.length - 1; i >= 0; i--) {
             existingTaggedVlans[i].remove();
         }
         let taggedVlanList = parsedData.vlan.taggedVlanList
@@ -245,7 +253,7 @@ async function getPortInfoFull(ip, username, password, port) {
                     vlan.style.justifyContent = 'space-between'
                     let closeButton = document.createElement('button')
                     closeButton.className = 'btn-close'
-                    closeButton.addEventListener('click', function() {
+                    closeButton.addEventListener('click', function () {
                         vlan.remove()
                     })
                     vlan.appendChild(closeButton)
@@ -270,7 +278,7 @@ async function getPortInfoFull(ip, username, password, port) {
                     vlan.style.justifyContent = 'space-between'
                     let closeButton = document.createElement('button')
                     closeButton.className = 'btn-close'
-                    closeButton.addEventListener('click', function() {
+                    closeButton.addEventListener('click', function () {
                         vlan.remove()
                     })
                     vlan.appendChild(closeButton)
@@ -326,8 +334,6 @@ async function getPortInfoFull(ip, username, password, port) {
 
         let units = ['Pps', 'Kbps', 'Ratio']
         let broadcastSelect = document.getElementById('broadcastUnit')
-        // let multicastSelect = document.getElementById('multicastUnit')
-        // let unicastSelect = document.getElementById('unicastUnit')
 
         for (let unit of units) {
             let option = document.createElement('option')
@@ -354,13 +360,31 @@ async function getPortInfoFull(ip, username, password, port) {
         bpduSwitch.addEventListener('click', function () {
             if (bpduSwitch.hasAttribute('checked')) {
                 bpduSwitch.removeAttribute('checked')
+                bpduSwitchLabel.style.backgroundColor = 'red'
+                bpduSwitchLabel.style.borderRadius = '5px'
+                bpduSwitchLabel.style.paddingLeft = '1rem'
+                bpduSwitchLabel.style.paddingRight = '1rem'
+                bpduSwitchLabel.style.color = 'white'
             } else {
                 bpduSwitch.setAttribute('checked', '')
+                bpduSwitchLabel.style.backgroundColor = 'white'
+                bpduSwitchLabel.style.borderRadius = '5px'
+                bpduSwitchLabel.style.paddingLeft = '1rem'
+                bpduSwitchLabel.style.paddingRight = '1rem'
+                bpduSwitchLabel.style.color = 'black'
             }
         })
         let bpduValue = parsedData.bpduDropAny
         if (bpduValue === true) {
             bpduSwitch.setAttribute('checked', '')
+            bpduSwitchLabel.style.paddingLeft = '1rem'
+            bpduSwitchLabel.style.paddingRight = '1rem'
+        } else {
+            bpduSwitchLabel.style.backgroundColor = 'red'
+            bpduSwitchLabel.style.borderRadius = '5px'
+            bpduSwitchLabel.style.paddingLeft = '1rem'
+            bpduSwitchLabel.style.paddingRight = '1rem'
+            bpduSwitchLabel.style.color = 'white'
         }
         bpduSwitchForm.appendChild(bpduSwitchLabel)
         bpduSwitchForm.appendChild(bpduSwitch)
@@ -395,8 +419,9 @@ async function getPortInfoFull(ip, username, password, port) {
                     let inboundIpv4Value = document.createElement('td')
                     inboundIpv4Value.textContent = inbound.name
                     inboundIpv4Value.style.cursor = 'pointer'
-                    inboundIpv4Value.onclick = function() {
+                    inboundIpv4Value.onclick = function () {
                         let modal = new bootstrap.Modal(document.getElementById('aclInfoModalWindow'))
+                        direction = 'Inbound'
                         aclInfoFull(connectIp.value, connectUsername.value, connectPassword.value, inboundIpv4Value.textContent, modal)
                     };
                     row.appendChild(inboundIpv4Header)
@@ -411,8 +436,9 @@ async function getPortInfoFull(ip, username, password, port) {
                     let inboundIpv6Value = document.createElement('td')
                     inboundIpv6Value.textContent = inbound.name
                     inboundIpv6Value.style.cursor = 'pointer'
-                    inboundIpv6Value.onclick = function() {
+                    inboundIpv6Value.onclick = function () {
                         let modal = new bootstrap.Modal(document.getElementById('aclInfoModalWindow'))
+                        direction = 'Inbound'
                         aclInfoFull(connectIp.value, connectUsername.value, connectPassword.value, inboundIpv6Value.textContent, modal)
                     };
                     row.appendChild(inboundIpv6Header)
@@ -427,8 +453,9 @@ async function getPortInfoFull(ip, username, password, port) {
                     let inboundMacValue = document.createElement('td')
                     inboundMacValue.textContent = inbound.name
                     inboundMacValue.style.cursor = 'pointer'
-                    inboundMacValue.onclick = function() {
+                    inboundMacValue.onclick = function () {
                         let modal = new bootstrap.Modal(document.getElementById('aclInfoModalWindow'))
+                        direction = 'Inbound'
                         aclInfoFull(connectIp.value, connectUsername.value, connectPassword.value, inboundMacValue.textContent, modal)
                     };
                     row.appendChild(inboundMacHeader)
@@ -448,8 +475,9 @@ async function getPortInfoFull(ip, username, password, port) {
                     let outboundIpv4Value = document.createElement('td')
                     outboundIpv4Value.textContent = outbound.name
                     outboundIpv4Value.style.cursor = 'pointer'
-                    outboundIpv4Value.onclick = function() {
+                    outboundIpv4Value.onclick = function () {
                         let modal = new bootstrap.Modal(document.getElementById('aclInfoModalWindow'))
+                        direction = 'Outbound'
                         aclInfoFull(connectIp.value, connectUsername.value, connectPassword.value, outboundIpv4Value.textContent, modal)
                     };
                     row.appendChild(outboundIpv4Header)
@@ -464,8 +492,9 @@ async function getPortInfoFull(ip, username, password, port) {
                     let outboundIpv6Value = document.createElement('td')
                     outboundIpv6Value.textContent = outbound.name
                     outboundIpv6Value.style.cursor = 'pointer'
-                    outboundIpv6Value.onclick = function() {
+                    outboundIpv6Value.onclick = function () {
                         let modal = new bootstrap.Modal(document.getElementById('aclInfoModalWindow'))
+                        direction = 'Outbound'
                         aclInfoFull(connectIp.value, connectUsername.value, connectPassword.value, outboundIpv6Value.textContent, modal)
                     };
                     row.appendChild(outboundIpv6Header)
@@ -480,8 +509,9 @@ async function getPortInfoFull(ip, username, password, port) {
                     let outboundMacValue = document.createElement('td')
                     outboundMacValue.textContent = outbound.name
                     outboundMacValue.style.cursor = 'pointer'
-                    outboundMacValue.onclick = function() {
+                    outboundMacValue.onclick = function () {
                         let modal = new bootstrap.Modal(document.getElementById('aclInfoModalWindow'))
+                        direction = 'Outbound'
                         aclInfoFull(connectIp.value, connectUsername.value, connectPassword.value, outboundMacValue.textContent, modal)
                     };
                     row.appendChild(outboundMacHeader)
@@ -501,7 +531,7 @@ async function getPortInfoFull(ip, username, password, port) {
 async function setPortConfig(ip, username, password, port) {
 
     // General info
-    let description = document.getElementById('description').textContent;
+    let description = document.getElementById('description').value;
     let adminStatus = document.getElementById('adminStatus').value;
 
 // Speed
