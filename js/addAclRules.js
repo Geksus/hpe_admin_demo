@@ -40,7 +40,7 @@ async function addAclRules(ip, username, password) {
         let protocol = antiProtocol[document.getElementById(row.id.toString() + 'ruleProtocolSelect').value]
         let srcIP = document.getElementById(row.id.toString() + 'ruleSrcIPInput').value
         if (!isValidCIDR(srcIP)) {
-            window.alert("Invalid IP address: " + srcIP)
+            window.alert("Invalid source IP address: " + srcIP)
             nowYouDont()
             return;
         }
@@ -59,7 +59,8 @@ async function addAclRules(ip, username, password) {
         }
         let dstIP = document.getElementById(row.id.toString() + 'ruleDstIPInput').value
         if (!isValidCIDR(dstIP)) {
-            window.alert("Invalid IP address: " + dstIP)
+            window.alert("Invalid destination IP address: " + dstIP)
+            nowYouDont()
             return;
         }
 

@@ -1,15 +1,17 @@
 function isValidIP(ipaddress) {
-    // Regular expression for IP validation
-    let ipformat = /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+    // Regular expressions for IP validation
+    let ipFormatIPv4 = /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+    let ipFormatIPv6 = /^(?:[A-F0-9]{1,4}:){7}[A-F0-9]{1,4}$/i;
 
-    return !!ipaddress.match(ipformat);
+    return !!ipaddress.match(ipFormatIPv4) || !!ipaddress.match(ipFormatIPv6);
 }
 
 function isValidCIDR(cidr) {
-    // Regular expression for CIDR validation
-    let cidrFormat = /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\/([0-9]|[1-2][0-9]|3[0-2])$/;
+    // Regular expressions for CIDR validation
+    let cidrFormatIPv4 = /^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\/([0-9]|[1-2][0-9]|3[0-2])$/;
+    let cidrFormatIPv6 = /^((?:[A-F0-9]{1,4}:){7}[A-F0-9]{1,4}|::)\/([0-9]|[1-9][0-9]|1[01][0-9]|12[0-8])$/i;
 
-    return !!cidr.match(cidrFormat);
+    return !!cidr.match(cidrFormatIPv4) || !!cidr.match(cidrFormatIPv6);
 }
 
 function suppressionRange(unit, value, type) {
