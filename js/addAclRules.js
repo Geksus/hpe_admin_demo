@@ -25,7 +25,7 @@ async function addAclRules(ip, username, password) {
         window.alert('Please add at least one rule')
         return;
     }
-    nowYouSeeMe()
+
     for (let row of rows) {
         let ruleID = parseInt(document.getElementById(row.id.toString() + 'ruleNumberInput').value)
         if (ruleNums.includes(ruleID)) {
@@ -45,13 +45,16 @@ async function addAclRules(ip, username, password) {
             return;
         }
         let srcPort = null
-        if ((protocol === 17 || protocol === 6) && document.getElementById(row.id.toString() + 'ruleSrcPortOperationSelect').style.visibility === 'visible') {
+        if ((protocol === 17 || protocol === 6) && document.getElementById(row.id.toString() + 'ruleSrcPortOperationSelect').style.visibility !== 'hidden') {
             srcPort = {}
             srcPort['operation'] = document.getElementById(row.id.toString() + 'ruleSrcPortOperationSelect').value
             srcPort['value1'] = parseInt(document.getElementById(row.id.toString() + 'ruleSrcPortValue1Input').value)
             srcPort['value2'] = 0
             if (srcPort['operation'] === 'Range') {
                 srcPort['value2'] = parseInt(document.getElementById(row.id.toString() + 'ruleSrcPortValue2Input').value)
+                if (srcPort['value1'] === 1 && srcPort['value2'] === 65535) {
+                    srcPort = null
+                }
             }
         }
         let dstIP = document.getElementById(row.id.toString() + 'ruleDstIPInput').value
@@ -59,16 +62,21 @@ async function addAclRules(ip, username, password) {
             window.alert("Invalid IP address: " + dstIP)
             return;
         }
+
         let dstPort = null
-        if ((protocol === 17 || protocol === 6) && document.getElementById(row.id.toString() + 'ruleDstPortOperationSelect').style.visibility === 'visible') {
+        if ((protocol === 17 || protocol === 6) && document.getElementById(row.id.toString() + 'ruleDstPortOperationSelect').style.visibility !== 'hidden') {
             dstPort = {}
             dstPort['operation'] = document.getElementById(row.id.toString() + 'ruleDstPortOperationSelect').value
             dstPort['value1'] = parseInt(document.getElementById(row.id.toString() + 'ruleDstPortValue1Input').value)
             dstPort['value2'] = 0
             if (dstPort['operation'] === 'Range') {
                 dstPort['value2'] = parseInt(document.getElementById(row.id.toString() + 'ruleDstPortValue2Input').value)
+                if (dstPort['value1'] === 1 && dstPort['value2'] === 65535) {
+                    dstPort = null
+                }
             }
         }
+
         let newRule = {
             'ruleID': ruleID,
             'action': action,
@@ -79,12 +87,21 @@ async function addAclRules(ip, username, password) {
             'dstPort': dstPort,
         }
 
-        aclRules.push(newRule)
+        for (let rule of aclRules) {
+            let { ruleID, ...ruleWithoutId } = rule;
+            let { ruleID: newRuleID, ...newRuleWithoutId } = newRule;
+            if (JSON.stringify(ruleWithoutId) === JSON.stringify(newRuleWithoutId)) {
+                window.alert('Duplicate rule' + JSON.stringify(newRule))
+                return
+            }
+        }
+
+        aclRules.push(newRule);
     }
 
     let pfilters = []
     let newPfilter = {
-        ifIndex: parseInt(connectPort),
+        ifIndex: parseInt(connectPort.value),
         direction: direction,
         aclType: aclType,
         aclName: aclName
@@ -92,7 +109,8 @@ async function addAclRules(ip, username, password) {
 
     pfilters.push(newPfilter)
 
-    await removeAcl(connectIp, connectUsername, connectPassword, aclName)
+    nowYouSeeMe()
+    await removeAcl(connectIp.value, connectUsername.value, connectPassword.value, aclName)
 
     const response = await fetch(
         'http://5.149.127.105',
@@ -137,8 +155,8 @@ async function addAclRules(ip, username, password) {
         }
     }
 
-    await setPortAcl(connectIp, connectUsername, connectPassword, pfilters)
+    await setPortAcl(connectIp.value, connectUsername.value, connectPassword.value, pfilters)
 
     let modal = new bootstrap.Modal(document.getElementById('aclInfoModalWindow'))
-    await aclInfoFull(connectIp, connectUsername, connectPassword, aclName, modal)
+    await aclInfoFull(connectIp.value, connectUsername.value, connectPassword.value, aclName, modal)
 }

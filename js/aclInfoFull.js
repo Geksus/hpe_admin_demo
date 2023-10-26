@@ -316,35 +316,22 @@ async function aclInfoFull(ip, username, password, name, modal) {
             btnGroup.className = 'btn-group'
             btnGroup.role = 'group'
 
-            // let addRuleBefore = document.createElement('td')
-            // addRuleBefore.style.width = '7em'
-            // let addRuleBeforeDiv = document.createElement('div')
             let  addRuleBeforeButton = document.createElement('button')
              addRuleBeforeButton.textContent = 'Add before ↑'
-             addRuleBeforeButton.className = 'btn btn-success before'
-             // addRuleBeforeButton.style.width = ' 7em'
+             addRuleBeforeButton.className = 'btn btn-outline-success before'
              addRuleBeforeButton.addEventListener('click', addRuleBeforeFunction)
             btnGroup.appendChild(addRuleBeforeButton)
-            // addRuleBefore.appendChild(addRuleBeforeDiv)
 
-            // let addRuleAfter = document.createElement('td')
-            // addRuleAfter.style.width = ' 7em'
-            // let addRuleAfterDiv = document.createElement('div')
             let addRuleAfterButton = document.createElement('button')
             addRuleAfterButton.textContent = 'Add after ↓'
-            addRuleAfterButton.className = 'btn btn-success after'
+            addRuleAfterButton.className = 'btn btn-outline-success after'
             addRuleAfterButton.style.borderLeftColor = 'wheat'
             addRuleAfterButton.style.borderLeftWidth = '1px'
-            // addRuleAfterButton.style.width = ' 7em'
             addRuleAfterButton.addEventListener('click', addRuleAfterFunction)
             btnGroup.appendChild(addRuleAfterButton)
-            // addRuleAfter.appendChild(addRuleAfterDiv)
 
-            // let removeRule = document.createElement('td')
-            // removeRule.style.width = ' 7em'
-            // let removeRuleDiv = document.createElement('div')
             let removeRuleButton = document.createElement('button')
-            removeRuleButton.className = 'btn btn-danger'
+            removeRuleButton.className = 'btn btn-outline-danger remove'
             removeRuleButton.style.borderLeftColor = 'wheat'
             removeRuleButton.style.borderLeftWidth = '1px'
             // removeRuleButton.style.width = ' 7em'
@@ -353,7 +340,6 @@ async function aclInfoFull(ip, username, password, name, modal) {
                 row.remove()
             })
             btnGroup.appendChild(removeRuleButton)
-            // removeRule.appendChild(removeRuleDiv)
 
             buttonGroup.appendChild(btnGroup)
 
@@ -370,9 +356,6 @@ async function aclInfoFull(ip, username, password, name, modal) {
             row.appendChild(ruleDstPortOperation)
             row.appendChild(ruleDstPortValue1)
             row.appendChild(ruleDstPortValue2)
-            // row.appendChild(addRuleBefore)
-            // row.appendChild(addRuleAfter)
-            // row.appendChild(removeRule)
             row.appendChild(buttonGroup)
             aclRuleTable.appendChild(row)
         }

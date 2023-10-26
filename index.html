@@ -60,7 +60,6 @@
                        class="form-control far-right ip-address form-control far-right ip-address-navbar"
                        placeholder="Port"
                        aria-label="Port"
-                       value="24"
                 >
             </li>
             <li>
@@ -76,6 +75,7 @@
      aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
+            <div class="magical-curtain"></div>
             <div class="modal-header">
                 <div class="container container-xxl">
                     <div class="mb-3">
@@ -94,19 +94,26 @@
                                  aria-describedby="basic-addon3 basic-addon4" style="border-bottom-right-radius: 0.375rem;
                                  border-top-right-radius: 0.375rem"></div>
                             <div class="btn-group" role="group">
-                                <button class="btn btn-success" style="margin-left: 1rem" onclick="addNewRule()">New rule</button>
+                                <button class="btn btn-outline-success" style="margin-left: 1rem"
+                                        onclick="addNewRule()">New rule
+                                </button>
                                 <div class="btn-group" role="group">
-                                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-
+                                    <button type="button" class="btn btn-outline-primary dropdown-toggle"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
                                     </button>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" onclick="addPresetRules(ipv4BlockMailRules)">IPv4 block mail</a></li>
-                                        <li><a class="dropdown-item" onclick="addPresetRules(blockAllExceptHttp)">Block all except HTTP/HTTPS</a></li>
+                                        <li><a class="dropdown-item" href="#"
+                                               onclick="addPresetRules(ipv4BlockMailRules)">IPv4 block mail</a></li>
+                                        <li><a class="dropdown-item" href="#"
+                                               onclick="addPresetRules(blockAllExceptHttp)">Block all except
+                                            HTTP/HTTPS</a></li>
                                     </ul>
                                 </div>
                             </div>
                             <div>
-                                <button class="btn btn-danger" style="margin-left: 1rem" onclick="removeAllRules()">Clear rules</button>
+                                <button class="btn btn-outline-danger" style="margin-left: 1rem"
+                                        onclick="removeAllRules()">Clear rules
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -142,7 +149,8 @@
             <div class="modal-footer" style="display: flex; justify-content: space-between">
                 <div><b>Rule count: </b><b id="ruleCount"></b></div>
                 <div>
-                    <button id="closeModal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button id="closeModal" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close
+                    </button>
                     <button type="button" class="btn btn-primary" id="editAcl">Save</button>
                 </div>
             </div>
@@ -151,159 +159,161 @@
 </div>
 <!-- /.modal -->
 
+<div class="magical-curtain"></div>
 
-<div class="container container-fluid">
-    <div class="spinner-border text-warning" style="width: 20rem; height: 20rem;" role="status">
-        <span class="visually-hidden">Loading...</span>
-    </div>
+<div class="container container-fluid spinner">
+        <div class="spinner-border text-warning" style="width: 20rem; height: 20rem;" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
 
-    <div class="row" style="display: flex; justify-content: space-between">
-        <div class="col-sm far-right">
-            <div class="card border-info-subtle mb-3 ">
-                <div class="card-header bg-info-subtle">General info</div>
-                <div class="card-body " style="padding-bottom: 0">
-                    <div class="mb-3">
-                        <div class="input-group">
-                            <span class="input-group-text generalLabel">Interface</span>
-                            <div type="text" class="form-control" id="ifName"
-                                 aria-describedby="basic-addon3 basic-addon4" style="width: fit-content"></div>
-                            <div type="text" class="form-control" id="ifAbbreviatedName"
-                                 aria-describedby="basic-addon3 basic-addon4"></div>
-                            <span class="input-group-text generalLabel">Duplex</span>
-                            <div type="text" class="form-control far-right" id="actualDuplex"
-                                 aria-describedby="basic-addon3 basic-addon4"></div>
+        <div class="row" style="display: flex; justify-content: space-between">
+            <div class="col-sm far-right">
+                <div class="card border-info-subtle mb-3 ">
+                    <div class="card-header bg-info-subtle">General info</div>
+                    <div class="card-body " style="padding-bottom: 0">
+                        <div class="mb-3">
+                            <div class="input-group">
+                                <span class="input-group-text generalLabel">Interface</span>
+                                <div type="text" class="form-control" id="ifName"
+                                     aria-describedby="basic-addon3 basic-addon4" style="width: fit-content"></div>
+                                <div type="text" class="form-control" id="ifAbbreviatedName"
+                                     aria-describedby="basic-addon3 basic-addon4"></div>
+                                <span class="input-group-text generalLabel">Duplex</span>
+                                <div type="text" class="form-control far-right" id="actualDuplex"
+                                     aria-describedby="basic-addon3 basic-addon4"></div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="mb-3">
-                        <div class="input-group">
-                            <span class="input-group-text generalLabel">Description</span>
-                            <input type="text" class="form-control far-right" id="description"
-                                   aria-describedby="basic-addon3 basic-addon4">
+                        <div class="mb-3">
+                            <div class="input-group">
+                                <span class="input-group-text generalLabel">Description</span>
+                                <input type="text" class="form-control far-right" id="description"
+                                       aria-describedby="basic-addon3 basic-addon4">
+                            </div>
                         </div>
-                    </div>
-                    <div class="mb-3">
-                        <div class="input-group">
-                            <span class="input-group-text generalLabel">Oper Status</span>
-                            <div type="text" class="form-control" id="operStatus"
-                                 aria-describedby="basic-addon3 basic-addon4"></div>
-                            <span class="input-group-text generalLabel">Admin Status</span>
-                            <select type="text" class="form-select far-right" id="adminStatus"
-                                    aria-describedby="basic-addon3 basic-addon4"></select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-sm">
-                    <div class="card border-info-subtle mb-3">
-                        <div class="card-header bg-info-subtle">Interface speed</div>
-                        <div class="card-body" style="padding-bottom: 0">
-                            <div class="mb-3">
-                                <div class="input-group">
-                                    <span class="input-group-text">Current speed</span>
-                                    <div type="text" class="form-control" id="actualSpeed"
-                                         aria-describedby="basic-addon3 basic-addon4"></div>
-                                    <span class="input-group-text">Config speed</span>
-                                    <select type="text" class="form-select far-right" id="configSpeed"
-                                            aria-describedby="basic-addon3 basic-addon4"></select>
-                                </div>
+                        <div class="mb-3">
+                            <div class="input-group">
+                                <span class="input-group-text generalLabel">Oper Status</span>
+                                <div type="text" class="form-control" id="operStatus"
+                                     aria-describedby="basic-addon3 basic-addon4"></div>
+                                <span class="input-group-text generalLabel">Admin Status</span>
+                                <select type="text" class="form-select far-right" id="adminStatus"
+                                        aria-describedby="basic-addon3 basic-addon4"></select>
                             </div>
                         </div>
                     </div>
-                    <div class="card border-info-subtle mb-3">
-                        <div class="card-header bg-info-subtle">VLAN config</div>
-                        <div class="container container-fluid">
+                </div>
+                <div class="row">
+                    <div class="col-sm">
+                        <div class="card border-info-subtle mb-3">
+                            <div class="card-header bg-info-subtle">Interface speed</div>
                             <div class="card-body" style="padding-bottom: 0">
-                                <div class="col">
-                                    <div class="row">
-                                        <div class="d-flex align-items-start">
-                                            <div class="nav flex-column nav-pills me-3"
-                                                 id="vlan-tab"
-                                                 role="tablist"
-                                                 aria-orientation="vertical">
-                                                <button class="nav-link"
-                                                        id="v-pills-access-tab"
-                                                        data-bs-toggle="pill"
-                                                        data-bs-target="#v-pills-access"
-                                                        type="button"
-                                                        role="tab"
-                                                        aria-controls="v-pills-access"
-                                                        aria-selected="false">Access
-                                                </button>
-                                                <button class="nav-link"
-                                                        id="v-pills-trunk-tab"
-                                                        data-bs-toggle="pill"
-                                                        data-bs-target="#v-pills-trunk"
-                                                        type="button"
-                                                        role="tab"
-                                                        aria-controls="v-pills-trunk"
-                                                        aria-selected="false">Trunk
-                                                </button>
-                                                <button class="nav-link"
-                                                        id="v-pills-hybrid-tab"
-                                                        data-bs-toggle="pill"
-                                                        data-bs-target="#v-pills-hybrid"
-                                                        type="button"
-                                                        role="tab"
-                                                        aria-controls="v-pills-hybrid"
-                                                        aria-selected="false">Hybrid
-                                                </button>
-                                            </div>
-                                            <div class="tab-content" id="vlan-tab-content">
-                                                <div class="tab-pane fade show active"
-                                                     id="v-pills-access"
-                                                     role="tabpanel"
-                                                     aria-labelledby="v-pills-access-tab"
-                                                     tabindex="0">
-                                                    <div class="input-group mb-3">
-                                                        <span class="input-group-text vlanLabel">PVID (Native VLAN)</span>
-                                                        <input type="text"
-                                                               id="access-PVID"
-                                                               class="form-control"
-                                                               aria-describedby="access-PVID"/>
-                                                    </div>
+                                <div class="mb-3">
+                                    <div class="input-group">
+                                        <span class="input-group-text">Current speed</span>
+                                        <div type="text" class="form-control" id="actualSpeed"
+                                             aria-describedby="basic-addon3 basic-addon4"></div>
+                                        <span class="input-group-text">Config speed</span>
+                                        <select type="text" class="form-select far-right" id="configSpeed"
+                                                aria-describedby="basic-addon3 basic-addon4"></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card border-info-subtle mb-3">
+                            <div class="card-header bg-info-subtle">VLAN config</div>
+                            <div class="container container-fluid">
+                                <div class="card-body" style="padding-bottom: 0">
+                                    <div class="col">
+                                        <div class="row">
+                                            <div class="d-flex align-items-start">
+                                                <div class="nav flex-column nav-pills me-3"
+                                                     id="vlan-tab"
+                                                     role="tablist"
+                                                     aria-orientation="vertical">
+                                                    <button class="nav-link"
+                                                            id="v-pills-access-tab"
+                                                            data-bs-toggle="pill"
+                                                            data-bs-target="#v-pills-access"
+                                                            type="button"
+                                                            role="tab"
+                                                            aria-controls="v-pills-access"
+                                                            aria-selected="false">Access
+                                                    </button>
+                                                    <button class="nav-link"
+                                                            id="v-pills-trunk-tab"
+                                                            data-bs-toggle="pill"
+                                                            data-bs-target="#v-pills-trunk"
+                                                            type="button"
+                                                            role="tab"
+                                                            aria-controls="v-pills-trunk"
+                                                            aria-selected="false">Trunk
+                                                    </button>
+                                                    <button class="nav-link"
+                                                            id="v-pills-hybrid-tab"
+                                                            data-bs-toggle="pill"
+                                                            data-bs-target="#v-pills-hybrid"
+                                                            type="button"
+                                                            role="tab"
+                                                            aria-controls="v-pills-hybrid"
+                                                            aria-selected="false">Hybrid
+                                                    </button>
                                                 </div>
-                                                <div class="tab-pane fade"
-                                                     id="v-pills-trunk"
-                                                     role="tabpanel"
-                                                     aria-labelledby="v-pills-trunk-tab"
-                                                     tabindex="0">
-                                                    <div class="input-group mb-3">
-                                                        <span class="input-group-text vlanLabel">PVID (Native VLAN)</span>
-                                                        <input type="text"
-                                                               id="trunk-PVID"
-                                                               class="form-control"
-                                                               aria-describedby="trunk-PVID"/>
+                                                <div class="tab-content" id="vlan-tab-content">
+                                                    <div class="tab-pane fade show active"
+                                                         id="v-pills-access"
+                                                         role="tabpanel"
+                                                         aria-labelledby="v-pills-access-tab"
+                                                         tabindex="0">
+                                                        <div class="input-group mb-3">
+                                                            <span class="input-group-text vlanLabel">PVID (Native VLAN)</span>
+                                                            <input type="text"
+                                                                   id="access-PVID"
+                                                                   class="form-control"
+                                                                   aria-describedby="access-PVID"/>
+                                                        </div>
                                                     </div>
-                                                    <div class="input-group mb-3" id="taggedTrunkVlanGroup">
-                                                        <span class="input-group-text vlanLabel">Tagged VLANs</span>
-                                                        <button class="btn btn-outline-secondary" type="button"
-                                                                onclick="addTaggedVlanHandler('taggedTrunkVlanGroup')">
-                                                            Add
-                                                        </button>
+                                                    <div class="tab-pane fade"
+                                                         id="v-pills-trunk"
+                                                         role="tabpanel"
+                                                         aria-labelledby="v-pills-trunk-tab"
+                                                         tabindex="0">
+                                                        <div class="input-group mb-3">
+                                                            <span class="input-group-text vlanLabel">PVID (Native VLAN)</span>
+                                                            <input type="text"
+                                                                   id="trunk-PVID"
+                                                                   class="form-control"
+                                                                   aria-describedby="trunk-PVID"/>
+                                                        </div>
+                                                        <div class="input-group mb-3" id="taggedTrunkVlanGroup">
+                                                            <span class="input-group-text vlanLabel">Tagged VLANs</span>
+                                                            <button class="btn btn-outline-secondary" type="button"
+                                                                    onclick="addTaggedVlanHandler('taggedTrunkVlanGroup')">
+                                                                Add
+                                                            </button>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="tab-pane fade"
-                                                     id="v-pills-hybrid"
-                                                     role="tabpanel"
-                                                     aria-labelledby="v-pills-hybrid-tab"
-                                                     tabindex="0">
-                                                    <div class="input-group mb-3">
-                                                        <span class="input-group-text vlanLabel">PVID (Native VLAN)</span>
-                                                        <input type="text"
-                                                               id="hybrid-PVID"
-                                                               class="form-control"
-                                                               aria-describedby="hybrid-PVID"/>
-                                                        <span class="input-group-text vlanLabel">Untagged VLANs</span>
-                                                        <div type="text" class="form-control" id="untaggedVlans"
-                                                             aria-describedby="basic-addon3 basic-addon4"></div>
-                                                    </div>
-                                                    <div class="input-group mb-3" id="taggedHybridVlanGroup">
-                                                        <span class="input-group-text vlanLabel">Tagged VLANs</span>
-                                                        <button class="btn btn-outline-secondary" type="button"
-                                                                onclick="addTaggedVlanHandler('taggedHybridVlanGroup')">
-                                                            Add
-                                                        </button>
+                                                    <div class="tab-pane fade"
+                                                         id="v-pills-hybrid"
+                                                         role="tabpanel"
+                                                         aria-labelledby="v-pills-hybrid-tab"
+                                                         tabindex="0">
+                                                        <div class="input-group mb-3">
+                                                            <span class="input-group-text vlanLabel">PVID (Native VLAN)</span>
+                                                            <input type="text"
+                                                                   id="hybrid-PVID"
+                                                                   class="form-control"
+                                                                   aria-describedby="hybrid-PVID"/>
+                                                            <span class="input-group-text vlanLabel">Untagged VLANs</span>
+                                                            <div type="text" class="form-control" id="untaggedVlans"
+                                                                 aria-describedby="basic-addon3 basic-addon4"></div>
+                                                        </div>
+                                                        <div class="input-group mb-3" id="taggedHybridVlanGroup">
+                                                            <span class="input-group-text vlanLabel">Tagged VLANs</span>
+                                                            <button class="btn btn-outline-secondary" type="button"
+                                                                    onclick="addTaggedVlanHandler('taggedHybridVlanGroup')">
+                                                                Add
+                                                            </button>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -312,165 +322,165 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="card border-info-subtle mb-3">
-                        <div class="card-header bg-info-subtle">Statistics</div>
-                        <div class="card-header bg-dark-subtle" id="inInterval">Interval:</div>
-                        <div class="card-body" style="padding-bottom: 0">
-                        </div>
-                        <div class="container container-fluid">
-                            <div class="mb-3">
-                                <div class="input-group">
-                                    <span class="input-group-text statLabel">Packets IN</span>
-                                    <div type="text" class="form-control" id="inPackets"
-                                         aria-describedby="basic-addon3 basic-addon4"></div>
-                                    <span class="input-group-text statLabel">Bits IN</span>
-                                    <div type="text" class="form-control" id="inBits"
-                                         aria-describedby="basic-addon3 basic-addon4"></div>
-                                    <span class="input-group-text statLabel">Usage IN</span>
-                                    <div type="text" class="form-control far-right" id="inUsage"
-                                         aria-describedby="basic-addon3 basic-addon4"></div>
-                                </div>
+                        <div class="card border-info-subtle mb-3">
+                            <div class="card-header bg-info-subtle">Statistics</div>
+                            <div class="card-header bg-dark-subtle" id="inInterval">Interval:</div>
+                            <div class="card-body" style="padding-bottom: 0">
                             </div>
-                            <div class="mb-3">
-                                <div class="input-group">
-                                    <span class="input-group-text statLabel">Packets OUT</span>
-                                    <div type="text" class="form-control" id="outPackets"
-                                         aria-describedby="basic-addon3 basic-addon4"></div>
-                                    <span class="input-group-text statLabel">Bits OUT</span>
-                                    <div type="text" class="form-control" id="outBits"
-                                         aria-describedby="basic-addon3 basic-addon4"></div>
-                                    <span class="input-group-text statLabel">Usage OUT</span>
-                                    <div type="text" class="form-control far-right" id="outUsage"
-                                         aria-describedby="basic-addon3 basic-addon4"></div>
+                            <div class="container container-fluid">
+                                <div class="mb-3">
+                                    <div class="input-group">
+                                        <span class="input-group-text statLabel">Packets IN</span>
+                                        <div type="text" class="form-control" id="inPackets"
+                                             aria-describedby="basic-addon3 basic-addon4"></div>
+                                        <span class="input-group-text statLabel">Bits IN</span>
+                                        <div type="text" class="form-control" id="inBits"
+                                             aria-describedby="basic-addon3 basic-addon4"></div>
+                                        <span class="input-group-text statLabel">Usage IN</span>
+                                        <div type="text" class="form-control far-right" id="inUsage"
+                                             aria-describedby="basic-addon3 basic-addon4"></div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card border-info-subtle mb-3">
-                        <div class="card-header bg-info-subtle">Suppression</div>
-                        <div class="card-body" style="padding-bottom: 0">
-                            <div class="mb-3">
-                                <div class="input-group">
-                                    <span class="input-group-text">Broadcast</span>
-                                    <input type="text" class="form-control" id="broadcastValue"
-                                           aria-describedby="basic-addon3 basic-addon4">
-                                    <span class="input-group-text">Multicast</span>
-                                    <input type="text" class="form-control" id="multicastValue"
-                                           aria-describedby="basic-addon3 basic-addon4">
-                                    <span class="input-group-text">Unicast</span>
-                                    <input type="text" class="form-control" id="unicastValue"
-                                           aria-describedby="basic-addon3 basic-addon4">
-                                    <span class="input-group-text">Unit</span>
-                                    <select type="text" class="form-select far-right" id="broadcastUnit"
-                                            aria-describedby="basic-addon3 basic-addon4"></select>
-                                </div>
-                            </div>
-                            <div class="mb-3">
-                                <div class="input-group">
-                                    <div class="form-check form-switch" id="bpduSwitchForm">
-                                        <label class="form-check-label" for="bpduSwitch">BPDU drop any</label>
-                                        <input class="form-check-input" type="checkbox" role="switch" id="bpduSwitch">
+                                <div class="mb-3">
+                                    <div class="input-group">
+                                        <span class="input-group-text statLabel">Packets OUT</span>
+                                        <div type="text" class="form-control" id="outPackets"
+                                             aria-describedby="basic-addon3 basic-addon4"></div>
+                                        <span class="input-group-text statLabel">Bits OUT</span>
+                                        <div type="text" class="form-control" id="outBits"
+                                             aria-describedby="basic-addon3 basic-addon4"></div>
+                                        <span class="input-group-text statLabel">Usage OUT</span>
+                                        <div type="text" class="form-control far-right" id="outUsage"
+                                             aria-describedby="basic-addon3 basic-addon4"></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="card border-info-subtle mb-3">
-                        <div class="card-header bg-info-subtle" style="margin-bottom: 0">ACL</div>
-                        <div class="card-header bg-dark-subtle">Inbound</div>
-                        <div class="card-body" style="padding-bottom: 0">
-                            <div class="input-group far-right">
-                                <table class="table table-striped far-right">
-                                    <tbody id="inboundACL">
-                                    </tbody>
-                                </table>
+                        <div class="card border-info-subtle mb-3">
+                            <div class="card-header bg-info-subtle">Suppression</div>
+                            <div class="card-body" style="padding-bottom: 0">
+                                <div class="mb-3">
+                                    <div class="input-group">
+                                        <span class="input-group-text">Broadcast</span>
+                                        <input type="text" class="form-control" id="broadcastValue"
+                                               aria-describedby="basic-addon3 basic-addon4">
+                                        <span class="input-group-text">Multicast</span>
+                                        <input type="text" class="form-control" id="multicastValue"
+                                               aria-describedby="basic-addon3 basic-addon4">
+                                        <span class="input-group-text">Unicast</span>
+                                        <input type="text" class="form-control" id="unicastValue"
+                                               aria-describedby="basic-addon3 basic-addon4">
+                                        <span class="input-group-text">Unit</span>
+                                        <select type="text" class="form-select far-right" id="broadcastUnit"
+                                                aria-describedby="basic-addon3 basic-addon4"></select>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <div class="input-group">
+                                        <div class="form-check form-switch" id="bpduSwitchForm">
+                                            <label class="form-check-label" for="bpduSwitch">BPDU drop any</label>
+                                            <input class="form-check-input" type="checkbox" role="switch"
+                                                   id="bpduSwitch">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="card-header bg-dark-subtle" style="margin-bottom: 0">Outbound</div>
-                        <div class="card-body" style="padding-bottom: 0">
-                            <div class="input-group far-right">
-                                <table class="table table-striped far-right">
-                                    <tbody id="outboundACL">
-                                    </tbody>
-                                </table>
+                        <div class="card border-info-subtle mb-3">
+                            <div class="card-header bg-info-subtle" style="margin-bottom: 0">ACL</div>
+                            <div class="card-header bg-dark-subtle">Inbound</div>
+                            <div class="card-body" style="padding-bottom: 0">
+                                <div class="input-group far-right">
+                                    <table class="table table-striped far-right">
+                                        <tbody id="inboundACL">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card-header bg-dark-subtle" style="margin-bottom: 0">Outbound</div>
+                            <div class="card-body" style="padding-bottom: 0">
+                                <div class="input-group far-right">
+                                    <table class="table table-striped far-right">
+                                        <tbody id="outboundACL">
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-sm-4">
-            <div class="card border-info-subtle mb-3">
-                <div class="card-header bg-info-subtle">ARP filter sources</div>
-                <div class="card-body" style="padding-bottom: 0">
-                    <div class="input-group far-bottom">
-                        <span class="input-group-text">IP</span>
-                        <input type="text" class="form-control far-right arpIp" id="arpSource-0"
-                               data-inputmask="'alias': 'ip'"/>
-                    </div>
-                    <div class="input-group far-bottom">
-                        <span class="input-group-text">IP</span>
-                        <input type="text" class="form-control far-right arpIp" id="arpSource-1"
-                               data-inputmask="'alias': 'ip'"/>
-                    </div>
-                    <div class="input-group far-bottom">
-                        <span class="input-group-text">IP</span>
-                        <input type="text" class="form-control far-right arpIp" id="arpSource-2"
-                               data-inputmask="'alias': 'ip'"/>
-                    </div>
-                    <div class="input-group far-bottom">
-                        <span class="input-group-text">IP</span>
-                        <input type="text" class="form-control far-right arpIp" id="arpSource-3"
-                               data-inputmask="'alias': 'ip'"/>
-                    </div>
-                    <div class="input-group far-bottom">
-                        <span class="input-group-text">IP</span>
-                        <input type="text" class="form-control far-right arpIp" id="arpSource-4"
-                               data-inputmask="'alias': 'ip'"/>
-                    </div>
-                    <div class="input-group far-bottom">
-                        <span class="input-group-text">IP</span>
-                        <input type="text" class="form-control far-right arpIp" id="arpSource-5"
-                               data-inputmask="'alias': 'ip'"/>
-                    </div>
-                    <div class="input-group far-bottom">
-                        <span class="input-group-text">IP</span>
-                        <input type="text" class="form-control far-right arpIp" id="arpSource-6"
-                               data-inputmask="'alias': 'ip'"/>
-                    </div>
-                    <div class="input-group far-bottom">
-                        <span class="input-group-text">IP</span>
-                        <input type="text" class="form-control far-right arpIp" id="arpSource-7"
-                               data-inputmask="'alias': 'ip'"/>
-                    </div>
-                </div>
-            </div>
-            <div class="card border-info-subtle mb-3">
-                <div class="card-header bg-info-subtle bg-info-subtle">MAC table</div>
-                <div class="card-body" style="padding-bottom: 0">
-                    <div class="overflow-y-scroll" style="height: 30em">
-                        <table class='table table-striped'>
-                            <thead>
-                            <tr>
-                                <th scope="col">VLAN</th>
-                                <th scope="col">MAC</th>
-                            </tr>
-                            </thead>
-                            <tbody id="mac-row">
-                            </tbody>
-                        </table>
+            <div class="col-sm-4">
+                <div class="card border-info-subtle mb-3">
+                    <div class="card-header bg-info-subtle">ARP filter sources</div>
+                    <div class="card-body" style="padding-bottom: 0">
+                        <div class="input-group far-bottom">
+                            <span class="input-group-text">IP</span>
+                            <input type="text" class="form-control far-right arpIp" id="arpSource-0"
+                                   data-inputmask="'alias': 'ip'"/>
+                        </div>
+                        <div class="input-group far-bottom">
+                            <span class="input-group-text">IP</span>
+                            <input type="text" class="form-control far-right arpIp" id="arpSource-1"
+                                   data-inputmask="'alias': 'ip'"/>
+                        </div>
+                        <div class="input-group far-bottom">
+                            <span class="input-group-text">IP</span>
+                            <input type="text" class="form-control far-right arpIp" id="arpSource-2"
+                                   data-inputmask="'alias': 'ip'"/>
+                        </div>
+                        <div class="input-group far-bottom">
+                            <span class="input-group-text">IP</span>
+                            <input type="text" class="form-control far-right arpIp" id="arpSource-3"
+                                   data-inputmask="'alias': 'ip'"/>
+                        </div>
+                        <div class="input-group far-bottom">
+                            <span class="input-group-text">IP</span>
+                            <input type="text" class="form-control far-right arpIp" id="arpSource-4"
+                                   data-inputmask="'alias': 'ip'"/>
+                        </div>
+                        <div class="input-group far-bottom">
+                            <span class="input-group-text">IP</span>
+                            <input type="text" class="form-control far-right arpIp" id="arpSource-5"
+                                   data-inputmask="'alias': 'ip'"/>
+                        </div>
+                        <div class="input-group far-bottom">
+                            <span class="input-group-text">IP</span>
+                            <input type="text" class="form-control far-right arpIp" id="arpSource-6"
+                                   data-inputmask="'alias': 'ip'"/>
+                        </div>
+                        <div class="input-group far-bottom">
+                            <span class="input-group-text">IP</span>
+                            <input type="text" class="form-control far-right arpIp" id="arpSource-7"
+                                   data-inputmask="'alias': 'ip'"/>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="d-grid gap-2">
-                <button class="btn btn-secondary" type="button" onclick="restoreFormData()">Undo</button>
-                <button class="btn btn-primary" type="button" id="saveButton">Save</button>
-                <button class="prank" type="button" id="prankButton">Click me</button>
+                <div class="card border-info-subtle mb-3">
+                    <div class="card-header bg-info-subtle bg-info-subtle">MAC table</div>
+                    <div class="card-body" style="padding-bottom: 0">
+                        <div class="overflow-y-scroll" style="height: 30em">
+                            <table class='table table-striped'>
+                                <thead>
+                                <tr>
+                                    <th scope="col">VLAN</th>
+                                    <th scope="col">MAC</th>
+                                </tr>
+                                </thead>
+                                <tbody id="mac-row">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-grid gap-2">
+                    <button class="btn btn-secondary" type="button" onclick="restoreFormData()">Undo</button>
+                    <button class="btn btn-primary" type="button" id="saveButton">Save</button>
+                    <button class="prank" type="button" id="prankButton">Click me</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"

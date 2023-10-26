@@ -87,29 +87,25 @@ function restoreFormData() {
 
 function nowYouSeeMe() {
     const loaders = document.getElementsByClassName('spinner-border')
-    const classes = ['mb-3', 'input-group', 'table', 'nav-link', 'btn']
-    for (let group of classes) {
-        let classGroup = document.getElementsByClassName(group)
-        for (let element of classGroup) {
-            element.style.visibility = 'hidden'
-        }
-    }
+    const curtains = document.getElementsByClassName('magical-curtain')
+
     for (let loader of loaders) {
         loader.style.visibility = 'visible'
+    }
+    for (let curtain of curtains) {
+        curtain.style.zIndex = '10'
     }
 }
 
 function nowYouDont() {
     const loaders = document.getElementsByClassName('spinner-border')
-    const classes = ['mb-3', 'input-group', 'table', 'nav-link', 'btn']
-    for (let group of classes) {
-        let classGroup = document.getElementsByClassName(group)
-        for (let element of classGroup) {
-            element.style.visibility = 'visible'
-        }
-    }
+    const curtains = document.getElementsByClassName('magical-curtain')
+
     for (let loader of loaders) {
         loader.style.visibility = 'hidden'
+    }
+    for (let curtain of curtains) {
+        curtain.style.zIndex = '-20'
     }
 }
 
@@ -128,7 +124,7 @@ function addRuleBeforeListeners() {
 }
 
 function removeRuleListeners() {
-    let removeButtons = document.getElementsByClassName('btn-danger')
+    let removeButtons = document.getElementsByClassName('remove')
     for (let i = 0; i < removeButtons.length; i++) {
         removeButtons[i].addEventListener('click', removeRow)
     }
@@ -327,40 +323,38 @@ function addNewRule() {
     ruleDstPortValue2Div.appendChild(ruleDstPortValue2Input)
     ruleDstPortValue2.appendChild(ruleDstPortValue2Div)
 
-    let addRuleBefore = document.createElement('td')
-    addRuleBefore.style.width = ' 7em'
-    let addRuleBeforeDiv = document.createElement('div')
+    let buttonGroup = document.createElement('td')
+    buttonGroup.style.width = '18em'
+    let btnGroup = document.createElement('div')
+    btnGroup.className = 'btn-group'
+    btnGroup.role = 'group'
+
     let  addRuleBeforeButton = document.createElement('button')
-    addRuleBeforeButton.textContent = 'Add before'
-    addRuleBeforeButton.className = 'btn btn-success before'
-    addRuleBeforeButton.style.width = ' 7em'
+    addRuleBeforeButton.textContent = 'Add before ↑'
+    addRuleBeforeButton.className = 'btn btn-outline-success before'
     addRuleBeforeButton.addEventListener('click', addRuleBeforeFunction)
-    addRuleBeforeDiv.appendChild(addRuleBeforeButton)
-    addRuleBefore.appendChild(addRuleBeforeDiv)
+    btnGroup.appendChild(addRuleBeforeButton)
 
-    let addRuleAfter = document.createElement('td')
-    addRuleAfter.style.width = ' 7em'
-    let addRuleAfterDiv = document.createElement('div')
     let addRuleAfterButton = document.createElement('button')
-    addRuleAfterButton.textContent = 'Add after'
-    addRuleAfterButton.className = 'btn btn-success after'
-    addRuleAfterButton.style.width = ' 7em'
+    addRuleAfterButton.textContent = 'Add after ↓'
+    addRuleAfterButton.className = 'btn btn-outline-success after'
+    addRuleAfterButton.style.borderLeftColor = 'wheat'
+    addRuleAfterButton.style.borderLeftWidth = '1px'
     addRuleAfterButton.addEventListener('click', addRuleAfterFunction)
-    addRuleAfterDiv.appendChild(addRuleAfterButton)
-    addRuleAfter.appendChild(addRuleAfterDiv)
+    btnGroup.appendChild(addRuleAfterButton)
 
-    let removeRule = document.createElement('td')
-    removeRule.style.width = ' 7em'
-    let removeRuleDiv = document.createElement('div')
     let removeRuleButton = document.createElement('button')
-    removeRuleButton.className = 'btn btn-danger'
-    removeRuleButton.style.width = ' 7em'
+    removeRuleButton.className = 'btn btn-outline-danger remove'
+    removeRuleButton.style.borderLeftColor = 'wheat'
+    removeRuleButton.style.borderLeftWidth = '1px'
+    // removeRuleButton.style.width = ' 7em'
     removeRuleButton.textContent = 'Delete rule'
     removeRuleButton.addEventListener('click', function() {
         row.remove()
     })
-    removeRuleDiv.appendChild(removeRuleButton)
-    removeRule.appendChild(removeRuleDiv)
+    btnGroup.appendChild(removeRuleButton)
+
+    buttonGroup.appendChild(btnGroup)
 
 
 
@@ -375,9 +369,7 @@ function addNewRule() {
     row.appendChild(ruleDstPortOperation)
     row.appendChild(ruleDstPortValue1)
     row.appendChild(ruleDstPortValue2)
-    row.appendChild(addRuleBefore)
-    row.appendChild(addRuleAfter)
-    row.appendChild(removeRule)
+    row.appendChild(buttonGroup)
     aclDefaultRule(row)
 
     aclRuleTable.appendChild(row)
