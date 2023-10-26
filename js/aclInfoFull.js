@@ -186,7 +186,7 @@ async function aclInfoFull(ip, username, password, name, modal) {
                     ruleSrcPortOperationSelect.appendChild(option)
                 }
             }
-            ruleSrcPortOperationSelect.addEventListener('change', function(event) {
+            ruleSrcPortOperationSelect.addEventListener('change', function (event) {
                 if (event.target.value !== 'Range') {
                     ruleSrcPortValue2Input.style.visibility = 'hidden'
                 } else {
@@ -264,7 +264,7 @@ async function aclInfoFull(ip, username, password, name, modal) {
                     ruleDstPortOperationSelect.appendChild(option)
                 }
             }
-            ruleDstPortOperationSelect.addEventListener('change', function(event) {
+            ruleDstPortOperationSelect.addEventListener('change', function (event) {
                 if (event.target.value !== 'Range') {
                     ruleDstPortValue2Input.style.visibility = 'hidden'
                 } else {
@@ -316,14 +316,14 @@ async function aclInfoFull(ip, username, password, name, modal) {
             btnGroup.className = 'btn-group'
             btnGroup.role = 'group'
 
-            let  addRuleBeforeButton = document.createElement('button')
-             addRuleBeforeButton.textContent = 'Add before ↑'
-             addRuleBeforeButton.className = 'btn btn-outline-success before'
-             addRuleBeforeButton.addEventListener('click', addRuleBeforeFunction)
+            let addRuleBeforeButton = document.createElement('button')
+            addRuleBeforeButton.textContent = 'Add before'
+            addRuleBeforeButton.className = 'btn btn-outline-success before'
+            addRuleBeforeButton.addEventListener('click', addRuleBeforeFunction)
             btnGroup.appendChild(addRuleBeforeButton)
 
             let addRuleAfterButton = document.createElement('button')
-            addRuleAfterButton.textContent = 'Add after ↓'
+            addRuleAfterButton.textContent = 'Add after'
             addRuleAfterButton.className = 'btn btn-outline-success after'
             addRuleAfterButton.style.borderLeftColor = 'wheat'
             addRuleAfterButton.style.borderLeftWidth = '1px'
@@ -336,13 +336,12 @@ async function aclInfoFull(ip, username, password, name, modal) {
             removeRuleButton.style.borderLeftWidth = '1px'
             // removeRuleButton.style.width = ' 7em'
             removeRuleButton.textContent = 'Delete rule'
-            removeRuleButton.addEventListener('click', function() {
+            removeRuleButton.addEventListener('click', function () {
                 row.remove()
             })
             btnGroup.appendChild(removeRuleButton)
 
             buttonGroup.appendChild(btnGroup)
-
 
 
             row.appendChild(ruleNumber)
